@@ -1,0 +1,375 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="color-scheme" content="dark"><meta name="theme-color" content="#273846"><meta name="description" content="Search the complete 242-entry Hisui Pokédex. Explore evolution methods, recommended Natures in Italian, rarity estimates and where to catch every Pokémon in Pokémon Legends: Arceus."><meta property="og:title" content="Hisui Field Guide — Legends: Arceus Pokédex"><meta property="og:description" content="242 Pokémon, best Italian Natures, how to evolve, where to find them, and an explainable team builder."><meta property="og:type" content="website"><link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="manifest" href="./site.webmanifest"><title>Hisui Field Guide · Legends: Arceus Pokédex</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Inter:wght@400;500;600;700;800&display=swap');
+:root{
+  --bg:#233241;
+  --bg2:#1b2631;
+  --paper:#e7ddc8;
+  --paper2:#d8cab0;
+  --paper3:#f3ead7;
+  --ink:#21303b;
+  --muted:#6f746f;
+  --line:#7f776a;
+  --edge:#bba883;
+  --navy:#33495a;
+  --navy2:#243440;
+  --navy3:#415768;
+  --accent:#b65c47;
+  --accent2:#d28c56;
+  --mint:#648a80;
+  --gold:#b9924f;
+  --radius:18px;
+  --shadow:0 18px 44px rgba(9,16,24,.22),0 2px 0 rgba(255,255,255,.18) inset;
+}
+*{box-sizing:border-box}
+html{background:var(--bg2)}
+body{margin:0;color:var(--ink);background:
+  radial-gradient(circle at 16% 10%,rgba(255,255,255,.05),transparent 28%),
+  radial-gradient(circle at 85% 6%,rgba(210,140,86,.10),transparent 24%),
+  repeating-linear-gradient(135deg,rgba(255,255,255,.022) 0 2px,transparent 2px 14px),
+  linear-gradient(180deg,#2b3947 0%,#243340 55%,#1c2934 100%);
+  font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;font-size:14px;min-height:100vh}
+body:before{content:'';position:fixed;inset:0;pointer-events:none;opacity:.15;background:radial-gradient(circle at 50% 50%,rgba(255,255,255,.35),transparent 60%),url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='.18' stroke-width='1'%3E%3Cpath d='M60 12 108 60 60 108 12 60Z'/%3E%3Cpath d='M60 26 94 60 60 94 26 60Z'/%3E%3C/g%3E%3C/svg%3E") center/160px}
+button,input,select{font:inherit}button{cursor:pointer}a{color:#7c5a2d}a:hover{color:#9a6f34}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--accent2);outline-offset:2px}
+.shell{max-width:1510px;margin:auto;padding:24px 28px 70px}
+.brand{display:flex;align-items:center;gap:13px}.logo{width:48px;height:48px;border-radius:14px;background:linear-gradient(180deg,#7ea499,#5a7b73);border:2px solid #d7ccb5;display:grid;place-items:center;font-size:27px;box-shadow:0 10px 25px rgba(0,0,0,.18)}
+.eyebrow{text-transform:uppercase;font-size:10px;font-weight:800;letter-spacing:.24em;color:#6e8173}
+h1,h2,h3,.detailname,.labRecName,.labHero h2{font-family:Cinzel,Georgia,serif}
+h1{font-weight:800;font-size:clamp(28px,3.6vw,44px);letter-spacing:-.025em;margin:4px 0 7px;color:#f3ecdc;text-shadow:0 2px 16px rgba(0,0,0,.18)}
+p{margin:0;line-height:1.55}.muted{color:var(--muted)}.small{font-size:11px;color:var(--muted)}
+.top{display:flex;justify-content:space-between;align-items:start;gap:20px}.top p{color:#d7d9d3}.topActions{display:flex;gap:8px;flex-wrap:wrap;justify-content:end}
+.softBtn,.labMainBtn,.detailButtons button,.labRecActions button{position:relative}
+.softBtn{background:linear-gradient(180deg,var(--navy),var(--navy2));color:#f4ecda;border:1px solid #8295a3;border-bottom-color:#1e2b33;border-radius:14px;padding:10px 14px;font-size:12px;font-weight:700;white-space:nowrap;box-shadow:0 2px 0 rgba(255,255,255,.09) inset, 0 5px 14px rgba(0,0,0,.15)}
+.softBtn:hover{background:linear-gradient(180deg,#425b6d,#2e4250)}.softBtn.active{color:#fff2d8;border-color:#e2b368;background:linear-gradient(180deg,#6a5140,#534035)}
+.hero{margin:28px 0 21px;background:linear-gradient(180deg,var(--paper3),var(--paper));border:2px solid var(--edge);padding:24px 26px;border-radius:26px;box-shadow:var(--shadow);display:flex;gap:24px;align-items:center;justify-content:space-between;position:relative;overflow:hidden}
+.hero:before,.tableCard:before,.details:before,.labPanel:before,.labHero:before,.labMetric:before,.labRec:before,.disclaimer:before{content:'';position:absolute;inset:7px;border:1px solid rgba(90,73,46,.18);border-radius:inherit;pointer-events:none}
+.hero:after{content:'';position:absolute;inset:0;background:linear-gradient(90deg,rgba(126,164,153,.13),transparent 45%,rgba(210,140,86,.12));pointer-events:none}
+.hero strong{font-size:15px;color:#3f3525}.hero p{max-width:640px;color:#5e645c}.heroNums{display:flex;gap:25px;flex-shrink:0}.heroNum{min-width:75px;text-align:center}.heroNum b{display:block;font-size:30px;letter-spacing:-.05em;color:#7a4d2f;font-family:Cinzel,serif}.heroNum span{color:#6d756f;font-size:11px}
+.controls{display:grid;grid-template-columns:minmax(220px,2.4fr) repeat(3,minmax(120px,1fr)) minmax(125px,1fr);gap:9px;margin-bottom:12px}
+.field{display:flex;align-items:center;gap:9px;position:relative;background:linear-gradient(180deg,var(--paper3),var(--paper));border:1px solid var(--edge);border-radius:14px;padding:0 12px;min-height:46px;box-shadow:0 2px 0 rgba(255,255,255,.38) inset,0 4px 12px rgba(0,0,0,.08)}
+.field:focus-within{border-color:#9b7b41;box-shadow:0 0 0 2px rgba(185,146,79,.18)}.field input,.field select{color:var(--ink);border:0;background:transparent;width:100%;height:42px;outline:0;min-width:0}.field select{cursor:pointer}.field select option{background:var(--paper3);color:var(--ink)}.glass{font-size:17px;color:#7b6044}
+.filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:0 0 15px}.pill{background:linear-gradient(180deg,#f0e7d5,#dccdb2);border:1px solid var(--edge);color:#5a5145;border-radius:999px;padding:8px 12px;font-size:12px;box-shadow:0 1px 0 rgba(255,255,255,.4) inset}.pill.on{background:linear-gradient(180deg,#6e8c83,#56746c);border-color:#47635c;color:#f3f1eb}.resultMeta{margin-left:auto;color:#d9dbd7;font-size:12px}
+.layout{display:grid;grid-template-columns:minmax(0,1fr) 358px;gap:15px;align-items:start}
+.tableCard{background:linear-gradient(180deg,var(--paper3),var(--paper));border:2px solid var(--edge);border-radius:22px;overflow:hidden;position:relative;box-shadow:var(--shadow)}
+.headrow{display:grid;grid-template-columns:52px minmax(150px,1.5fr) minmax(115px,1fr) minmax(122px,1fr) minmax(190px,1.6fr) minmax(170px,1.7fr) 31px;align-items:center;gap:10px;padding:13px 15px;background:linear-gradient(180deg,var(--navy),var(--navy2));color:#efe5d2;text-transform:uppercase;letter-spacing:.13em;font-size:10px;font-weight:800;border-bottom:1px solid #22313c}
+.dexrow{display:grid;grid-template-columns:52px minmax(150px,1.5fr) minmax(115px,1fr) minmax(122px,1fr) minmax(190px,1.6fr) minmax(170px,1.7fr) 31px;align-items:center;gap:10px;padding:10px 15px;min-height:77px;border-bottom:1px solid rgba(101,91,76,.22);transition:background .15s}.dexrow:nth-child(even){background:rgba(122,102,73,.05)}.dexrow:last-child{border-bottom:0}.dexrow:hover,.dexrow.selected{background:rgba(108,139,131,.16)}
+.dexnum{font-size:12px;color:#756f64;font-variant-numeric:tabular-nums}.pokemon{display:flex;align-items:center;gap:10px;min-width:0}.sprite{width:52px;height:52px;object-fit:contain;image-rendering:auto;flex:0 0 52px;filter:drop-shadow(0 4px 5px rgba(0,0,0,.20))}.spriteMissing{width:50px;height:50px;display:grid;place-items:center;border-radius:14px;background:linear-gradient(180deg,#6d8f85,#58726b);color:#f3e8d0;font-size:23px;font-weight:800}
+.pname{font-weight:780;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#21303b}.ptext{font-size:11px;color:#6f776f;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.type,.labTypeTag{display:inline-flex;align-items:center;border-radius:8px;padding:4px 8px;background:color-mix(in srgb,var(--tcolor) 18%, #f8f3e7 82%);border:1px solid color-mix(in srgb,var(--tcolor) 42%, #c6b18b 58%);color:#29353d;font-size:10px;font-weight:800;margin:2px 4px 2px 0;white-space:nowrap;box-shadow:0 1px 0 rgba(255,255,255,.45) inset}
+.nature b{color:#2e6e5f}.nature small{display:block;color:#7a7061;margin-top:4px}.rarity{display:inline-flex;padding:5px 8px;border-radius:999px;font-size:10px;font-weight:800;white-space:nowrap;border:1px solid #b3a387;background:#efe5d2;color:#665a4d}.rarity.Common{background:#d8ebe2;color:#3f665b;border-color:#98b8ad}.rarity.Uncommon{background:#dbe8ef;color:#466274;border-color:#a6becd}.rarity.Rare{background:#f3e2be;color:#6e5732;border-color:#d4b47a}.rarity.Veryrare{background:#eadcf1;color:#614e73;border-color:#b69ac5}.rarity.Unique{background:#efd8d3;color:#7b5148;border-color:#cb9e94}
+.secondary{font-size:11px;color:#64685f;line-height:1.4}.ellipses{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}.tiny{font-size:10px;color:#7f7465}.iconBtn{border:0;background:transparent;color:#8c7352;font-size:21px;padding:4px;transition:transform .1s}.iconBtn:hover,.iconBtn.marked{color:#b36843;transform:scale(1.08)}
+.details{background:linear-gradient(180deg,var(--paper3),var(--paper));border:2px solid var(--edge);border-radius:24px;padding:20px;position:sticky;top:14px;box-shadow:var(--shadow);max-height:calc(100vh - 28px);overflow-y:auto;color:var(--ink)}
+.detailtop{display:flex;align-items:center;justify-content:space-between}.detailart{width:100%;height:162px;object-fit:contain;filter:drop-shadow(0 12px 7px rgba(0,0,0,.18));margin:8px 0 2px}.detailname{font-size:26px;letter-spacing:-.02em;font-weight:800;margin:5px 0 7px;color:#2f3a26}.sectionHead{text-transform:uppercase;letter-spacing:.16em;font-weight:840;color:#6d7067;font-size:10px;margin:22px 0 9px}
+.natureGrid{display:grid;gap:7px}.natureItem{display:flex;justify-content:space-between;align-items:center;gap:8px;background:linear-gradient(180deg,#f4ecd9,#e0d3bc);border:1px solid #c5b293;padding:9px 10px;border-radius:12px}.natureIndex{font-size:11px;font-weight:900;color:#7a4d2f;width:20px}.natureLabel{flex:1;font-size:12px;font-weight:760}.natureEffect{font-size:10px;color:#6d736a;max-width:125px;text-align:right}
+.infoBox{border:1px solid #c8b89c;border-radius:14px;background:linear-gradient(180deg,#f7f0e0,#e7dbc6);padding:12px;color:#51493f;line-height:1.6;font-size:12px;white-space:pre-line}.selectedRow{color:#7a4d2f}.detailButtons{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:15px}.detailButtons button{border:1px solid #8a99a4;background:linear-gradient(180deg,var(--navy),var(--navy2));color:#f6eddb;padding:10px 7px;border-radius:12px;font-size:12px;font-weight:800;box-shadow:0 2px 0 rgba(255,255,255,.08) inset}.detailButtons button.isOn{color:#fff3dc;border-color:#d0a15f;background:linear-gradient(180deg,#7f5d40,#634931)}
+.empty{padding:52px 24px;text-align:center;color:#6e726a}.loading{padding:25px;background:linear-gradient(180deg,#f2ead8,#dfd0b7);border:1px solid var(--edge);border-radius:14px;color:#4e5047;margin:8px 0 15px}.footer{border-top:1px solid rgba(232,230,222,.12);margin-top:26px;padding-top:19px;font-size:12px;color:#d8d9d5;line-height:1.7}.footer a{margin-right:13px;color:#f0ddbb}.disclaimer{position:relative;padding:12px 15px;border-radius:16px;background:linear-gradient(180deg,#eee4d1,#ddcfb5);border:1px solid var(--edge);margin-bottom:15px;color:#5d5d54;font-size:12px;overflow:hidden}.mobileClose{display:none}.progress{background:#d9ccba;border-radius:20px;height:5px;overflow:hidden;margin-top:10px}.progress>div{height:100%;background:linear-gradient(90deg,#6f8e85,#9eb7ae);transition:width .2s}.taginfo{background:#dbcab0;color:#594c3d;border-radius:999px;font-size:10px;padding:5px 8px;display:inline-block;margin-top:7px;border:1px solid #c0af91}.errornote{color:#9a583b}
+.teamLab[hidden]{display:none!important}.teamLab{display:grid;gap:20px}.labHero{display:flex;justify-content:space-between;gap:18px;align-items:center;padding:28px;background:linear-gradient(180deg,var(--paper3),var(--paper));border:2px solid var(--edge);border-radius:24px;box-shadow:var(--shadow);position:relative;overflow:hidden}.labHero h2{font-size:clamp(30px,4vw,46px);line-height:1.08;letter-spacing:-.03em;margin:9px 0;color:#2d3b27}.labHero p{color:#666a62;max-width:640px}.labHeroActions{display:flex;gap:9px;align-items:center;flex-wrap:wrap}.labMainBtn{background:linear-gradient(180deg,#7a5b3e,#5e4530);color:#fff1d9;border:1px solid #d0a96b;border-radius:13px;padding:12px 16px;font-weight:850;font-size:12px;white-space:nowrap;box-shadow:0 2px 0 rgba(255,255,255,.08) inset, 0 5px 14px rgba(0,0,0,.13)}.labMainBtn:hover{background:linear-gradient(180deg,#8a6a4a,#6c5037)}.labMainBtn:disabled{opacity:.46;cursor:not-allowed}
+.labSummary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:11px}.labMetric{position:relative;border:2px solid var(--edge);background:linear-gradient(180deg,var(--paper3),var(--paper));border-radius:18px;padding:15px 17px;box-shadow:var(--shadow);overflow:hidden}.labMetric strong{display:block;font-size:24px;color:#7a4d2f;font-variant-numeric:tabular-nums;letter-spacing:-.03em;font-family:Cinzel,serif}.labMetric span{font-size:11px;color:#70736a}
+.labCols{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(310px,.85fr);gap:15px;align-items:stretch}.labPanel{position:relative;border:2px solid var(--edge);background:linear-gradient(180deg,var(--paper3),var(--paper));padding:20px;border-radius:22px;box-shadow:var(--shadow);overflow:hidden}.labPanel h3{margin:6px 0 15px;font-size:21px;letter-spacing:-.02em;color:#33412d}.labPanelHead{display:flex;align-items:start;justify-content:space-between;gap:10px}.labCount{font-size:13px;color:#7a4d2f;font-weight:750}.labTextBtn{border:0;background:none;color:#9a5f54;font-weight:750;padding:7px 9px;font-size:12px}.labTextBtn:hover{color:#6c4039}.labSlots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.labSlot{position:relative;min-height:143px;border-radius:15px;background:linear-gradient(180deg,#f7efde,#e3d7c0);border:1px solid #cdbd9f;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12px 6px;gap:4px;text-align:center}.labSlot.emptySlot{border-style:dashed;background:linear-gradient(180deg,#f1e8d6,#dfd1b7);cursor:pointer}.labSlot.emptySlot:hover{border-color:#8ba596}.labSlot.emptySlot .slotPlus{font-size:27px;color:#7a6150}.labSlot .slotNum{font-size:10px;color:#8b8579}.labSlot img{height:65px;width:75px;object-fit:contain;filter:drop-shadow(0 5px 5px rgba(0,0,0,.18))}.labSlot .slotName{font-weight:800;font-size:12px}.labSlot .slotSub{font-size:10px;color:#726d64}.labRemove{position:absolute;right:5px;top:5px;background:#445a6a;color:#f2ead9;border:1px solid #667e8c;border-radius:50%;width:25px;height:25px;font-weight:800}.labRemove:hover{background:#9d5858}.labPicker{margin-top:17px;border-top:1px solid rgba(104,92,76,.2);padding-top:16px}.labPickerLabel{font-size:10px;letter-spacing:.12em;color:#7c8077;font-weight:800;margin-bottom:8px}.labSearchRow{display:flex;gap:8px}.labSearchRow input{flex:1;min-width:0;background:#fffaf0;color:var(--ink);border:1px solid #cbb697;border-radius:12px;padding:10px 12px;outline:0}.labSearchRow input:focus{border-color:#9f7b42}.labPicker .small{margin-top:8px}.labStyles{display:grid;gap:7px}.labStyle{display:grid;grid-template-columns:26px minmax(0,1fr);text-align:left;column-gap:7px;align-items:center;background:linear-gradient(180deg,#f7f0e0,#e4d7c1);border:1px solid #c8b69a;border-radius:12px;padding:10px;color:#3d443f}.labStyle span{font-size:19px;grid-row:span 2;text-align:center;color:#8a6a4a}.labStyle b{font-size:12px}.labStyle small{color:#7b8078;font-size:10px}.labStyle:hover{background:linear-gradient(180deg,#fff6e9,#e9dcc7)}.labStyle.selected{border-color:#927148;background:linear-gradient(180deg,#7c8e86,#657b73);color:#faf3e4}.labStyle.selected small,.labStyle.selected span{color:#f4ead6}.labOptions{margin-top:14px;border-top:1px solid rgba(104,92,76,.22);padding-top:12px;display:grid;gap:11px}.labOptions label{display:flex;gap:8px;align-items:flex-start;color:#5c6058;font-size:12px;line-height:1.3}.labOptions input{accent-color:#7b6244}.labThreatPanel{padding:19px}.labThreatPanel h3{margin-bottom:6px}.labThreatGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.labThreatCard{background:linear-gradient(180deg,#f6efdf,#e5d8c2);border:1px solid #c7b79a;border-radius:13px;padding:12px}.labThreatCard b{display:block;font-size:12px;margin-bottom:8px;color:#354339}.labThreatTypes{display:flex;flex-wrap:wrap;gap:4px}
+.labRecHead{display:flex;align-items:end;justify-content:space-between;gap:10px;margin-top:8px}.labRecHead h2{font-size:27px;letter-spacing:-.02em;margin:5px 0;color:#32422e}.labRecHead p{font-size:12px;color:#d9ddd7}.labRecs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.labRec{position:relative;border-radius:20px;border:2px solid var(--edge);background:linear-gradient(180deg,var(--paper3),var(--paper));padding:17px;min-width:0;box-shadow:var(--shadow);overflow:hidden}.labRecTop{display:flex;gap:12px;align-items:center}.labRecTop img{height:76px;width:88px;object-fit:contain;filter:drop-shadow(0 8px 6px rgba(0,0,0,.18))}.labRecName{font-weight:850;letter-spacing:-.02em;font-size:20px;color:#2f3c29}.labRecDex{color:#887e71;font-size:11px;margin-bottom:2px}.labRecRole{color:#6d7068;font-size:11px;margin:5px 0}.labRecTypes{margin:9px 0 12px}.labReasons{display:grid;gap:8px;margin:14px 0}.labReason{display:flex;gap:9px;align-items:start;color:#56584f;font-size:12px;line-height:1.45}.labReason span{color:#7a5d3a;font-size:15px;line-height:1}.labRecInfo{border-top:1px solid rgba(104,92,76,.2);padding-top:11px;display:grid;gap:4px;color:#6b7068;font-size:11px}.labRecInfo b{color:#39453d}.labRecActions{display:flex;gap:9px;margin-top:13px}.labRecActions button{flex:1;padding:10px 11px}.labRecActions .softBtn{font-size:11px}.labAutoPlan{padding:16px 18px;background:linear-gradient(180deg,#f0e7d6,#ddd0b6);border:2px solid var(--edge);border-radius:18px;box-shadow:var(--shadow)}.labAutoPlan h3{font-size:18px;margin:0 0 8px;color:#354339}.labAutoPlan p{font-size:12px;color:#5d6159;margin:6px 0}.labMethod{font-size:11px;color:#d5d8d2;max-width:950px;line-height:1.6}.labEmptyState{grid-column:1/-1;padding:26px;text-align:center;color:#686c64;background:linear-gradient(180deg,#f3ead9,#e0d2b8);border:1px dashed #bba886;border-radius:16px}.labStatusSmall{font-size:11px;color:#7a7d74}
+@media(max-width:1230px){.layout{grid-template-columns:minmax(0,1fr) 314px}.headrow,.dexrow{grid-template-columns:42px minmax(145px,1.4fr) minmax(108px,1fr) minmax(120px,1.2fr) minmax(150px,1.3fr) 28px}.headrow>:nth-child(6),.dexrow>:nth-child(6){display:none}.sprite{width:43px;height:43px;flex-basis:43px}}
+@media(max-width:1100px){.labCols{grid-template-columns:1fr}.labStyles{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:910px){.shell{padding:18px 13px 50px}.top{flex-direction:column}.topActions{justify-content:start}.hero{flex-direction:column;align-items:start;padding:18px}.heroNums{width:100%;justify-content:space-between}.controls{grid-template-columns:repeat(2,minmax(0,1fr))}.controls>.field:first-child{grid-column:1/-1}.layout{display:block}.headrow{display:none}.tableCard{border-radius:18px}.dexrow{grid-template-columns:36px minmax(0,1.25fr) minmax(95px,.65fr) 26px;gap:7px;padding:10px}.dexrow>:nth-child(3),.dexrow>:nth-child(4),.dexrow>:nth-child(6){display:none}.details{position:fixed;inset:auto 0 0 0;top:auto;max-height:88vh;border-radius:20px 20px 0 0;transform:translateY(102%);transition:transform .22s;z-index:16}.details.open{transform:translateY(0)}.mobileClose{display:inline-flex}.overlay{display:none;position:fixed;inset:0;background:#0006;z-index:15}.overlay.on{display:block}.footer{padding-bottom:50px}}
+@media(max-width:690px){.labHero{padding:20px;flex-direction:column;align-items:start}.labHeroActions{width:100%}.labHeroActions button{flex:1}.labSummary{grid-template-columns:repeat(2,minmax(0,1fr))}.labPanel{padding:14px}.labSlots{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}.labSlot{min-height:123px;padding:8px 2px}.labSlot img{height:54px;width:63px}.labSlot .slotName{font-size:11px}.labThreatGrid{grid-template-columns:1fr}.labRecs{grid-template-columns:1fr}.labStyles{grid-template-columns:1fr}.labSearchRow input{width:40%}.labRecHead{align-items:start;flex-direction:column}.labRecHead button{align-self:end}.labHero h2{font-size:33px}}
+</style></head><body>
+<div class="shell">
+<header class="top"><div class="brand"><div class="logo">◈</div><div><div class="eyebrow">The collector's field guide</div><h1>Hisui Pokédex</h1><p class="muted">Find it. Evolve it. Keep the right Nature.</p></div></div><div class="topActions"><button class="softBtn" id="openTeamLab">✦ Team Lab</button><button class="softBtn" id="toggleTeam">☆ My team <span id="teamCount">0/6</span></button><button class="softBtn" id="uncaughtOnly">◯ Uncaught</button><button class="softBtn" id="export">↓ Export CSV</button></div></header>
+<section class="hero"><div><div class="eyebrow" style="margin-bottom:7px">Pokémon Legends: Arceus</div><strong>Every Hisui Pokémon, one decision-friendly guide.</strong><p class="muted" style="margin-top:7px">Search all 242 species by name or location. Compare recommended Italian Natures, evolution conditions, encounter rarity, and where to find each Pokémon.</p><div class="progress"><div id="progress" style="width:0%"></div></div></div><div class="heroNums"><div class="heroNum"><b id="totalCount">242</b><span>Hisui Pokémon</span></div><div class="heroNum"><b id="caughtCount">0</b><span>Caught</span></div><div class="heroNum"><b id="shownCount">242</b><span>Showing</span></div></div></section>
+<div id="dexView"><section class="controls" aria-label="Pokédex filters"><label class="field"><span class="glass">⌕</span><input id="search" type="search" placeholder="Search Pokémon, locations, evolutions…" autocomplete="off" aria-label="Search Pokémon"></label><label class="field"><select id="typeFilter" aria-label="Filter type"><option value="">All types</option></select></label><label class="field"><select id="rarityFilter" aria-label="Filter rarity"><option value="">All rarities</option><option>Common</option><option>Uncommon</option><option>Rare</option><option>Very rare</option><option>Unique</option></select></label><label class="field"><select id="natureFilter" aria-label="Filter recommended Nature"><option value="">All Natures</option></select></label><label class="field"><select id="sort" aria-label="Sort"><option value="dex">Pokédex order</option><option value="name">Name A–Z</option><option value="rarity">Rarest first</option><option value="attack">Highest Attack</option><option value="special">Highest Sp. Attack</option><option value="speed">Highest Speed</option></select></label></section>
+<div class="filters"><button class="pill on" data-chip="all">All Pokémon</button><button class="pill" data-chip="starred">★ Starred</button><button class="pill" data-chip="team">◇ My six</button><button class="pill" data-chip="evolve">↗ Evolutions</button><button class="pill" data-chip="distortion">✦ Distortion finds</button><span class="resultMeta" id="resultText">Loading encounter details…</span></div>
+<div class="disclaimer">The Nature rankings are <b>recommended builds</b>, not official rankings; movesets and your team can change the best choice. Rarity is an <b>approximate practical classification</b>, not a measured spawn percentage. Special forms and trade evolutions follow <i>Legends: Arceus</i> rules.</div>
+<div id="loading" class="loading" role="status">Connecting to the Hisui field guide for encounter and evolution data…</div>
+<section class="layout"><main class="tableCard"><div class="headrow"><span>#</span><span>Pokémon</span><span>Type</span><span>Availability</span><span>Best Natures · 1–3</span><span>Where to obtain</span><span>★</span></div><div id="list" aria-live="polite"></div></main><aside class="details" id="detail" aria-label="Pokémon details"></aside></section></div>
+<section id="teamLab" class="teamLab" hidden aria-label="Intelligent team builder">
+  <div class="labHero">
+    <div><div class="eyebrow">✦ YOUR HISUI STRATEGY STUDIO</div><h2>Build a better six.</h2>
+    <p>Start with one Pokémon you love—or several. Find teammates that balance your weaknesses, add new type coverage, and match your playstyle.</p></div>
+    <div class="labHeroActions"><button class="softBtn" id="backToDex">← Pokédex</button><button class="labMainBtn" id="completeTeam">✧ Complete my team</button></div>
+  </div>
+  <div class="labSummary" id="labSummary"></div>
+  <div class="labCols">
+    <div class="labPanel">
+      <div class="labPanelHead"><div><div class="eyebrow">YOUR LINEUP</div><h3>Team slots <span id="labSlotCount" class="labCount">0 / 6</span></h3></div><button id="clearTeam" class="labTextBtn">Clear all</button></div>
+      <div id="labSlots" class="labSlots" aria-live="polite"></div>
+      <div class="labPicker"><div class="labPickerLabel">ADD ANY POKÉMON</div><div class="labSearchRow"><input id="labPokemonSearch" list="labSpecies" type="search" autocomplete="off" placeholder="e.g. Gengar, Luxray, Eevee…" aria-label="Search to add a Pokémon"><datalist id="labSpecies"></datalist><button id="labAddPokemon" class="labMainBtn" type="button">＋ Add</button></div><p id="labPickMessage" class="small" aria-live="polite">You can also add Pokémon from their Pokédex details.</p></div>
+    </div>
+    <div class="labPanel labSettings">
+      <div class="eyebrow">HOW DO YOU WANT TO PLAY?</div><h3>Choose your strategy</h3>
+      <div id="labStyles" class="labStyles" role="group" aria-label="Team strategy">
+        <button data-style="balanced" class="labStyle selected"><span>⚖</span><b>Balanced</b><small>Reliable all-round squad</small></button>
+        <button data-style="offense" class="labStyle"><span>⚔</span><b>High damage</b><small>Hit hard, end battles fast</small></button>
+        <button data-style="speed" class="labStyle"><span>↗</span><b>Quick turns</b><small>Prioritize action order</small></button>
+        <button data-style="defense" class="labStyle"><span>⬡</span><b>Survivability</b><small>Bulk and switch-in safety</small></button>
+        <button data-style="capture" class="labStyle"><span>◎</span><b>Capture team</b><small>Spore, False Swipe, utility</small></button>
+      </div>
+      <div class="labOptions"><label><input type="checkbox" id="labCaughtOnly"> Suggest only Pokémon I've marked caught</label><label><input type="checkbox" id="labLegends"> Include postgame legendary & mythical Pokémon</label></div>
+    </div>
+  </div>
+  <div class="labPanel labThreatPanel"><div class="labPanelHead"><div><div class="eyebrow">LIVE ANALYSIS</div><h3>Team matchup report</h3></div><span class="small">Based on Pokémon types and base stats</span></div><div id="labThreats"></div></div>
+  <div class="labRecHead"><div><div class="eyebrow">SMART RECOMMENDATIONS</div><h2>Who should join next?</h2><p class="muted">Ranked specifically for your current Pokémon and selected strategy. Each pick explains its role and what it covers.</p></div><button class="softBtn" id="refreshTeamIdeas">↻ New angle</button></div>
+  <div class="labRecs" id="labRecommendations" aria-live="polite"></div>
+  <div id="labAutoPlan" class="labAutoPlan" hidden aria-live="polite"></div>
+  <p class="labMethod">How this works: a local, rules-based scoring model compares Pokémon types, shared weaknesses, offensive coverage, physical vs. special roles, base stats, and your chosen strategy. It uses native types as a proxy for offensive STAB coverage and does not verify each possible move or predict exact turn order. Recommendations are opinions, not guaranteed battle outcomes.</p>
+</section>
+<footer class="footer"><b>Sources & accuracy:</b> Pokémon availability and basic evolution strings are read from the open-source <a target="_blank" rel="noopener noreferrer" href="https://github.com/Insektaure/pkDex">pkDex Hisui dataset</a>; stats from <a target="_blank" rel="noopener noreferrer" href="https://github.com/lgreski/pokemonData">PokémonData</a>. PLA-specific methods and locations cross-referenced with <a target="_blank" rel="noopener noreferrer" href="https://www.gamerguides.com/pokemon-legends-arceus/guide/gameplay/tips-and-tricks">Gamer Guides</a> and <a target="_blank" rel="noopener noreferrer" href="https://pokemondb.net/pokedex/game/legends-arceus">Pokémon Database</a>.<p style="margin-top:8px">The guide retrieves open-source encounter data when first opened and caches it locally for later visits. Caught, favorites and team selections are saved locally in your browser. Mythical encounters and some postgame Pokémon need special conditions. Artwork uses standard sprites and may not always depict Hisuian forms.</p></footer>
+</div><div class="overlay" id="overlay"></div>
+<script>
+'use strict';
+const DEX_NAMES = `Rowlet|Dartrix|Decidueye|Cyndaquil|Quilava|Typhlosion|Oshawott|Dewott|Samurott|Bidoof|Bibarel|Starly|Staravia|Staraptor|Shinx|Luxio|Luxray|Wurmple|Silcoon|Beautifly|Cascoon|Dustox|Ponyta|Rapidash|Eevee|Vaporeon|Jolteon|Flareon|Espeon|Umbreon|Leafeon|Glaceon|Sylveon|Zubat|Golbat|Crobat|Drifloon|Drifblim|Kricketot|Kricketune|Buizel|Floatzel|Burmy|Wormadam|Mothim|Geodude|Graveler|Golem|Stantler|Wyrdeer|Munchlax|Snorlax|Paras|Parasect|Pichu|Pikachu|Raichu|Abra|Kadabra|Alakazam|Chimchar|Monferno|Infernape|Buneary|Lopunny|Cherubi|Cherrim|Psyduck|Golduck|Combee|Vespiquen|Scyther|Kleavor|Scizor|Heracross|Mime Jr.|Mr. Mime|Aipom|Ambipom|Magikarp|Gyarados|Shellos|Gastrodon|Qwilfish|Overqwil|Happiny|Chansey|Blissey|Budew|Roselia|Roserade|Carnivine|Petilil|Lilligant|Tangela|Tangrowth|Barboach|Whiscash|Croagunk|Toxicroak|Ralts|Kirlia|Gardevoir|Gallade|Yanma|Yanmega|Hippopotas|Hippowdon|Pachirisu|Stunky|Skuntank|Teddiursa|Ursaring|Ursaluna|Goomy|Sliggoo|Goodra|Onix|Steelix|Rhyhorn|Rhydon|Rhyperior|Bonsly|Sudowoodo|Lickitung|Lickilicky|Togepi|Togetic|Togekiss|Turtwig|Grotle|Torterra|Porygon|Porygon2|Porygon-Z|Gastly|Haunter|Gengar|Spiritomb|Murkrow|Honchkrow|Unown|Spheal|Sealeo|Walrein|Remoraid|Octillery|Skorupi|Drapion|Growlithe|Arcanine|Glameow|Purugly|Machop|Machoke|Machamp|Chatot|Duskull|Dusclops|Dusknoir|Piplup|Prinplup|Empoleon|Mantyke|Mantine|Basculin|Basculegion|Vulpix|Ninetales|Tentacool|Tentacruel|Finneon|Lumineon|Magby|Magmar|Magmortar|Magnemite|Magneton|Magnezone|Bronzor|Bronzong|Elekid|Electabuzz|Electivire|Gligar|Gliscor|Gible|Gabite|Garchomp|Nosepass|Probopass|Voltorb|Electrode|Rotom|Chingling|Chimecho|Misdreavus|Mismagius|Cleffa|Clefairy|Clefable|Sneasel|Sneasler|Weavile|Snorunt|Glalie|Froslass|Cranidos|Rampardos|Shieldon|Bastiodon|Swinub|Piloswine|Mamoswine|Bergmite|Avalugg|Snover|Abomasnow|Zorua|Zoroark|Rufflet|Braviary|Riolu|Lucario|Uxie|Mesprit|Azelf|Heatran|Regigigas|Cresselia|Tornadus|Thundurus|Landorus|Enamorus|Dialga|Palkia|Giratina|Arceus|Phione|Manaphy|Shaymin|Darkrai`.split('|');
+const NATURES={Adamant:['Decisa','Attack','Sp. Attack'],Jolly:['Allegra','Speed','Sp. Attack'],Modest:['Modesta','Sp. Attack','Attack'],Timid:['Timida','Speed','Attack'],Impish:['Scaltra','Defense','Sp. Attack'],Bold:['Sicura','Defense','Attack'],Careful:['Cauta','Sp. Defense','Sp. Attack'],Calm:['Calma','Sp. Defense','Attack'],Naughty:['Birbona','Attack','Sp. Defense'],Lonely:['Schiva','Attack','Defense'],Mild:['Mite','Sp. Attack','Defense'],Rash:['Ardente','Sp. Attack','Sp. Defense'],Brave:['Audace','Attack','Speed'],Quiet:['Quieta','Sp. Attack','Speed'],Hasty:['Lesta','Speed','Defense'],Naive:['Ingenua','Speed','Sp. Defense'],Relaxed:['Placida','Defense','Speed'],Sassy:['Vivace','Sp. Defense','Speed']};
+const TYPE_COLORS={Normal:'#c8c3b5',Fire:'#fa9e73',Water:'#7bb5ed',Electric:'#eed071',Grass:'#88d09f',Ice:'#8edbd9',Fighting:'#ed8d8d',Poison:'#c68edb',Ground:'#d7b77c',Flying:'#a8aff2',Psychic:'#f4a0c4',Bug:'#b9d483',Rock:'#b8aa85',Ghost:'#a9a4e2',Dragon:'#889fe8',Dark:'#adb2c0',Steel:'#a3bbc6',Fairy:'#e1a9df'};
+const OVERRIDES={
+'Rowlet':'Adamant,Jolly,Modest','Dartrix':'Adamant,Jolly,Modest','Decidueye':'Adamant,Jolly,Careful','Cyndaquil':'Modest,Timid,Calm','Quilava':'Modest,Timid,Calm','Typhlosion':'Modest,Timid,Calm','Oshawott':'Adamant,Jolly,Modest','Dewott':'Adamant,Jolly,Modest','Samurott':'Adamant,Jolly,Modest',
+'Wurmple':'Timid,Modest,Calm','Silcoon':'Modest,Timid,Bold','Beautifly':'Modest,Timid,Bold','Cascoon':'Calm,Bold,Modest','Dustox':'Calm,Bold,Modest','Burmy':'Modest,Bold,Calm','Wormadam':'Bold,Calm,Modest','Mothim':'Modest,Timid,Calm','Eevee':'Modest,Timid,Adamant','Vaporeon':'Modest,Calm,Bold','Jolteon':'Timid,Modest,Calm','Flareon':'Adamant,Jolly,Brave','Espeon':'Modest,Timid,Calm','Umbreon':'Calm,Bold,Careful','Leafeon':'Adamant,Jolly,Impish','Glaceon':'Modest,Timid,Bold','Sylveon':'Modest,Calm,Bold',
+'Starly':'Adamant,Jolly,Naughty','Staravia':'Adamant,Jolly,Naughty','Staraptor':'Adamant,Jolly,Naughty','Shinx':'Adamant,Jolly,Naughty','Luxio':'Adamant,Jolly,Naughty','Luxray':'Adamant,Jolly,Naughty','Ponyta':'Adamant,Jolly,Naughty','Rapidash':'Adamant,Jolly,Naughty','Zubat':'Adamant,Jolly,Impish','Golbat':'Adamant,Jolly,Impish','Crobat':'Adamant,Jolly,Impish',
+'Drifloon':'Modest,Timid,Bold','Drifblim':'Modest,Timid,Bold','Bidoof':'Adamant,Jolly,Naughty','Bibarel':'Adamant,Jolly,Naughty','Buizel':'Adamant,Jolly,Naughty','Floatzel':'Adamant,Jolly,Naughty','Kricketot':'Adamant,Jolly,Naughty','Kricketune':'Adamant,Jolly,Naughty','Pichu':'Timid,Modest,Jolly','Pikachu':'Timid,Modest,Jolly','Raichu':'Timid,Modest,Jolly',
+'Abra':'Modest,Timid,Mild','Kadabra':'Modest,Timid,Mild','Alakazam':'Modest,Timid,Mild','Psyduck':'Modest,Timid,Mild','Golduck':'Modest,Timid,Mild','Mime Jr.':'Modest,Timid,Calm','Mr. Mime':'Modest,Timid,Calm','Scyther':'Adamant,Jolly,Impish','Scizor':'Adamant,Impish,Careful','Kleavor':'Adamant,Jolly,Impish','Shellos':'Modest,Bold,Calm','Gastrodon':'Modest,Bold,Calm','Geodude':'Adamant,Impish,Careful','Graveler':'Adamant,Impish,Careful','Golem':'Adamant,Impish,Careful','Onix':'Adamant,Impish,Careful','Steelix':'Adamant,Careful,Impish',
+'Paras':'Adamant,Careful,Impish','Parasect':'Adamant,Careful,Impish','Machop':'Adamant,Jolly,Careful','Machoke':'Adamant,Jolly,Careful','Machamp':'Adamant,Jolly,Careful','Haunter':'Modest,Timid,Mild','Gastly':'Modest,Timid,Mild','Gengar':'Modest,Timid,Mild','Stantler':'Adamant,Modest,Jolly','Wyrdeer':'Adamant,Modest,Jolly','Buneary':'Adamant,Jolly,Naughty','Lopunny':'Adamant,Jolly,Naughty','Combee':'Modest,Calm,Bold','Vespiquen':'Modest,Calm,Bold','Sneasel':'Adamant,Jolly,Naughty','Weavile':'Adamant,Jolly,Naughty','Sneasler':'Adamant,Jolly,Naughty'
+};
+const SPECIAL_RARE=new Set('Eevee Munchlax Cherubi Cherrim Pichu Happiny Bonsly Cleffa Togepi Porygon Porygon2 Porygon-Z Spiritomb Unown Cranidos Rampardos Shieldon Bastiodon Rotom Magnemite Magneton Magnezone Riolu Lucario'.split(' '));
+const EXTRA_METHODS={
+25:'Vaporeon: Water Stone · Jolteon: Thunder Stone · Flareon: Fire Stone · Espeon: high friendship by day (no Fairy move) · Umbreon: high friendship at night (no Fairy move) · Leafeon: Leaf Stone or Mossy Rock · Glaceon: Ice Stone or Ice Rock · Sylveon: high friendship while knowing a Fairy-type move.',
+18:'At level 7, evolves into Silcoon or Cascoon according to a hidden individual value. Time of day and Nature do NOT control this. Both evolve again at level 10.',
+43:'At level 20: female Burmy evolves into Wormadam (cloak determines form); male Burmy evolves into Mothim. Burmy can change cloak depending on where it battles before evolving.',
+72:'Use a Black Augurite for Kleavor, or a Metal Coat for Scizor. Neither requires trading in Legends: Arceus.',
+84:'Hisuian Qwilfish → Overqwil: use Barb Barrage in Strong Style 20 times.',
+49:'Stantler → Wyrdeer: use Psyshield Bash in Agile Style 20 times.',
+112:'Teddiursa → Ursaring at level 30. Ursaring → Ursaluna: use a Peat Block during a full moon.',
+114:'Use a Peat Block on Ursaring during a full moon.',
+115:'Goomy → Hisuian Sliggoo at level 40. Hisuian Sliggoo → Hisuian Goodra at level 50 while raining.',
+118:'Onix → Steelix: use a Metal Coat (no trade required).',
+133:'Porygon → Porygon2: use an Upgrade. Porygon2 → Porygon-Z: use a Dubious Disc.',
+166:'White-striped Basculin → Basculegion: accumulate at least 294 recoil damage without fainting, then evolve.',
+192:'Hisuian Voltorb → Hisuian Electrode: use a Leaf Stone.',
+202:'Hisuian Sneasel → Sneasler with Razor Claw during the day. Original Sneasel → Weavile with Razor Claw at night.',
+203:'Hisuian Sneasel → Sneasler with Razor Claw during the day.',
+204:'Original Sneasel → Weavile with Razor Claw at night; original Sneasel appears in Obsidian Fieldlands space-time distortions.',
+127:'Togepi → Togetic: high friendship. Togetic → Togekiss: use a Shiny Stone.',
+76:'Mime Jr. → Mr. Mime: know the move Mimic, then select Evolve.',
+78:'Aipom → Ambipom: know Double Hit, then select Evolve.',
+103:'Female Kirlia → Gardevoir at level 30, or male Kirlia → Gallade with a Dawn Stone.',
+138:'Gastly → Haunter at level 25. Haunter → Gengar using Linking Cord or trading.',
+46:'Geodude → Graveler at level 25. Graveler → Golem using Linking Cord or trading.',
+154:'Machop → Machoke at level 28. Machoke → Machamp using Linking Cord or trading.',
+137:'Haunter → Gengar using Linking Cord or trading.',
+193:'Hisuian Voltorb evolves using a Leaf Stone.',
+174:'Magby → Magmar at level 30. Magmar → Magmortar using a Magmarizer.',
+182:'Elekid → Electabuzz at level 30. Electabuzz → Electivire using an Electirizer.',
+178:'Magnemite → Magneton at level 30. Magneton → Magnezone using a Thunder Stone or magnetic field in Coronet Highlands.',
+186:'Gligar → Gliscor: use Razor Fang at night.',
+189:'Gible → Gabite at level 24. Gabite → Garchomp at level 48.',
+213:'Piloswine → Mamoswine: learn Ancient Power.',
+242:'No evolution. Requires Brilliant Diamond/Shining Pearl save data to unlock Request 93 after the credits.',
+241:'No evolution. Requires Sword/Shield save data to unlock Request 92 after the credits.'
+};
+const ACQUIRE={
+2:'Evolve Rowlet from level 17, or encounter Dartrix in Coronet Highlands space-time distortions.',
+3:'Evolve Dartrix from level 36, or encounter Hisuian Decidueye in Coronet Highlands space-time distortions.',
+5:'Evolve Cyndaquil from level 17, or encounter Quilava in Crimson Mirelands space-time distortions.',
+6:'Evolve Quilava from level 36, or encounter Hisuian Typhlosion in Crimson Mirelands space-time distortions.',
+8:'Evolve Oshawott from level 17, or encounter Dewott in Alabaster Icelands space-time distortions.',
+9:'Evolve Dewott from level 36, or encounter Hisuian Samurott in Alabaster Icelands space-time distortions.',
+1:'Choose Rowlet as your starter; otherwise receive from Professor Laventon after the main story, or find its line in Coronet Highlands distortions.',
+4:'Choose Cyndaquil as your starter; otherwise receive from Professor Laventon after the main story, or find its line in Crimson Mirelands distortions.',
+7:'Choose Oshawott as your starter; otherwise receive from Professor Laventon after the main story, or find its line in Alabaster Icelands distortions.',
+26:'Evolve Eevee with a Water Stone, or find Vaporeon in Cobalt Coastlands space-time distortions.',
+27:'Evolve Eevee with a Thunder Stone, or find Jolteon in Coronet Highlands space-time distortions.',
+28:'Evolve Eevee with a Fire Stone, or find Flareon in Crimson Mirelands/Cobalt Coastlands distortions.',
+29:'Evolve Eevee with high friendship in daytime without a Fairy move, or find Espeon in Alabaster Icelands distortions.',
+30:'Evolve Eevee with high friendship at night without a Fairy move, or find Umbreon in Crimson Mirelands distortions.',
+31:'Evolve Eevee with Leaf Stone/Mossy Rock, or find Leafeon in Obsidian Fieldlands distortions.',
+32:'Evolve Eevee with Ice Stone/Ice Rock, or find Glaceon in Alabaster Icelands distortions.',
+33:'Evolve Eevee with high friendship and a Fairy move, or find Sylveon in Obsidian Fieldlands/Coronet Highlands distortions.',
+74:'Evolve Scyther with a Metal Coat, or find Scizor in Alabaster Icelands distortions.',
+133:'Find Porygon in Crimson Mirelands space-time distortions.',
+134:'Use Upgrade on Porygon, or find Porygon2 in Crimson Mirelands distortions.',
+135:'Use Dubious Disc on Porygon2, or find Porygon-Z in Crimson Mirelands distortions.',
+177:'Find Magnemite in Cobalt Coastlands space-time distortions.',
+178:'Evolve Magnemite, or find Magneton in Cobalt Coastlands space-time distortions.',
+139:'Complete Request 22 by collecting 107 wisps, then encounter Spiritomb at the Shrouded Ruins. Additional encounters may become possible.',
+142:'Find the 28 hidden Unown across Hisui using the clues in your Unown Research Notes.',
+202:'Hisuian Sneasel: Coronet Highlands. Original Dark/Ice Sneasel: Obsidian Fieldlands space-time distortions.',
+204:'Evolve original Sneasel using Razor Claw at night; also check Obsidian Fieldlands distortions.',
+208:'Find Cranidos in Coronet Highlands space-time distortions.',
+209:'Evolve Cranidos at level 30, or find Rampardos in Coronet Highlands space-time distortions.',
+208:'Cranidos and Rampardos are found in Coronet Highlands space-time distortions, or evolve Cranidos.',
+210:'Find Shieldon in Coronet Highlands space-time distortions.',
+211:'Evolve Shieldon at level 30, or find Bastiodon in Coronet Highlands space-time distortions.',
+210:'Shieldon and Bastiodon are found in Coronet Highlands space-time distortions, or evolve Shieldon.',
+225:'Postgame story: visit Lake Acuity and complete the associated lake quest.',
+226:'Postgame story: visit Lake Verity and complete the associated lake quest.',
+227:'Postgame story: visit Lake Valor and complete the associated lake quest.',
+228:'Postgame plate quest at Firespit Island.',229:'Postgame plate quest inside Snowpoint Temple.',230:'Postgame plate quest at Moonview Arena.',
+231:'Request 94: appear in Alabaster Icelands (Bonechill Wastes), during a blizzard.',
+232:'Request 94: appear over water at Cobalt Coastlands, during a thunderstorm.',
+233:'Request 94: appear at Ramanas Island, Obsidian Fieldlands, in clear weather.',
+234:'Request 94: encounter Enamorus in Scarlet Bog after collecting the other Forces of Nature.',
+235:'Main story at Temple of Sinnoh.',236:'Main story at Temple of Sinnoh.',
+237:'After defeating Volo in the postgame, find Giratina at Turnback Cave.',
+238:'Complete the required Hisui Pokédex and return to the Temple of Sinnoh. Mythical bonuses are not required.',
+239:'Request 66, The Sea’s Legend: reach Seaside Hollow with Buizel, Mantyke and Overqwil in your party, passing the sea gate at evening.',
+240:'Request 66, The Sea’s Legend: reach Seaside Hollow with Buizel, Mantyke and Overqwil in your party, passing the sea gate at evening.',
+241:'Request 92 after the main story, with Pokémon Sword or Shield save data on your Switch. Find Shaymin at Floaro Gardens.',
+242:'Request 93 after the main story, with Pokémon Brilliant Diamond or Shining Pearl save data on your Switch. Find Darkrai at Clamberclaw Cliffs.'
+};
+let pokes=DEX_NAMES.map((name,i)=>({dex:i+1,name,id:0,type:'',evolution:'Information loads when connected',locations:'Connect to view encounters',stats:[],limited:true}));
+let selected=12,chip='all',isTeamOnly=false,isUncaught=false,hasFullData=false;
+const $=id=>document.getElementById(id);
+function escapeHtml(x){return String(x??'').replace(/[&<>"']/g,ch=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));}
+function loadSet(name){try{return new Set(JSON.parse(localStorage.getItem('hisui-v3-'+name)||'[]'));}catch{return new Set()}}
+const caught=loadSet('caught'),starred=loadSet('starred'),team=loadSet('team');
+function persist(name,set){try{localStorage.setItem('hisui-v3-'+name,JSON.stringify([...set]));}catch{}}
+function natures(p){if(OVERRIDES[p.name])return OVERRIDES[p.name].split(',');const s=p.stats||[];if(s.length!==6)return ['Adamant','Jolly','Modest'];const [hp,atk,def,spa,spd,spd2]=s;if(atk>spa*1.13)return atk<def*.68 && def>120?['Impish','Careful','Adamant']:['Adamant','Jolly','Careful'];if(spa>atk*1.13)return ['Modest','Timid','Calm'];if(def>=100&&def>atk*1.18)return ['Impish','Careful','Adamant'];if(spd>=100&&spd>spa*1.18)return ['Calm','Bold','Modest'];return atk>=spa?['Adamant','Jolly','Modest']:['Modest','Timid','Adamant'];}
+function isEvolutionOnly(p){return /^(evolve |evolution only|evolve$)/i.test(p.locations||'')}
+function rarity(p){if(p.dex>=225)return 'Unique';if([1,2,3,4,5,6,7,8,9].includes(p.dex))return 'Rare';if(SPECIAL_RARE.has(p.name)||[25,166,202,204].includes(p.dex))return 'Rare';const loc=p.locations||'';if(/Space.Time Distortion/i.test(loc) && !loc.includes(','))return 'Very rare';if(/Evolve/i.test(loc)&&!loc.includes(','))return 'Uncommon';const c=loc.split(',').length;if(c>=5)return 'Common';if(c>=3)return 'Uncommon';if(c===2)return 'Uncommon';return 'Rare'}
+function obtain(p){return ACQUIRE[p.dex]||p.locations||'Check evolution chain and field encounters.'}
+function evolution(p){if(EXTRA_METHODS[p.dex])return EXTRA_METHODS[p.dex];return (p.evolution||'No evolution').replace(/Trade holding /gi,'Use ').replace(/Trade with /gi,'Use ').replace(/Trade\b(?!-)/gi,'Linking Cord or trade').replace(/Lvl /gi,'Level ').replace(/\s*–\s*/g,' · ').replace(/\s*\|\s*/g,'\nAlternative: ').replace('Upgrade)','Upgrade');}
+function sprite(p){return p.id?`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${p.id}.png`:''}
+function pic(p,detail=false){if(!p.id)return `<div class="spriteMissing">${escapeHtml(p.name[0]||'?')}</div>`;return `<img ${detail?'class="detailart"':'class="sprite"'} src="${sprite(p)}" alt="${escapeHtml(p.name)} sprite" loading="lazy" onerror="this.outerHTML='<div class=&quot;spriteMissing&quot;>◈</div>'">`}
+function typeHtml(p){return (p.type||'Unknown').split(' / ').map(x=>`<span class="type" style="--tcolor:${TYPE_COLORS[x]||'#9aa8af'}">${escapeHtml(x)}</span>`).join('')}
+function sortRarity(x){return {'Unique':5,'Very rare':4,'Rare':3,'Uncommon':2,'Common':1}[x]||0}
+function applyFilters(){const q=$('search').value.toLocaleLowerCase().trim(),type=$('typeFilter').value,rat=$('rarityFilter').value,nat=$('natureFilter').value,sort=$('sort').value;let a=pokes.filter(p=>{if(type&&!p.type.split(' / ').includes(type))return false;if(rat&&rarity(p)!==rat)return false;if(nat&&!natures(p).includes(nat))return false;if(chip==='starred'&&!starred.has(p.dex))return false;if(chip==='team'&&!team.has(p.dex))return false;if(chip==='evolve'&&!/(→|Lvl|Level|evolve|stone|cord)/i.test(p.evolution+' '+evolution(p)))return false;if(chip==='distortion'&&!/distortion/i.test(p.locations+' '+obtain(p)))return false;if(isUncaught&&caught.has(p.dex))return false;return !q||[p.name,p.dex,String(p.dex).padStart(3,'0'),p.type,p.evolution,p.locations,obtain(p),evolution(p),...natures(p).map(n=>NATURES[n]?.[0]+' '+n)].join(' ').toLowerCase().includes(q)});if(sort==='name')a.sort((x,y)=>x.name.localeCompare(y.name));if(sort==='rarity')a.sort((x,y)=>sortRarity(rarity(y))-sortRarity(rarity(x))||x.dex-y.dex);const idx={attack:1,special:3,speed:5}[sort];if(idx!==undefined)a.sort((x,y)=>(y.stats[idx]||0)-(x.stats[idx]||0));return a}
+function renderList(){let rows=applyFilters();$('shownCount').textContent=rows.length;$('caughtCount').textContent=caught.size;$('teamCount').textContent=team.size+'/6';$('progress').style.width=(caught.size/242*100).toFixed(1)+'%';$('resultText').textContent=`${rows.length} of 242 Pokémon${hasFullData?' · fully loaded':' · basic list'}`;const container=$('list');if(!rows.length){container.innerHTML='<div class="empty">No matches. Try a different name, Nature or rarity filter.</div>';return}container.innerHTML=rows.map(p=>{const n=natures(p),b=NATURES[n[0]];return `<article class="dexrow ${selected===p.dex?'selected':''}" data-dex="${p.dex}" tabindex="0" role="button" aria-label="Open ${escapeHtml(p.name)} details"><div class="dexnum">${String(p.dex).padStart(3,'0')}</div><div class="pokemon">${pic(p)}<div style="min-width:0"><div class="pname">${escapeHtml(p.name)}${caught.has(p.dex)?' <span style="color:#6be3b7">✓</span>':''}${team.has(p.dex)?' <span style="color:#fad78e">◇</span>':''}</div><div class="ptext">${p.dex===202?'Hisuian & original forms':p.id?'National #'+p.id:'Hisui Pokémon'}</div></div></div><div>${typeHtml(p)}</div><div><span class="rarity ${rarity(p).replace(' ','')}">${rarity(p)}</span><div class="tiny" style="margin-top:4px">${isEvolutionOnly(p)?'Evolve or special':'Estimated rarity'}</div></div><div class="nature"><b>${b?b[0]:'—'}</b><small>${n.slice(1).map(x=>NATURES[x]?.[0]||x).join(' · ')}</small></div><div class="secondary ellipses">${escapeHtml(obtain(p))}</div><button class="iconBtn ${starred.has(p.dex)?'marked':''}" title="Star ${escapeHtml(p.name)}" aria-label="Star ${escapeHtml(p.name)}" data-star="${p.dex}">${starred.has(p.dex)?'★':'☆'}</button></article>`}).join('');container.querySelectorAll('.dexrow').forEach(el=>{el.addEventListener('click',ev=>{const key=ev.target.closest('[data-star]');if(key){flip(starred,'starred',+key.dataset.star);return;}openDetail(+el.dataset.dex)});el.addEventListener('keydown',ev=>{if(ev.key==='Enter'&&!ev.target.closest('button'))openDetail(+el.dataset.dex)})})}
+function flip(set,name,id){if(set.has(id))set.delete(id);else{if(name==='team'&&set.size>=6){alert('Your team can contain at most six Pokémon. Remove one before adding another.');return}set.add(id)}persist(name,set);renderList();renderDetail();renderTeamLab()}
+function renderDetail(){const p=pokes[selected-1];if(!p)return;const ns=natures(p),s=p.stats||[];let statsHtml=s.length===6?`<div class="sectionHead">Base stats</div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px">${['HP','Atk','Def','Sp.Atk','Sp.Def','Speed'].map((label,i)=>`<div style="text-align:center;background:#193041;border-radius:8px;padding:9px 2px"><b style="font-size:15px;color:${i===1||i===3?'#9ff0d1':'#eaf5f6'}">${s[i]}</b><div class="tiny">${label}</div></div>`).join('')}</div>`:'';let labels=ns.map((n,i)=>{const info=NATURES[n];return `<div class="natureItem"><span class="natureIndex">#${i+1}</span><span class="natureLabel">${info?.[0]||n} <span class="tiny">(${n})</span></span><span class="natureEffect">+${info?.[1]} / −${info?.[2]}</span></div>`}).join('');$('detail').innerHTML=`<div class="detailtop"><span class="eyebrow">Hisui #${String(p.dex).padStart(3,'0')}</span><button class="softBtn mobileClose" id="closeDetail">Close ✕</button></div>${pic(p,true)}<div class="detailname">${escapeHtml(p.name)}</div><div>${typeHtml(p)}</div><span class="taginfo">${rarity(p)} · Approximate encounter rarity</span>${statsHtml}<div class="sectionHead">Ranked recommended Natures</div><div class="natureGrid">${labels}</div><div class="sectionHead">Evolution · How to evolve</div><div class="infoBox">${escapeHtml(evolution(p))}</div><div class="sectionHead">Where & how to obtain</div><div class="infoBox">${escapeHtml(obtain(p))}${p.dex!==202?'':'\nBoth forms count as one Pokédex species.'}</div><div class="detailButtons"><button class="${caught.has(p.dex)?'isOn':''}" id="markCaught">${caught.has(p.dex)?'✓ Caught':'○ Mark caught'}</button><button class="${team.has(p.dex)?'isOn':''}" id="markTeam">${team.has(p.dex)?'◇ In team':'◇ Add to team'}</button><button class="${starred.has(p.dex)?'isOn':''}" id="markStar">${starred.has(p.dex)?'★ Starred':'☆ Star Pokémon'}</button><button id="nextPokemon">Next Pokémon →</button></div><p class="small" style="margin-top:12px">Nature suggestions depend on your desired moveset. Grit items and Nature Mints can help adjust Pokémon later.</p>`;$('markCaught').onclick=()=>flip(caught,'caught',p.dex);$('markTeam').onclick=()=>flip(team,'team',p.dex);$('markStar').onclick=()=>flip(starred,'starred',p.dex);$('nextPokemon').onclick=()=>openDetail(p.dex%242+1);const close=$('closeDetail');if(close)close.onclick=closeDetail}
+function openDetail(dex){selected=dex;renderDetail();$('list').querySelectorAll('.dexrow').forEach(x=>x.classList.toggle('selected',+x.dataset.dex===dex));$('detail').classList.add('open');$('overlay').classList.add('on')}
+function closeDetail(){$('detail').classList.remove('open');$('overlay').classList.remove('on')}
+$('overlay').onclick=closeDetail;document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetail()});
+for(const input of ['search','typeFilter','rarityFilter','natureFilter','sort'])$(input).addEventListener(input==='search'?'input':'change',renderList);
+document.querySelectorAll('[data-chip]').forEach(x=>x.addEventListener('click',()=>{chip=x.dataset.chip;document.querySelectorAll('[data-chip]').forEach(b=>b.classList.toggle('on',b.dataset.chip===chip));renderList()}));
+$('toggleTeam').onclick=()=>{chip=chip==='team'?'all':'team';document.querySelectorAll('[data-chip]').forEach(b=>b.classList.toggle('on',b.dataset.chip===chip));renderList()};
+$('uncaughtOnly').onclick=()=>{isUncaught=!isUncaught;$('uncaughtOnly').classList.toggle('active',isUncaught);renderList()};
+$('export').onclick=()=>{const row=[['Hisui Dex','Name','Types','Best nature 1','Best nature 2','Best nature 3','Rarity (estimated)','How to evolve','How to obtain','Caught','Starred','Team']];for(const p of pokes)row.push([p.dex,p.name,p.type,...natures(p).map(x=>NATURES[x]?.[0]||x),rarity(p),evolution(p),obtain(p),caught.has(p.dex)?'Yes':'No',starred.has(p.dex)?'Yes':'No',team.has(p.dex)?'Yes':'No']);const csv=row.map(cols=>cols.map(v=>'"'+String(v).replace(/"/g,'""')+'"').join(',')).join('\r\n');const a=document.createElement('a');a.href=URL.createObjectURL(new Blob(['\ufeff'+csv],{type:'text/csv;charset=utf-8'}));a.download='Hisui_Pokedex_242.csv';document.body.append(a);a.click();setTimeout(()=>{URL.revokeObjectURL(a.href);a.remove()},500)};
+async function fetchText(urls){
+  const key='hisui-v3-data-'+urls[0].split('/').pop();
+  for(const u of urls){
+    const ctrl=new AbortController(),tm=setTimeout(()=>ctrl.abort(),8500);
+    try{
+      const r=await fetch(u,{signal:ctrl.signal,cache:'default'});
+      if(!r.ok)throw new Error('HTTP '+r.status);
+      const t=await r.text();
+      if(t.length<1000)throw new Error('Unexpected short response');
+      try{localStorage.setItem(key,t)}catch{}
+      return t;
+    }catch(e){/* Try another mirror, then the cached source. */}
+    finally{clearTimeout(tm)}
+  }
+  try{const cached=localStorage.getItem(key);if(cached&&cached.length>1000)return cached}catch{}
+  throw new Error('Unable to load remote or cached sources');
+}
+function parseCSV(t){return t.replace(/\r/g,'').trim().split('\n').slice(1).map(line=>{let fields=[],v='',quoted=false;for(let i=0;i<line.length;i++){const c=line[i];if(c==='"'){if(quoted&&line[i+1]==='"'){v+='"';i++}else quoted=!quoted;}else if(c===','&&!quoted){fields.push(v.trim());v=''}else v+=c}fields.push(v.trim());return fields})}
+function getStats(rows,p){const candidates=rows.filter(r=>+r[0]===+p.id),types=p.type.split(' / ');let r=candidates.find(z=>z[3]===types[0]&&(z[4]||'')===(types[1]||''))||candidates[0];return r?r.slice(6,12).map(Number):[]}
+
+// ─── Team Lab: explainable, offline-once-cached recommendations ───
+const TEAM_MATCHUPS={
+ Normal:{Rock:.5,Ghost:0,Steel:.5},Fire:{Fire:.5,Water:.5,Grass:2,Ice:2,Bug:2,Rock:.5,Dragon:.5,Steel:2},
+ Water:{Fire:2,Water:.5,Grass:.5,Ground:2,Rock:2,Dragon:.5},Electric:{Water:2,Electric:.5,Grass:.5,Ground:0,Flying:2,Dragon:.5},
+ Grass:{Fire:.5,Water:2,Grass:.5,Poison:.5,Ground:2,Flying:.5,Bug:.5,Rock:2,Dragon:.5,Steel:.5},
+ Ice:{Fire:.5,Water:.5,Grass:2,Ice:.5,Ground:2,Flying:2,Dragon:2,Steel:.5},
+ Fighting:{Normal:2,Ice:2,Poison:.5,Flying:.5,Psychic:.5,Bug:.5,Rock:2,Ghost:0,Dark:2,Steel:2,Fairy:.5},
+ Poison:{Grass:2,Poison:.5,Ground:.5,Rock:.5,Ghost:.5,Steel:0,Fairy:2},
+ Ground:{Fire:2,Electric:2,Grass:.5,Poison:2,Flying:0,Bug:.5,Rock:2,Steel:2},
+ Flying:{Electric:.5,Grass:2,Fighting:2,Bug:2,Rock:.5,Steel:.5},
+ Psychic:{Fighting:2,Poison:2,Psychic:.5,Dark:0,Steel:.5},
+ Bug:{Fire:.5,Grass:2,Fighting:.5,Poison:.5,Flying:.5,Psychic:2,Ghost:.5,Dark:2,Steel:.5,Fairy:.5},
+ Rock:{Fire:2,Ice:2,Fighting:.5,Ground:.5,Flying:2,Bug:2,Steel:.5},
+ Ghost:{Normal:0,Psychic:2,Ghost:2,Dark:.5},
+ Dragon:{Dragon:2,Steel:.5,Fairy:0},Dark:{Fighting:.5,Psychic:2,Ghost:2,Dark:.5,Fairy:.5},
+ Steel:{Fire:.5,Water:.5,Electric:.5,Ice:2,Rock:2,Steel:.5,Fairy:2},
+ Fairy:{Fire:.5,Fighting:2,Poison:.5,Dragon:2,Dark:2,Steel:.5}
+};
+const ALL_TYPES=Object.keys(TYPE_COLORS);
+const PLAYSTYLES={balanced:{name:'Balanced',description:'A physical/special mix, answers to team weaknesses, and a reliable defensive backbone.'},offense:{name:'High damage',description:'Powerful attackers with distinct STAB types to remove targets quickly.'},speed:{name:'Quick turns',description:'High base Speed and varied matchups, useful for acting sooner.'},defense:{name:'Survivability',description:'More durable teammates and safer resistance coverage for tough encounters.'},capture:{name:'Capture team',description:'Reliable catch support alongside enough attackers to complete the Pokédex.'}};
+const CATCH_UTIL={Parasect:'Spore + False Swipe (Training Grounds)',Gallade:'Hypnosis + False Swipe (Training Grounds)',Paras:'Spore + False Swipe (after training)'};
+const FALSE_SWIPE=new Set('Kleavor Decidueye Dartrix Rowlet Samurott Dewott Oshawott Gallade Gliscor Weavile Drapion Skorupi Garchomp Kricketune Sneasel Heracross Scizor Gligar Scyther Parasect Paras'.split(' '));
+let labStyle='balanced',suggestionOffset=0;
+const labGetTeam=()=>[...team].map(i=>pokes[i-1]).filter(Boolean);
+const pokemonTypes=p=>(p.type||'').split(' / ').filter(t=>ALL_TYPES.includes(t));
+function matchup(a,p){return pokemonTypes(p).reduce((v,t)=>v*(TEAM_MATCHUPS[a]?.[t]??1),1)}
+const fmtType=t=>`<span class="labTypeTag" style="--tcolor:${TYPE_COLORS[t]||'#999'}">${escapeHtml(t)}</span>`;
+function allOffensiveTargets(list){const res=new Set();for(const p of list)for(const att of pokemonTypes(p))for(const d of ALL_TYPES)if((TEAM_MATCHUPS[att]?.[d]||1)>1)res.add(d);return res;}
+function statsOf(p){const [hp=65,atk=70,def=70,spa=70,spd=70,spe=70]=p.stats||[];return {hp,atk,def,spa,spd,spe,power:Math.max(atk,spa),bulk:hp*.8+(def+spd)*.56,physical:atk>=spa*1.15,special:spa>=atk*1.15}}
+function roleOf(p){if(CATCH_UTIL[p.name])return 'Capture specialist';const s=statsOf(p);if(s.bulk>205&&s.spe<85)return 'Defensive anchor';if(s.power>=105&&s.spe>=95)return s.special?'Fast special attacker':'Fast physical attacker';if(s.power>=105)return s.special?'Special attacker':'Physical attacker';if(s.spe>=108)return 'Speed specialist';if(s.bulk>=173)return 'Bulky support';return s.special?'Special attacker':s.physical?'Physical attacker':'Versatile attacker';}
+function shareFamily(a,b){if(a.name===b.name)return true;const x=(a.evolution||''),y=(b.evolution||'');return x!=='-'&&x===y&&x.length>8&&a.name!=='Eevee'&&b.name!=='Eevee'}
+function ratingOf(teamP,c,style){const old=teamP,arr=[...old,c],s=statsOf(c),quality=Math.min(620,s.hp+s.atk+s.def+s.spa+s.spd+s.spe),oTypes=new Set(old.flatMap(p=>pokemonTypes(p))),cTypes=pokemonTypes(c);let score=quality*.052+s.power*.105,reason=[],tags=[];
+ if(style==='offense')score+=s.power*.48+s.spe*.065;
+ if(style==='speed')score+=s.spe*.53+s.power*.13;
+ if(style==='defense')score+=s.bulk*.26+(s.def+s.spd)*.08;
+ if(style==='balanced')score+=s.bulk*.11+s.spe*.09;
+ if(style==='capture')score+=s.bulk*.065+s.spe*.07;
+ const missingPhys=!old.some(p=>statsOf(p).physical),missingSpecial=!old.some(p=>statsOf(p).special);
+ if(missingPhys&&s.physical){score+=8;reason.push('Adds a physical attacker to balance your damage.');}
+ if(missingSpecial&&s.special){score+=9;reason.push('Adds special damage so your team is not purely physical.');}
+ if(!old.some(p=>statsOf(p).bulk>=180)&&s.bulk>=180){score+=6;reason.push('Adds a bulkier option for difficult battles.');}
+ if(!old.some(p=>statsOf(p).spe>=100)&&s.spe>=100){score+=6;reason.push('Adds a fast Pokémon that can help control action order.');}
+ const fresh=cTypes.filter(t=>!oTypes.has(t));score+=fresh.length*5.5;
+ if(fresh.length)reason.push(`Introduces ${fresh.join(' / ')}-type STAB coverage.`);
+ const existing=allOffensiveTargets(old),newTargets=ALL_TYPES.filter(t=>!existing.has(t)&&cTypes.some(x=>(TEAM_MATCHUPS[x]?.[t]||1)>1));
+ score+=Math.min(9,newTargets.length*1.6);if(newTargets.length)reason.push(`Can threaten ${newTargets.slice(0,3).join(', ')} types with super-effective STAB moves.`);
+ const shields=ALL_TYPES.filter(t=>old.some(p=>matchup(t,p)>1)&&matchup(t,c)<1);
+ score+=Math.min(23,shields.length*5.5);if(shields.length){reason.unshift(`Resists ${shields.slice(0,3).join(', ')} attacks that threaten a current teammate.`);tags.push('Protective switch-in')}
+ const danger=ALL_TYPES.filter(t=>matchup(t,c)>1&&old.filter(p=>matchup(t,p)>1).length>=2&&!old.some(p=>matchup(t,p)<1));score-=Math.min(16,danger.length*3.5);
+ const newWeak=ALL_TYPES.filter(t=>matchup(t,c)>1&&old.some(p=>matchup(t,p)>1)&&!old.some(p=>matchup(t,p)<1));score-=Math.min(12,newWeak.length*2.5);
+ const overlaps=cTypes.filter(t=>oTypes.has(t)).length;score-=overlaps*4.3;
+ if(old.some(p=>shareFamily(p,c)))score-=30;
+ if(style==='capture'){
+  if(CATCH_UTIL[c.name]&&!old.some(p=>CATCH_UTIL[p.name])){score+=56;reason.unshift(`${CATCH_UTIL[c.name]} helps weaken wild Pokémon and inflict drowsiness.`);tags.push('Catching utility');}
+  else if(FALSE_SWIPE.has(c.name)&&!old.some(p=>FALSE_SWIPE.has(p.name))){score+=18;reason.push('Can learn False Swipe to leave targets with at least 1 HP.');tags.push('False Swipe');}
+ }
+ if(style==='speed'&&s.spe>=100)reason.push(`Base Speed ${s.spe} suits a quick-turn approach.`);
+ if(style==='offense'&&s.power>=105)reason.push(`High base ${s.atk>s.spa?'Attack':'Sp. Attack'} (${s.power}) supports an aggressive team.`);
+ if(style==='defense'&&s.bulk>=175)reason.push('Strong HP/defense profile supports longer battles.');
+ if(!reason.length)reason.push('Adds another matchup option to diversify your party.');
+ if(danger.length&&!shields.length)tags.push(`Watch ${danger[0]} weakness`);
+ return {p:c,score,reason:reason.slice(0,3),role:roleOf(c),tags};
+}
+function eligibleCandidates(current){return pokes.filter(p=>!team.has(p.dex)&&pokemonTypes(p).length&&(p.stats||[]).length===6&&(!($('labCaughtOnly').checked)||caught.has(p.dex))&&($('labLegends').checked||p.dex<225)&&!current.some(x=>shareFamily(x,p)))}
+function recommend(current,offset=0){const sorted=eligibleCandidates(current).map(p=>ratingOf(current,p,labStyle)).sort((a,b)=>b.score-a.score||a.p.dex-b.p.dex);
+ if(!sorted.length)return [];
+ // Diversify the suggestions: avoid showing multiple lower-stage members of the same evolutionary line.
+ const out=[];const used=new Set();const shifted=[...sorted.slice(offset*2),...sorted.slice(0,offset*2)];
+ for(const x of shifted){const similar=out.some(y=>(y.p.evolution===x.p.evolution&&x.p.evolution!=='-'&&x.p.evolution.length>8));if(similar)continue;if(out.some(y=>y.p.type===x.p.type)&&out.length>=2)continue;if(!used.has(x.p.dex)){out.push(x);used.add(x.p.dex)}if(out.length>=6)break}
+ return out;
+}
+function teamSnapshot(){const ts=labGetTeam();const coverage=allOffensiveTargets(ts);
+ const exposed=ALL_TYPES.map(t=>({t,weak:ts.filter(p=>matchup(t,p)>1).length,resist:ts.filter(p=>matchup(t,p)<1).length}));
+ return {ts,coverage,exposed,holes:exposed.filter(x=>x.weak>0&&x.resist===0).sort((a,b)=>b.weak-a.weak||a.t.localeCompare(b.t)),covered:exposed.filter(x=>x.weak>0&&x.resist>0),resistant:exposed.filter(x=>x.weak===0&&x.resist>0)};
+}
+function renderTeamLab(){if(!hasFullData){$('labSummary').innerHTML='<div class="labEmptyState">Complete Pokémon data is loading. Team recommendations become available as soon as the type and stats dataset is ready.</div>';$('labRecommendations').innerHTML='<div class="labEmptyState">Connect to the internet on your first visit to enable the team matching engine.</div>';return;}
+ const report=teamSnapshot(),ts=report.ts;
+ $('labSlotCount').textContent=ts.length+' / 6';$('labSummary').innerHTML=[
+   [ts.length+'/6','Team slots'],[report.coverage.size+'/18','Types hit super effectively*'],[report.holes.length,'Uncovered team weaknesses'],[ts.filter(p=>statsOf(p).spe>=100).length,'Fast teammates']
+ ].map(([n,l])=>`<div class="labMetric"><strong>${n}</strong><span>${l}</span></div>`).join('');
+ $('labSlots').innerHTML=Array.from({length:6},(_,i)=>{const p=ts[i];return p?`<div class="labSlot"><button class="labRemove" data-remove="${p.dex}" aria-label="Remove ${escapeHtml(p.name)}" title="Remove">×</button><img src="${sprite(p)}" alt="" loading="lazy"><div class="slotName">${escapeHtml(p.name)}</div><div class="slotSub">${escapeHtml(roleOf(p))}</div></div>`:`<button class="labSlot emptySlot" data-focus-add="true" aria-label="Add Pokémon to slot ${i+1}"><div class="slotPlus">＋</div><div class="slotNum">Slot ${i+1}</div><div class="slotSub">Add Pokémon</div></button>`}).join('');
+ $('labSlots').querySelectorAll('[data-remove]').forEach(b=>b.onclick=()=>setTeamMember(+b.dataset.remove,false));
+ $('labSlots').querySelectorAll('[data-focus-add]').forEach(b=>b.onclick=()=>$('labPokemonSearch').focus());
+ const summaries=[['Uncovered weaknesses',report.holes,'no gaps detected'],['Covered weaknesses',report.covered,'none yet'],['Defensive resistances',report.resistant,'none yet']];
+ $('labThreats').innerHTML=ts.length?`<div class="labThreatGrid">${summaries.map(([name,v,fallback])=>`<div class="labThreatCard"><b>${name} <span class="small">${v.length}</span></b><div class="labThreatTypes">${v.length?v.slice(0,7).map(x=>fmtType(x.t)).join(''):`<span class="small">${fallback}</span>`}</div></div>`).join('')}</div>`:'<p class="muted">Add a Pokémon to see what kinds of attacks your team struggles with—and how to cover them.</p>';
+ const recs=ts.length>=6?[]:recommend(ts,suggestionOffset);
+ $('completeTeam').disabled=ts.length>=6||!recs.length;
+ if(ts.length>=6){$('labRecommendations').innerHTML='<div class="labEmptyState">Your team is complete! Remove a teammate to explore alternatives, or change strategies to see how your team performs.</div>';return;}
+ if(!recs.length){$('labRecommendations').innerHTML='<div class="labEmptyState">No eligible suggestions for this filter. Try disabling “only caught” or allowing postgame Pokémon.</div>';return;}
+ $('labRecommendations').innerHTML=recs.map((r,i)=>{const p=r.p,n=NATURES[natures(p)[0]]?.[0]||'—';return `<article class="labRec"><div class="labRecTop"><img src="${sprite(p)}" loading="lazy" alt=""><div><div class="labRecDex">MATCH ${String(i+1).padStart(2,'0')} · HISUI #${String(p.dex).padStart(3,'0')}</div><div class="labRecName">${escapeHtml(p.name)}</div><div class="labRecRole">${escapeHtml(r.role)}</div><div>${typeHtml(p)}</div></div></div><div class="labReasons">${r.reason.map(t=>`<div class="labReason"><span>✓</span><div>${escapeHtml(t)}</div></div>`).join('')}</div><div class="labRecInfo"><div><b>Recommended Nature:</b> ${escapeHtml(n)} · <b>Rarity:</b> ${escapeHtml(rarity(p))}</div><div><b>How to find:</b> ${escapeHtml(obtain(p))}</div></div><div class="labRecActions"><button class="labMainBtn" data-add-recommended="${p.dex}">＋ Add to team</button><button class="softBtn" data-view-recommended="${p.dex}">Details ↗</button></div></article>`}).join('');
+ $('labRecommendations').querySelectorAll('[data-add-recommended]').forEach(b=>b.onclick=()=>setTeamMember(+b.dataset.addRecommended,true));
+ $('labRecommendations').querySelectorAll('[data-view-recommended]').forEach(b=>b.onclick=()=>{selected=+b.dataset.viewRecommended;renderDetail();$('detail').classList.add('open');$('overlay').classList.add('on')});
+}
+function setTeamMember(id,enabled){if(enabled){if(team.has(id))return;if(team.size>=6){$('labPickMessage').textContent='Your team is full: remove one Pokémon before adding another.';return;}team.add(id)}else team.delete(id);persist('team',team);$('labAutoPlan').hidden=true;renderList();renderDetail();renderTeamLab()}
+function showLab(){if(!hasFullData){$('labPickMessage').textContent='First visit? Connect to the internet to load types, stats and evolution information.';}document.getElementById('dexView').hidden=true;$('teamLab').hidden=false;document.querySelector('.hero').hidden=true;$('openTeamLab').classList.add('active');renderTeamLab();window.scrollTo({top:0,behavior:'smooth'});}
+function showDex(){document.getElementById('dexView').hidden=false;$('teamLab').hidden=true;document.querySelector('.hero').hidden=false;$('openTeamLab').classList.remove('active');renderList();window.scrollTo({top:0,behavior:'smooth'});}
+$('openTeamLab').onclick=showLab;$('backToDex').onclick=showDex;
+$('labAddPokemon').onclick=()=>{let text=$('labPokemonSearch').value.trim().toLowerCase(),p=pokes.find(x=>x.name.toLowerCase()===text)||pokes.find(x=>x.name.toLowerCase().startsWith(text)&&text.length>=2);if(!p){$('labPickMessage').textContent='Choose a valid Pokémon name from the suggestion list.';return}if(team.has(p.dex)){$('labPickMessage').textContent=p.name+' is already in your team.';return}if(!hasFullData){$('labPickMessage').textContent='Pokémon details need to finish loading before adding.';return}setTeamMember(p.dex,true);$('labPokemonSearch').value='';$('labPickMessage').textContent=p.name+' added. Suggestions updated.';};
+$('labPokemonSearch').onkeydown=e=>{if(e.key==='Enter'){e.preventDefault();$('labAddPokemon').click()}};
+$('labSpecies').innerHTML=DEX_NAMES.map(x=>`<option value="${escapeHtml(x)}">`).join('');
+$('labStyles').querySelectorAll('[data-style]').forEach(b=>b.onclick=()=>{labStyle=b.dataset.style;suggestionOffset=0;document.querySelectorAll('.labStyle').forEach(x=>x.classList.toggle('selected',x===b));$('labAutoPlan').hidden=true;renderTeamLab()});
+$('labCaughtOnly').onchange=()=>{suggestionOffset=0;renderTeamLab()};$('labLegends').onchange=()=>{suggestionOffset=0;renderTeamLab()};
+$('refreshTeamIdeas').onclick=()=>{suggestionOffset=(suggestionOffset+1)%4;renderTeamLab()};
+$('clearTeam').onclick=()=>{team.clear();persist('team',team);$('labAutoPlan').hidden=true;renderList();renderDetail();renderTeamLab()};
+$('completeTeam').onclick=()=>{let plan=[],i=0;while(team.size<6&&i++<6){const previous=labGetTeam(),top=recommend(previous,0)[0];if(!top)break;plan.push(top);team.add(top.p.dex)}persist('team',team);renderList();renderDetail();renderTeamLab();const panel=$('labAutoPlan');panel.hidden=false;panel.innerHTML=`<h3>✧ ${escapeHtml(PLAYSTYLES[labStyle].name)} plan · ${plan.length} Pokémon added</h3><p>${escapeHtml(PLAYSTYLES[labStyle].description)}</p>${plan.length?plan.map(x=>`<p><b>${escapeHtml(x.p.name)}</b> · ${escapeHtml(x.role)} — ${escapeHtml(x.reason[0])}</p>`).join(''):'<p>No new suggestions are available with these filters.</p>'}`;panel.scrollIntoView({behavior:'smooth',block:'nearest'});};
+
+async function init(){for(const t of Object.keys(TYPE_COLORS))$('typeFilter').insertAdjacentHTML('beforeend',`<option value="${t}">${t}</option>`);for(const n of Object.keys(NATURES))$('natureFilter').insertAdjacentHTML('beforeend',`<option value="${n}">${NATURES[n][0]} (${n})</option>`);renderList();renderDetail();renderTeamLab();try{const [pj,ps]=await Promise.all([
+fetchText(['https://raw.githubusercontent.com/Insektaure/pkDex/main/resources/data/sinnoh_arceus.json','https://cdn.jsdelivr.net/gh/Insektaure/pkDex@main/resources/data/sinnoh_arceus.json']),
+fetchText(['https://raw.githubusercontent.com/lgreski/pokemonData/master/Pokemon.csv','https://cdn.jsdelivr.net/gh/lgreski/pokemonData@master/Pokemon.csv'])]);const entries=JSON.parse(pj).pokemon,statRows=parseCSV(ps);if(entries.length!==242)throw new Error('Expected exactly 242 species');pokes=entries.map((x,i)=>({dex:i+1,id:+x.id,name:x.name,type:x.type,locations:x.locations,evolution:x.evolution,stats:getStats(statRows,x),limited:false}));hasFullData=true;$('loading').style.display='none';renderList();renderDetail();renderTeamLab();}catch(err){$('loading').innerHTML='<b class="errornote">Encounter data could not be loaded.</b> The full 242-name index is still searchable. Connect to the internet on your first visit to load evolution details, encounter locations, types, and stats. Afterward, the browser can use cached data. <a target="_blank" href="https://github.com/Insektaure/pkDex/blob/main/resources/data/sinnoh_arceus.json">Open source data ↗</a>';renderList();renderDetail()}}
+init();
+if('serviceWorker' in navigator && location.protocol==='https:'){navigator.serviceWorker.register('./sw.js').catch(()=>{});}
+</script></body></html>
