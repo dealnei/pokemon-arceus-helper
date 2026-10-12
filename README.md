@@ -1,2 +1,2 @@
-# pokemo-arceus-helper
+# pokemon-arceus-helper
 an helper for pokemon arceus
