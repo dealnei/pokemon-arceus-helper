@@ -13,7 +13,7 @@ Browse the **242 entries in the Hisui Pokédex**, compare recommended Natures, f
 | --- | --- |
 | Search Pokémon by name, evolution or location | Start with one or more Pokémon and build a team of up to six |
 | Filter by type, rarity and recommended Nature | Get ranked partner suggestions with explanations |
-| See the top three recommended Natures (Italian and English) | Compare **Balanced**, **High Damage**, **Quick Turns**, **Survivability** and **Capture Team** strategies |
+| See the top three recommended Natures (Italian and English) and **S–F long-term investment grades** | Compare **Balanced**, **High Damage**, **Quick Turns**, **Survivability** and **Capture Team** strategies |
 | Check clickable evolution families, evolution methods, locations, types and base stats | Review shared weaknesses, coverage, roles and suggested replacements |
 | Track caught Pokémon and favorites | Auto-complete the remaining team slots |
 | Export the Pokédex and your selections to CSV | Optionally limit suggestions to caught Pokémon or include postgame legendaries |
@@ -50,6 +50,27 @@ python3 -m http.server 8000
 Open **http://localhost:8000** in your browser.
 
 You can also open `index.html` directly, but a local server is recommended for consistent browser behavior and service-worker support.
+
+## Main-team investment grades (S–F)
+
+Every one of the **242 Pokémon** receives a practical **long-term investment grade**, designed to answer: *“Is this worth keeping and spending effort on for the main team?”* These are editorial, game-specific recommendations rather than official rankings.
+
+| Grade | Meaning | General advice |
+| --- | --- | --- |
+| **S** | Exceptional | Top-tier long-term potential |
+| **A** | Strong | Very worthwhile main-team choice |
+| **B** | Good | Useful when it fits your team or playstyle |
+| **C** | Situational | Viable, but worth comparing with alternatives |
+| **D** | Temporary | Fine for early progress; avoid heavy resource investment |
+| **F** | Low priority | Primarily a Pokédex or personal-preference pick |
+
+**Pre-evolution grades reflect a recommended final evolution's potential, not the Pokémon's current battle power.** For example, Magikarp receives Gyarados's long-term S potential, and its detail panel explicitly tells you to evolve it. Lower-tier evolving species are not labeled as good investments merely because they can evolve.
+
+The Pokédex shows colored grade indicators, an S–F grade filter, and a **Best investment grade** sorting option. Each detail panel explains why a Pokémon received its grade and whether you should keep it, evolve it, or look for a replacement. Investment grades and suggested evolution targets are also included in CSV export.
+
+Special caveats (such as female-only Combee evolution, Wurmple branching evolutions, and different Sneasel forms) are called out where relevant. Powerful late-story and postgame Pokémon have a separate availability note; a high grade does not mean you can obtain them early.
+
+The Team Lab gives grade a **small** influence in ranking and replacement suggestions. Type compatibility, battle stats, coverage, and your selected strategy still matter more. Ratings are not based on competitive PvP, held items, or Abilities that are absent from the game's normal battle mechanics.
 
 ## Using Team Lab
 
