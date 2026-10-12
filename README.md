@@ -1,36 +1,107 @@
 # Hisui Field Guide
 
-A fan-made Pokédex and strategy-aware team builder for **Pokémon Legends: Arceus**, styled like a Hisui expedition journal.
+**An unofficial Pokédex and strategy-based team builder for Pokémon Legends: Arceus.**
+
+Browse the **242 entries in the Hisui Pokédex**, compare recommended Natures, find evolution requirements, and plan teams using a design inspired by the game's expedition journal.
+
+> **Project:** [pokemon-arceus-helper](https://github.com/dealnei/pokemon-arceus-helper)  
+> **Website:** [dealnei.github.io/pokemon-arceus-helper](https://dealnei.github.io/pokemon-arceus-helper/) *(available after GitHub Pages is enabled and deployed)*
 
 ## Features
 
-- Search and filter all **242 Hisui Pokédex species**
-- Browse evolution requirements, encounter locations, estimated rarity and recommended Italian Natures
-- Team Lab: add one or more Pokémon, select a strategy, explain recommendations, or auto-complete a six-Pokémon team
-- Team coverage and weakness summaries, favorite/caught tracking, CSV export
-- Responsive design and optional home-screen installation
+| Pokédex | Team Lab |
+| --- | --- |
+| Search Pokémon by name, evolution or location | Start with one or more Pokémon and build a team of up to six |
+| Filter by type, rarity and recommended Nature | Get ranked partner suggestions with explanations |
+| See the top three recommended Natures (Italian and English) | Compare **Balanced**, **High Damage**, **Quick Turns**, **Survivability** and **Capture Team** strategies |
+| Check evolutions, locations, types and base stats | Review shared weaknesses, coverage and team roles |
+| Track caught Pokémon and favorites | Auto-complete the remaining team slots |
+| Export the Pokédex and your selections to CSV | Optionally limit suggestions to caught Pokémon or include postgame legendaries |
 
-## Run locally
+The interface works on desktop and mobile and is styled with parchment-like panels and Hisui-inspired colors.
 
-Open `index.html` in your browser, or run a static HTTP server:
+## Getting started
+
+### Use the website
+
+Once GitHub Pages is configured, open:
+
+**https://dealnei.github.io/pokemon-arceus-helper/**
+
+You can use the Pokédex without installing anything. An internet connection is needed to load external Pokémon datasets on the first visit.
+
+### Run locally
+
+This is a **static HTML/CSS/JavaScript project**. It has no build step, package manager or backend.
+
+Clone the repository:
+
+```bash
+git clone https://github.com/dealnei/pokemon-arceus-helper.git
+cd pokemon-arceus-helper
+```
+
+Start a local web server:
 
 ```bash
 python3 -m http.server 8000
 ```
 
-Then visit `http://localhost:8000`.
+Open **http://localhost:8000** in your browser.
 
-## Publish via GitHub Pages
+You can also open `index.html` directly, but a local server is recommended for consistent browser behavior and service-worker support.
 
-1. Go to **Settings → Pages** in this repository.
-2. Under **Build and deployment**, choose **Deploy from a branch**.
-3. Set branch to **main**, folder to **/(root)**, and save.
-4. Your site should become available at `https://<username>.github.io/<repository>/` once Pages deploys.
+## Using Team Lab
 
-All app routes and PWA assets use relative URLs so GitHub Pages subdirectory hosting works.
+1. Select **Team Lab** in the website header.
+2. Search for and add one or more Pokémon you want to keep.
+3. Select a strategy: **Balanced**, **High Damage**, **Quick Turns**, **Survivability**, or **Capture Team**.
+4. Review suggested partners and read the explanation of each recommendation.
+5. Add suggestions individually, or select **Complete my team** to fill empty slots.
+6. Change the strategy or team members to compare alternative builds.
 
-## Sources and caveats
+**How recommendations are calculated:** a rule-based scoring system considers type matchups, offensive coverage, shared weaknesses, base stats, physical/special balance, Speed, bulk and (for capture teams) catching utility. It explains why a Pokémon is recommended. Auto-completion adds candidates iteratively based on the current team.
 
-The app loads game data from [Insektaure/pkDex](https://github.com/Insektaure/pkDex), base stats from [lgreski/pokemonData](https://github.com/lgreski/pokemonData), and sprite images from public Pokémon sprite endpoints. Internet access is needed on first visit; subsequent visits can use cached data. Team recommendations and Nature rankings are heuristic suggestions, not an official competitive tier list. Rarity is approximate, not a published encounter rate. Your caught/team/favorites are stored locally in the browser, not synced to GitHub.
+**Important:** the engine does **not** simulate battles, calculate damage for specific movesets, or guarantee an optimal team. Nature recommendations are general guidance and can change with your chosen moves.
 
-*Unofficial fan project. Pokémon and Pokémon Legends: Arceus belong to Nintendo, Game Freak, and The Pokémon Company. This project is not affiliated with or endorsed by them.*
+## Deploy to GitHub Pages
+
+1. Open this repository's [Pages settings](https://github.com/dealnei/pokemon-arceus-helper/settings/pages).
+2. Under **Build and deployment**, set **Source** to **Deploy from a branch**.
+3. Choose **main** and **/ (root)**, then select **Save**.
+4. Wait for the Pages deployment to finish, then visit [the website](https://dealnei.github.io/pokemon-arceus-helper/).
+
+The entry point is `index.html` in the repository root. The app uses relative links for its local assets, so it supports GitHub Pages project URLs.
+
+## Project structure
+
+```text
+pokemon-arceus-helper/
+├── index.html         # Pokédex, UI styles, and Team Lab logic
+├── favicon.svg        # Website icon
+├── site.webmanifest   # Home-screen installation metadata
+├── sw.js              # Service worker for caching local app files
+├── robots.txt         # Search-engine crawler rules
+├── .nojekyll          # Serve the site directly with GitHub Pages
+└── README.md          # Project documentation
+```
+
+## Data sources and limitations
+
+- **Hisui Pokédex entries, locations and evolution data:** [Insektaure/pkDex](https://github.com/Insektaure/pkDex).
+- **Base stats:** [lgreski/pokemonData](https://github.com/lgreski/pokemonData).
+- **Pokémon artwork/sprites:** loaded from external public Pokémon image endpoints.
+- **Nature rankings, rarity labels and team recommendations:** application-level estimates or heuristics; **not official encounter rates, rankings or competitive calculations**.
+- **Availability:** some species, items and encounters require story progress, distortions, postgame access or particular conditions. Check special evolution/form requirements in-game.
+
+Pokémon datasets and sprites are fetched from third-party services. Initial loading requires internet access; after the app has loaded, some data and website files can be served from browser caches. Images and external sources may still require a connection.
+
+Your **caught, favorite and team selections are saved locally in your browser**. There is no login or cloud synchronization; clearing browser storage may erase those selections.
+
+## Contributing
+
+Suggestions and corrections are welcome. Open a [GitHub issue](https://github.com/dealnei/pokemon-arceus-helper/issues) with the Pokémon name, the incorrect behavior or information, and a reliable game-specific source when applicable.
+
+## Disclaimer
+
+This is a non-commercial, **unofficial fan project** and is not affiliated with or endorsed by Nintendo, Game Freak or The Pokémon Company. Pokémon and Pokémon Legends: Arceus are trademarks and intellectual property of their respective owners.
