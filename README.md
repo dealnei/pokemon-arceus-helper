@@ -66,7 +66,9 @@ Every one of the **242 Pokémon** receives a practical **long-term investment gr
 
 **Pre-evolution grades reflect a recommended final evolution's potential, not the Pokémon's current battle power.** For example, Magikarp receives Gyarados's long-term S potential, and its detail panel explicitly tells you to evolve it. Lower-tier evolving species are not labeled as good investments merely because they can evolve.
 
-The Pokédex shows colored grade indicators, an S–F grade filter, and a **Best investment grade** sorting option. Each detail panel explains why a Pokémon received its grade and whether you should keep it, evolve it, or look for a replacement. Investment grades and suggested evolution targets are also included in CSV export.
+The Pokédex displays the S–F grade in its own **Investment Grade** column. All eight columns are individually **sortable and filterable**: Hisui number, Pokémon name, type, investment grade, availability, recommended Nature, location/obtain method, and starred status. Click a column heading to sort and click it again to reverse the order; filters directly beneath the headings can be combined. On narrow screens, all eight filters remain accessible in a compact mobile filter grid, and the sorting dropdown offers every column. Use **Reset filters** to start over.
+
+For the number filter, enter an exact number (e.g. `25`), a range (`1-40`), or a comparison (`>=100`). Location filters search obtain-method text. Each detail panel explains why a Pokémon received its grade and whether you should keep it, evolve it, or look for a replacement. Investment grades and suggested evolution targets are also included in CSV export.
 
 Special caveats (such as female-only Combee evolution, Wurmple branching evolutions, and different Sneasel forms) are called out where relevant. Powerful late-story and postgame Pokémon have a separate availability note; a high grade does not mean you can obtain them early.
 
