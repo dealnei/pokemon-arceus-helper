@@ -410,6 +410,9 @@ const INVEST_LABELS={
 const INVEST_TARGET_PREFERENCE={Eevee:'Sylveon',Wurmple:'Beautifly',Burmy:'Wormadam',Scyther:'Scizor',Ralts:'Gardevoir',Kirlia:'Gardevoir',Snorunt:'Froslass',Sneasel:'Sneasler'};
 const INVEST_NOTES={
  Garchomp:'Exceptional Attack and Speed; one of the strongest late-story offensive choices.',
+ Dialga:'Exceptional legendary with strong Steel/Dragon typing, but acquired near the end of the main story.',
+ Palkia:'Exceptional legendary with Water/Dragon typing, but acquired near the end of the main story.',
+ Arceus:'Exceptional battle potential, but obtained only after extensive late-game Pokédex completion.',
  Gyarados:'Excellent Attack and strong overall stats. Magikarp is weak now, but the evolution payoff is substantial.',
  Togekiss:'Bulky Fairy/Flying coverage with strong special damage and a valuable Dragon immunity.',
  Goodra:'Excellent defensive typing and bulk; Hisuian Goodra is a durable endgame teammate.',
@@ -436,12 +439,14 @@ function investGrade(p){
    .sort((a,b)=>(INVEST_SCALE[INVEST_GRADES[b]]-INVEST_SCALE[INVEST_GRADES[a]])||a.localeCompare(b));
  const target=preference&&choices.includes(preference)?preference:scored[0]||name;
  const grade=INVEST_GRADES[target]||INVEST_GRADES[name]||'C';
- const evolvable=target!==name,postgame=p.dex>=225;
- const action=postgame?'Powerful but postgame / special-access':evolvable?'Invest & evolve into '+target:
+ const evolvable=target!==name;
+ const postgame=new Set('Uxie Mesprit Azelf Heatran Regigigas Cresselia Tornadus Thundurus Landorus Enamorus Giratina Arceus Phione Manaphy Shaymin Darkrai'.split(' ')).has(name);
+ const lateStory=name==='Dialga'||name==='Palkia';
+ const action=postgame?'Postgame / special-access Pokémon':lateStory?'Very late story pick; excellent for the finale':evolvable?(INVEST_SCALE[grade]>=3?'Invest & evolve into '+target:grade==='C'?'Evolve if you like it, but compare alternatives':'Evolve for Pokédex; avoid heavy main-team investment'):
    grade==='S'||grade==='A'?'Keep for your main team':grade==='B'?'Keep if it fits your strategy':
    grade==='C'?'Useful, but compare alternatives':'Low main-team investment priority';
  const targetP=pokes.find(x=>x.name===target);
- const stageNote=evolvable?'Grade reflects the evolved form, not the current stage.':null;
+ const stageNote=evolvable?('Grade reflects the evolved form, not the current stage.'+(name==='Combee'?' Only female Combee evolve.':name==='Wurmple'?' Evolution into Silcoon or Cascoon depends on a hidden value.':name==='Sneasel'?' Hisuian Sneasel evolves into Sneasler; original Sneasel evolves into Weavile.':'')):null;
  const note=INVEST_NOTES[target]||INVEST_NOTES[name]||
   (targetP&&targetP.stats.length===6?(()=>{const [hp,atk,def,spa,spd,spe]=targetP.stats;const power=Math.max(atk,spa);
    if(power>=120&&spe>=95)return 'High attacking power and Speed make it valuable in the action-order system.';
@@ -450,7 +455,7 @@ function investGrade(p){
    if(spe>=105)return 'Good Speed helps you act sooner; consider its type matchups.';
    return 'A useful role is possible, but stronger options may fit the main story better.';})():
   'Practical recommendation for the game storyline; actual usefulness depends on moves, availability and your team.');
- return {grade,target,evolvable,postgame,action,note,stageNote,summary:INVEST_LABELS[grade]};
+ return {grade,target,evolvable,postgame,lateStory,action,note,stageNote,summary:INVEST_LABELS[grade]};
 }
 function gradeBadge(p){const g=investGrade(p);return '<span class="investBadge rank'+g.grade+'" title="'+escapeHtml(g.summary)+' · '+escapeHtml(g.action)+'">'+g.grade+'</span>';}
 
