@@ -154,11 +154,27 @@ a.evoStep:hover,a.evoStep:focus-visible{background:#fdf8ef;border-color:#a47a49;
  .filterCell input,.filterCell select{height:37px;font-size:12px}.resultMeta{width:100%;margin-left:0}
 }
 
+
+/* Make sort direction reversible even when headers are hidden on small screens */
+.controls{grid-template-columns:minmax(220px,1fr) minmax(190px,240px) auto auto}
+.sortDirBtn{min-width:105px}
+@media(max-width:910px){
+ .controls{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .controls>.field:first-child{grid-column:1/-1}
+ .sortDirBtn{grid-column:2}
+ .resetFilters{grid-column:1/-1}
+}
+@media(max-width:690px){
+ .controls{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .controls>.field:first-child{grid-column:1/-1}
+ .resetFilters{grid-column:1/-1}
+}
+
 </style></head><body>
 <div class="shell">
 <header class="top"><div class="brand"><div class="logo">◈</div><div><div class="eyebrow">The collector's field guide</div><h1>Hisui Pokédex</h1><p class="muted">Find it. Evolve it. Keep the right Nature.</p></div></div><div class="topActions"><button class="softBtn" id="openTeamLab">✦ Team Lab</button><button class="softBtn" id="toggleTeam">☆ My team <span id="teamCount">0/6</span></button><button class="softBtn" id="uncaughtOnly">◯ Uncaught</button><button class="softBtn" id="export">↓ Export CSV</button></div></header>
 <section class="hero"><div><div class="eyebrow" style="margin-bottom:7px">Pokémon Legends: Arceus</div><strong>Every Hisui Pokémon, one decision-friendly guide.</strong><p class="muted" style="margin-top:7px">Search all 242 species by name or location. Compare recommended Italian Natures, evolution conditions, encounter rarity, and where to find each Pokémon.</p><div class="progress"><div id="progress" style="width:0%"></div></div></div><div class="heroNums"><div class="heroNum"><b id="totalCount">242</b><span>Hisui Pokémon</span></div><div class="heroNum"><b id="caughtCount">0</b><span>Caught</span></div><div class="heroNum"><b id="shownCount">242</b><span>Showing</span></div></div></section>
-<div id="dexView"><section class="controls" aria-label="Search and sort the Hisui Pokédex"><label class="field"><span class="glass">⌕</span><input id="search" type="search" placeholder="Search all Pokémon data…" autocomplete="off" aria-label="Search the Pokédex"></label><label class="field"><select id="sort" aria-label="Sort Pokémon"><option value="dex">Hisui number</option><option value="name">Pokémon name</option><option value="type">Type</option><option value="investment">Investment grade (S–F)</option><option value="rarity">Availability</option><option value="nature">Recommended Nature</option><option value="location">Where to obtain</option><option value="starred">Favorites first</option><option value="attack">Highest Attack</option><option value="special">Highest Sp. Attack</option><option value="speed">Highest Speed</option></select></label><button id="clearDexFilters" type="button" class="softBtn resetFilters">↺ Reset filters</button></section>
+<div id="dexView"><section class="controls" aria-label="Search and sort the Hisui Pokédex"><label class="field"><span class="glass">⌕</span><input id="search" type="search" placeholder="Search all Pokémon data…" autocomplete="off" aria-label="Search the Pokédex"></label><label class="field"><select id="sort" aria-label="Sort Pokémon"><option value="dex">Hisui number</option><option value="name">Pokémon name</option><option value="type">Type</option><option value="investment">Investment grade (S–F)</option><option value="rarity">Availability</option><option value="nature">Recommended Nature</option><option value="location">Where to obtain</option><option value="starred">Favorites first</option><option value="attack">Highest Attack</option><option value="special">Highest Sp. Attack</option><option value="speed">Highest Speed</option></select></label><button id="toggleSortDirection" type="button" class="softBtn sortDirBtn" aria-label="Reverse sorting order" title="Reverse sorting order">↑ Ascending</button><button id="clearDexFilters" type="button" class="softBtn resetFilters">↺ Reset filters</button></section>
 <div class="filters"><button class="pill on" data-chip="all">All Pokémon</button><button class="pill" data-chip="starred">★ Starred</button><button class="pill" data-chip="team">◇ My six</button><button class="pill" data-chip="evolve">↗ Evolutions</button><button class="pill" data-chip="distortion">✦ Distortion finds</button><span class="resultMeta" id="resultText">Loading encounter details…</span></div>
 <div class="disclaimer">The Nature rankings are <b>recommended builds</b>, not official rankings; movesets and your team can change the best choice. Rarity is an <b>approximate practical classification</b>, not a measured spawn percentage. Special forms and trade evolutions follow <i>Legends: Arceus</i> rules.<div class="gradeLegend"><b>Main-team investment:</b> S exceptional · A strong · B good · C situational · D temporary · F low priority. Early-stage grades represent the <b>evolved form’s potential</b>, not its current strength. Postgame Pokémon are marked separately.</div></div>
 <div id="loading" class="loading" role="status">Connecting to the Hisui field guide for encounter and evolution data…</div>
@@ -554,6 +570,8 @@ function applyFilters(){
 }
 function updateSortUI(){
  if($('sort').value!==columnSort)$('sort').value=columnSort;
+ $('toggleSortDirection').textContent=columnDirection==='asc'?'↑ Ascending':'↓ Descending';
+ $('toggleSortDirection').setAttribute('aria-label','Reverse sorting order (currently '+columnDirection+')');
  document.querySelectorAll('.sortHead').forEach(button=>{
   const on=button.dataset.sort===columnSort;
   button.classList.toggle('active',on);button.setAttribute('aria-pressed',String(on));
@@ -608,6 +626,7 @@ $('overlay').onclick=closeDetail;document.addEventListener('keydown',e=>{if(e.ke
 for(const id of ['search','numberFilter','nameFilter','typeFilter','gradeFilter','rarityFilter','natureFilter','locationFilter','starFilter'])
  $(id).addEventListener(['search','numberFilter','nameFilter','locationFilter'].includes(id)?'input':'change',renderList);
 $('sort').addEventListener('change',()=>selectSort($('sort').value));
+$('toggleSortDirection').onclick=()=>{columnDirection=columnDirection==='asc'?'desc':'asc';renderList()};
 document.querySelectorAll('.sortHead').forEach(button=>button.addEventListener('click',()=>selectSort(button.dataset.sort,true)));
 $('clearDexFilters').onclick=()=>{
  for(const id of ['search','numberFilter','nameFilter','typeFilter','gradeFilter','rarityFilter','natureFilter','locationFilter','starFilter'])$(id).value='';
