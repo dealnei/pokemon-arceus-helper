@@ -243,6 +243,197 @@ function escapeHtml(x){return String(x??'').replace(/[&<>"']/g,ch=>({'&':'&amp;'
 function loadSet(name){try{return new Set(JSON.parse(localStorage.getItem('hisui-v3-'+name)||'[]'));}catch{return new Set()}}
 const caught=loadSet('caught'),starred=loadSet('starred'),team=loadSet('team');
 function persist(name,set){try{localStorage.setItem('hisui-v3-'+name,JSON.stringify([...set]));}catch{}}
+
+/* Long-term in-game investment grades; not PvP rankings or a raw base-stat list.
+   All 242 regional Pokédex entries are mapped through the evolution lines below. */
+const INVEST_LINES=[
+'Rowlet>Dartrix>Decidueye',
+'Cyndaquil>Quilava>Typhlosion',
+'Oshawott>Dewott>Samurott',
+'Bidoof>Bibarel',
+'Starly>Staravia>Staraptor',
+'Shinx>Luxio>Luxray',
+'Wurmple>Silcoon>Beautifly',
+'Wurmple>Cascoon>Dustox',
+'Ponyta>Rapidash',
+'Eevee>Vaporeon',
+'Eevee>Jolteon',
+'Eevee>Flareon',
+'Eevee>Espeon',
+'Eevee>Umbreon',
+'Eevee>Leafeon',
+'Eevee>Glaceon',
+'Eevee>Sylveon',
+'Zubat>Golbat>Crobat',
+'Drifloon>Drifblim',
+'Kricketot>Kricketune',
+'Buizel>Floatzel',
+'Burmy>Wormadam',
+'Burmy>Mothim',
+'Geodude>Graveler>Golem',
+'Stantler>Wyrdeer',
+'Munchlax>Snorlax',
+'Paras>Parasect',
+'Pichu>Pikachu>Raichu',
+'Abra>Kadabra>Alakazam',
+'Chimchar>Monferno>Infernape',
+'Buneary>Lopunny',
+'Cherubi>Cherrim',
+'Psyduck>Golduck',
+'Combee>Vespiquen',
+'Scyther>Kleavor',
+'Scyther>Scizor',
+'Heracross',
+'Mime Jr.>Mr. Mime',
+'Aipom>Ambipom',
+'Magikarp>Gyarados',
+'Shellos>Gastrodon',
+'Qwilfish>Overqwil',
+'Happiny>Chansey>Blissey',
+'Budew>Roselia>Roserade',
+'Carnivine',
+'Petilil>Lilligant',
+'Tangela>Tangrowth',
+'Barboach>Whiscash',
+'Croagunk>Toxicroak',
+'Ralts>Kirlia>Gardevoir',
+'Ralts>Kirlia>Gallade',
+'Yanma>Yanmega',
+'Hippopotas>Hippowdon',
+'Pachirisu',
+'Stunky>Skuntank',
+'Teddiursa>Ursaring>Ursaluna',
+'Goomy>Sliggoo>Goodra',
+'Onix>Steelix',
+'Rhyhorn>Rhydon>Rhyperior',
+'Bonsly>Sudowoodo',
+'Lickitung>Lickilicky',
+'Togepi>Togetic>Togekiss',
+'Turtwig>Grotle>Torterra',
+'Porygon>Porygon2>Porygon-Z',
+'Gastly>Haunter>Gengar',
+'Spiritomb',
+'Murkrow>Honchkrow',
+'Unown',
+'Spheal>Sealeo>Walrein',
+'Remoraid>Octillery',
+'Skorupi>Drapion',
+'Growlithe>Arcanine',
+'Glameow>Purugly',
+'Machop>Machoke>Machamp',
+'Chatot',
+'Duskull>Dusclops>Dusknoir',
+'Piplup>Prinplup>Empoleon',
+'Mantyke>Mantine',
+'Basculin>Basculegion',
+'Vulpix>Ninetales',
+'Tentacool>Tentacruel',
+'Finneon>Lumineon',
+'Magby>Magmar>Magmortar',
+'Magnemite>Magneton>Magnezone',
+'Bronzor>Bronzong',
+'Elekid>Electabuzz>Electivire',
+'Gligar>Gliscor',
+'Gible>Gabite>Garchomp',
+'Nosepass>Probopass',
+'Voltorb>Electrode',
+'Rotom',
+'Chingling>Chimecho',
+'Misdreavus>Mismagius',
+'Cleffa>Clefairy>Clefable',
+'Sneasel>Sneasler',
+'Sneasel>Weavile',
+'Snorunt>Glalie',
+'Snorunt>Froslass',
+'Cranidos>Rampardos',
+'Shieldon>Bastiodon',
+'Swinub>Piloswine>Mamoswine',
+'Bergmite>Avalugg',
+'Snover>Abomasnow',
+'Zorua>Zoroark',
+'Rufflet>Braviary',
+'Riolu>Lucario',
+'Uxie',
+'Mesprit',
+'Azelf',
+'Heatran',
+'Regigigas',
+'Cresselia',
+'Tornadus',
+'Thundurus',
+'Landorus',
+'Enamorus',
+'Dialga',
+'Palkia',
+'Giratina',
+'Arceus',
+'Phione',
+'Manaphy',
+'Shaymin',
+'Darkrai'
+].map(line=>line.split('>'));
+const INVEST_FINAL_GRADES={
+  S:'Garchomp|Gyarados|Togekiss|Goodra|Ursaluna|Dialga|Palkia|Giratina|Arceus|Cresselia',
+  A:'Decidueye|Typhlosion|Samurott|Staraptor|Luxray|Vaporeon|Jolteon|Espeon|Umbreon|Leafeon|Glaceon|Sylveon|Crobat|Alakazam|Infernape|Snorlax|Scizor|Kleavor|Heracross|Gastrodon|Overqwil|Blissey|Roserade|Lilligant|Tangrowth|Gardevoir|Gallade|Yanmega|Hippowdon|Drapion|Arcanine|Machamp|Empoleon|Torterra|Basculegion|Ninetales|Tentacruel|Magmortar|Magnezone|Bronzong|Electivire|Gliscor|Mamoswine|Zoroark|Braviary|Lucario|Gengar|Weavile|Sneasler|Rhyperior|Porygon-Z|Froslass|Heatran|Darkrai',
+  B:'Flareon|Rapidash|Drifblim|Floatzel|Golem|Wyrdeer|Parasect|Raichu|Golduck|Vespiquen|Mr. Mime|Whiscash|Toxicroak|Skuntank|Steelix|Lickilicky|Spiritomb|Honchkrow|Walrein|Octillery|Dusknoir|Mantine|Electrode|Rotom|Mismagius|Clefable|Glalie|Rampardos|Avalugg|Abomasnow|Uxie|Mesprit|Azelf|Tornadus|Thundurus|Landorus|Enamorus|Regigigas|Manaphy|Shaymin',
+  C:'Bibarel|Wormadam|Lopunny|Cherrim|Ambipom|Sudowoodo|Purugly|Probopass|Bastiodon|Pachirisu|Chimecho|Porygon2|Glameow|Phione',
+  D:'Beautifly|Dustox|Kricketune|Mothim|Carnivine|Chatot|Lumineon',
+  F:'Unown'
+};
+const INVEST_GRADES=Object.fromEntries(Object.entries(INVEST_FINAL_GRADES).flatMap(([grade,names])=>names.split('|').map(n=>[n,grade])));
+const INVEST_SCALE={S:5,A:4,B:3,C:2,D:1,F:0};
+const INVEST_LABELS={
+ S:'Excellent long-term main-team pick',A:'Strong long-term investment',
+ B:'Good, especially with the right role',C:'Viable, but often replaceable',
+ D:'Usually a temporary choice',F:'Very low main-team priority'
+};
+const INVEST_TARGET_PREFERENCE={Eevee:'Sylveon',Wurmple:'Beautifly',Burmy:'Wormadam',Scyther:'Scizor',Ralts:'Gardevoir',Kirlia:'Gardevoir',Snorunt:'Froslass',Sneasel:'Sneasler'};
+const INVEST_NOTES={
+ Garchomp:'Exceptional Attack and Speed; one of the strongest late-story offensive choices.',
+ Gyarados:'Excellent Attack and strong overall stats. Magikarp is weak now, but the evolution payoff is substantial.',
+ Togekiss:'Bulky Fairy/Flying coverage with strong special damage and a valuable Dragon immunity.',
+ Goodra:'Excellent defensive typing and bulk; Hisuian Goodra is a durable endgame teammate.',
+ Ursaluna:'Outstanding physical power and bulk, but relatively slow; requires a special evolution item.',
+ Staraptor:'Accessible early, hits hard and remains useful through the main story.',
+ Luxray:'Reliable early Electric-type physical attacker; speed is its main limitation.',
+ Gastrodon:'Excellent Water/Ground coverage and bulk; beware its severe Grass weakness.',
+ Gengar:'Excellent Special Attack and Speed; relatively fragile and weak to several common attack types.',
+ Lucario:'Fast mixed-offense Steel/Fighting option, but availability and evolution effort matter.',
+ Scizor:'Great defensive Steel typing and physical damage; be cautious about Fire.',
+ Kleavor:'Powerful physical Bug/Rock attacker with good offensive options.',
+ Sylveon:'Durable special Fairy attacker with great Dragon/Dark/Fighting matchups.',
+ Sneasler:'Fast physical Poison/Fighting attacker with strong offensive pressure.',
+ Weavile:'Very fast Ice/Dark physical attacker; vulnerable to Fighting.',
+ Magnezone:'Excellent Special Attack with many resistances, balanced by Ground/Fighting/Fire threats.',
+ Parasect:'Excellent capture utility with Spore and False Swipe, but numerous battle weaknesses.',
+ Unown:'Extremely limited battle flexibility; prioritize it for Pokédex completion instead.'
+};
+function investGrade(p){
+ const name=p.name;
+ const choices=INVEST_LINES.filter(line=>line.includes(name)).map(line=>line[line.length-1]);
+ const preference=INVEST_TARGET_PREFERENCE[name];
+ const scored=choices.filter(x=>Object.prototype.hasOwnProperty.call(INVEST_GRADES,x))
+   .sort((a,b)=>(INVEST_SCALE[INVEST_GRADES[b]]-INVEST_SCALE[INVEST_GRADES[a]])||a.localeCompare(b));
+ const target=preference&&choices.includes(preference)?preference:scored[0]||name;
+ const grade=INVEST_GRADES[target]||INVEST_GRADES[name]||'C';
+ const evolvable=target!==name,postgame=p.dex>=225;
+ const action=postgame?'Powerful but postgame / special-access':evolvable?'Invest & evolve into '+target:
+   grade==='S'||grade==='A'?'Keep for your main team':grade==='B'?'Keep if it fits your strategy':
+   grade==='C'?'Useful, but compare alternatives':'Low main-team investment priority';
+ const targetP=pokes.find(x=>x.name===target);
+ const stageNote=evolvable?'Grade reflects the evolved form, not the current stage.':null;
+ const note=INVEST_NOTES[target]||INVEST_NOTES[name]||
+  (targetP&&targetP.stats.length===6?(()=>{const [hp,atk,def,spa,spd,spe]=targetP.stats;const power=Math.max(atk,spa);
+   if(power>=120&&spe>=95)return 'High attacking power and Speed make it valuable in the action-order system.';
+   if(power>=110)return 'Strong offensive potential; team type coverage and survivability matter.';
+   if(hp+def+spd>=300)return 'Defensive staying power can be valuable against difficult encounters.';
+   if(spe>=105)return 'Good Speed helps you act sooner; consider its type matchups.';
+   return 'A useful role is possible, but stronger options may fit the main story better.';})():
+  'Practical recommendation for the game storyline; actual usefulness depends on moves, availability and your team.');
+ return {grade,target,evolvable,postgame,action,note,stageNote,summary:INVEST_LABELS[grade]};
+}
+function gradeBadge(p){const g=investGrade(p);return '<span class="investBadge rank'+g.grade+'" title="'+escapeHtml(g.summary)+' · '+escapeHtml(g.action)+'">'+g.grade+'</span>';}
+
 function natures(p){if(OVERRIDES[p.name])return OVERRIDES[p.name].split(',');const s=p.stats||[];if(s.length!==6)return ['Adamant','Jolly','Modest'];const [hp,atk,def,spa,spd,spd2]=s;if(atk>spa*1.13)return atk<def*.68 && def>120?['Impish','Careful','Adamant']:['Adamant','Jolly','Careful'];if(spa>atk*1.13)return ['Modest','Timid','Calm'];if(def>=100&&def>atk*1.18)return ['Impish','Careful','Adamant'];if(spd>=100&&spd>spa*1.18)return ['Calm','Bold','Modest'];return atk>=spa?['Adamant','Jolly','Modest']:['Modest','Timid','Adamant'];}
 function isEvolutionOnly(p){return /^(evolve |evolution only|evolve$)/i.test(p.locations||'')}
 function rarity(p){if(p.dex>=225)return 'Unique';if([1,2,3,4,5,6,7,8,9].includes(p.dex))return 'Rare';if(SPECIAL_RARE.has(p.name)||[25,166,202,204].includes(p.dex))return 'Rare';const loc=p.locations||'';if(/Space.Time Distortion/i.test(loc) && !loc.includes(','))return 'Very rare';if(/Evolve/i.test(loc)&&!loc.includes(','))return 'Uncommon';const c=loc.split(',').length;if(c>=5)return 'Common';if(c>=3)return 'Uncommon';if(c===2)return 'Uncommon';return 'Rare'}
