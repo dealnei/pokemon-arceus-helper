@@ -392,7 +392,80 @@ function teamSnapshot(){const ts=labGetTeam();const coverage=allOffensiveTargets
  const exposed=ALL_TYPES.map(t=>({t,weak:ts.filter(p=>matchup(t,p)>1).length,resist:ts.filter(p=>matchup(t,p)<1).length}));
  return {ts,coverage,exposed,holes:exposed.filter(x=>x.weak>0&&x.resist===0).sort((a,b)=>b.weak-a.weak||a.t.localeCompare(b.t)),covered:exposed.filter(x=>x.weak>0&&x.resist>0),resistant:exposed.filter(x=>x.weak===0&&x.resist>0)};
 }
-function renderTeamLab(){if(!hasFullData){$('labSummary').innerHTML='<div class="labEmptyState">Complete Pokémon data is loading. Team recommendations become available as soon as the type and stats dataset is ready.</div>';$('labRecommendations').innerHTML='<div class="labEmptyState">Connect to the internet on your first visit to enable the team matching engine.</div>';return;}
+
+function openTeamGaps(members){
+ return ALL_TYPES.filter(t=>members.some(p=>matchup(t,p)>1)&&!members.some(p=>matchup(t,p)<1));
+}
+function replacementIdeas(members){
+ if(members.length<3)return [];
+ const oldGaps=openTeamGaps(members),oldCoverage=allOffensiveTargets(members),possibilities=[];
+ for(const outgoing of members){
+  const rest=members.filter(p=>p.dex!==outgoing.dex);
+  const baseline=ratingOf(rest,outgoing,labStyle).score;
+  const ranked=eligibleCandidates(rest).map(incoming=>({incoming,fit:ratingOf(rest,incoming,labStyle)}))
+   .sort((a,b)=>b.fit.score-a.fit.score||a.incoming.dex-b.incoming.dex).slice(0,35);
+  for(const {incoming,fit} of ranked){
+   const newMembers=[...rest,incoming],newGaps=openTeamGaps(newMembers);
+   const fixed=oldGaps.filter(t=>!newGaps.includes(t)),introduced=newGaps.filter(t=>!oldGaps.includes(t));
+   const newCoverage=allOffensiveTargets(newMembers);
+   const gained=[...newCoverage].filter(t=>!oldCoverage.has(t)),lost=[...oldCoverage].filter(t=>!newCoverage.has(t));
+   const improvement=fit.score-baseline+fixed.length*5-introduced.length*7+gained.length*2-lost.length*3;
+   if(improvement<14)continue;
+   const before=statsOf(outgoing),after=statsOf(incoming),reasons=[];
+   if(shareFamily(outgoing,incoming))reasons.push('An evolution-family upgrade with stronger base stats or a more suitable role.');
+   if(fixed.length)reasons.push(`Closes uncovered ${fixed.slice(0,3).join(', ')} weakness${fixed.length===1?'':'es'} in your team.`);
+   if(gained.length)reasons.push(`Adds potential super-effective STAB matchups against ${gained.slice(0,3).join(', ')}.`);
+   if(labStyle==='speed'&&after.spe>=before.spe+15)reasons.push(`Raises base Speed from ${before.spe} to ${after.spe} for quicker turns.`);
+   else if(labStyle==='offense'&&after.power>=before.power+12)reasons.push(`Boosts your strongest attacking stat from ${before.power} to ${after.power}.`);
+   else if(labStyle==='defense'&&after.bulk>=before.bulk+18)reasons.push('Adds more bulk and survivability.');
+   else if(labStyle==='capture'&&CATCH_UTIL[incoming.name]&&!CATCH_UTIL[outgoing.name])reasons.push(`Adds capture utility: ${CATCH_UTIL[incoming.name]}.`);
+   if(!reasons.length)reasons.push(`Better fits your ${PLAYSTYLES[labStyle].name.toLowerCase()} plan based on base stats and team synergy.`);
+   let tradeoff='';
+   if(introduced.length)tradeoff=`Trade-off: introduces uncovered ${introduced.slice(0,2).join(', ')} weakness${introduced.length===1?'':'es'}.`;
+   else if(lost.length)tradeoff=`Trade-off: loses STAB coverage against ${lost.slice(0,2).join(', ')}.`;
+   else if(after.spe<before.spe-18)tradeoff='Trade-off: the replacement is slower.';
+   else if(after.bulk<before.bulk-25)tradeoff='Trade-off: the replacement is less durable.';
+   possibilities.push({outgoing,incoming,improvement,reasons:reasons.slice(0,3),tradeoff});
+  }
+ }
+ possibilities.sort((a,b)=>b.improvement-a.improvement||a.outgoing.dex-b.outgoing.dex||a.incoming.dex-b.incoming.dex);
+ const chosen=[],removed=new Set(),added=new Set();
+ for(const option of possibilities){
+  if(removed.has(option.outgoing.dex)||added.has(option.incoming.dex))continue;
+  chosen.push(option);removed.add(option.outgoing.dex);added.add(option.incoming.dex);
+  if(chosen.length>=3)break;
+ }
+ return chosen;
+}
+function renderReplacementPanel(members){
+ const view=$('labSwaps');
+ if(members.length<3){view.innerHTML='<div class="labEmptyState">Add at least three Pokémon to see meaningful replacement suggestions. Filling empty slots is usually more useful for smaller teams.</div>';return;}
+ const picks=replacementIdeas(members);
+ if(!picks.length){view.innerHTML='<div class="labEmptyState">No clear improvement was found for this strategy and your current filters. There is no need to replace anyone.</div>';return;}
+ const note=members.length<6?'<p class="small" style="grid-column:1/-1">You still have open team slots. Consider adding another teammate before making optional swaps.</p>':'';
+ view.innerHTML=note+picks.map(({outgoing,incoming,reasons,tradeoff})=>{
+  const nature=NATURES[natures(incoming)[0]]?.[0]||'—';
+  return `<article class="labSwapCard"><div class="labSwapPair">
+   <div class="labSwapPokemon"><img src="${sprite(outgoing)}" loading="lazy" alt=""><div style="min-width:0"><b>${escapeHtml(outgoing.name)}</b><small>Consider replacing</small></div></div>
+   <span class="labSwapArrow" aria-label="Replace with">→</span>
+   <div class="labSwapPokemon"><img src="${sprite(incoming)}" loading="lazy" alt=""><div style="min-width:0"><b>${escapeHtml(incoming.name)}</b><small>${escapeHtml(roleOf(incoming))}</small></div></div>
+   </div><div class="labSwapWhy">${reasons.map(t=>`<div>${escapeHtml(t)}</div>`).join('')}${tradeoff?`<div class="tradeoff">${escapeHtml(tradeoff)}</div>`:''}</div>
+   <div class="labSwapActions"><span>${escapeHtml(PLAYSTYLES[labStyle].name)} · ${escapeHtml(nature)} Nature</span><button class="labMainBtn" type="button" data-swap-from="${outgoing.dex}" data-swap-to="${incoming.dex}" aria-label="Replace ${escapeHtml(outgoing.name)} with ${escapeHtml(incoming.name)}">↔ Swap</button></div></article>`;
+ }).join('');
+ view.querySelectorAll('[data-swap-from]').forEach(button=>button.onclick=()=>replaceTeamMember(Number(button.dataset.swapFrom),Number(button.dataset.swapTo)));
+}
+function replaceTeamMember(from,to){
+ if(!hasFullData||!team.has(from)||team.has(to)||!pokes[to-1])return;
+ const rest=labGetTeam().filter(p=>p.dex!==from);
+ if(!eligibleCandidates(rest).some(p=>p.dex===to))return;
+ const ids=[...team].map(id=>id===from?to:id);
+ team.clear();for(const id of ids)team.add(id);
+ persist('team',team);suggestionOffset=0;$('labAutoPlan').hidden=true;
+ $('labPickMessage').textContent=`Replaced ${pokes[from-1].name} with ${pokes[to-1].name}. Review the updated team analysis.`;
+ renderList();renderDetail();renderTeamLab();
+}
+
+function renderTeamLab(){if(!hasFullData){$('labSwaps').innerHTML='<div class="labEmptyState">Loading data for team replacement analysis…</div>';$('labSummary').innerHTML='<div class="labEmptyState">Complete Pokémon data is loading. Team recommendations become available as soon as the type and stats dataset is ready.</div>';$('labRecommendations').innerHTML='<div class="labEmptyState">Connect to the internet on your first visit to enable the team matching engine.</div>';return;}
  const report=teamSnapshot(),ts=report.ts;
  $('labSlotCount').textContent=ts.length+' / 6';$('labSummary').innerHTML=[
    [ts.length+'/6','Team slots'],[report.coverage.size+'/18','Types hit super effectively*'],[report.holes.length,'Uncovered team weaknesses'],[ts.filter(p=>statsOf(p).spe>=100).length,'Fast teammates']
@@ -402,9 +475,10 @@ function renderTeamLab(){if(!hasFullData){$('labSummary').innerHTML='<div class=
  $('labSlots').querySelectorAll('[data-focus-add]').forEach(b=>b.onclick=()=>$('labPokemonSearch').focus());
  const summaries=[['Uncovered weaknesses',report.holes,'no gaps detected'],['Covered weaknesses',report.covered,'none yet'],['Defensive resistances',report.resistant,'none yet']];
  $('labThreats').innerHTML=ts.length?`<div class="labThreatGrid">${summaries.map(([name,v,fallback])=>`<div class="labThreatCard"><b>${name} <span class="small">${v.length}</span></b><div class="labThreatTypes">${v.length?v.slice(0,7).map(x=>fmtType(x.t)).join(''):`<span class="small">${fallback}</span>`}</div></div>`).join('')}</div>`:'<p class="muted">Add a Pokémon to see what kinds of attacks your team struggles with—and how to cover them.</p>';
+ renderReplacementPanel(ts);
  const recs=ts.length>=6?[]:recommend(ts,suggestionOffset);
  $('completeTeam').disabled=ts.length>=6||!recs.length;
- if(ts.length>=6){$('labRecommendations').innerHTML='<div class="labEmptyState">Your team is complete! Remove a teammate to explore alternatives, or change strategies to see how your team performs.</div>';return;}
+ if(ts.length>=6){$('labRecommendations').innerHTML='<div class="labEmptyState">All six slots are filled. See replacement ideas above, or change strategies to compare alternative builds.</div>';return;}
  if(!recs.length){$('labRecommendations').innerHTML='<div class="labEmptyState">No eligible suggestions for this filter. Try disabling “only caught” or allowing postgame Pokémon.</div>';return;}
  $('labRecommendations').innerHTML=recs.map((r,i)=>{const p=r.p,n=NATURES[natures(p)[0]]?.[0]||'—';return `<article class="labRec"><div class="labRecTop"><img src="${sprite(p)}" loading="lazy" alt=""><div><div class="labRecDex">MATCH ${String(i+1).padStart(2,'0')} · HISUI #${String(p.dex).padStart(3,'0')}</div><div class="labRecName">${escapeHtml(p.name)}</div><div class="labRecRole">${escapeHtml(r.role)}</div><div>${typeHtml(p)}</div></div></div><div class="labReasons">${r.reason.map(t=>`<div class="labReason"><span>✓</span><div>${escapeHtml(t)}</div></div>`).join('')}</div><div class="labRecInfo"><div><b>Recommended Nature:</b> ${escapeHtml(n)} · <b>Rarity:</b> ${escapeHtml(rarity(p))}</div><div><b>How to find:</b> ${escapeHtml(obtain(p))}</div></div><div class="labRecActions"><button class="labMainBtn" data-add-recommended="${p.dex}">＋ Add to team</button><button class="softBtn" data-view-recommended="${p.dex}">Details ↗</button></div></article>`}).join('');
  $('labRecommendations').querySelectorAll('[data-add-recommended]').forEach(b=>b.onclick=()=>setTeamMember(+b.dataset.addRecommended,true));
