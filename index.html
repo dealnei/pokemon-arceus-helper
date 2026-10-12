@@ -114,15 +114,55 @@ a.evoStep:hover,a.evoStep:focus-visible{background:#fdf8ef;border-color:#a47a49;
 .pname .investBadge{margin-left:6px}
 .labSlot .investBadge{height:20px;font-size:10px;margin:1px}
 
+
+/* Hisui column table: sorting buttons, per-column filters, dedicated S–F grade */
+.controls{grid-template-columns:minmax(230px,1fr) minmax(195px,250px) auto}.resetFilters{justify-self:start}
+.headrow,.filterrow,.dexrow{grid-template-columns:40px minmax(145px,1.5fr) minmax(100px,1fr) 62px minmax(103px,.95fr) minmax(125px,1.13fr) minmax(140px,1.35fr) 30px;gap:8px;padding-left:13px;padding-right:13px}
+.headrow{min-height:48px;padding-top:0;padding-bottom:0}
+.sortHead{display:flex;align-items:center;justify-content:flex-start;gap:5px;min-width:0;line-height:1.3;padding:11px 0;text-align:left;background:transparent;border:0;color:#f1e6d3;font:inherit;font-weight:800;text-transform:uppercase;letter-spacing:.06em;cursor:pointer}
+.sortHead:hover,.sortHead.active{color:#f5cf82}.sortHead:focus-visible{outline:2px solid #f4ce93;outline-offset:1px}
+.sortArrow{font-size:13px;color:#cea66d}.sortHead:not(.active) .sortArrow{color:#a6b1b7}
+.filterrow{display:grid;align-items:center;background:#e6dbc6;border-bottom:1px solid #b8a583;padding-top:10px;padding-bottom:10px}
+.filterCell{display:flex;flex-direction:column;gap:4px;min-width:0}.filterCaption{display:none;color:#73674f;font-size:10px;font-weight:750}
+.filterCell input,.filterCell select{width:100%;min-width:0;height:33px;border:1px solid #c3b397;border-radius:8px;padding:5px 6px;background:#fcf7eb;color:#3c453c;font-size:11px;outline-offset:1px}
+.filterCell input::placeholder{color:#978e81}.filterCell:focus-within input,.filterCell:focus-within select{border-color:#997043}
+.gradeCell{display:flex;align-items:center;justify-content:center}.gradeCell .investBadge{min-width:31px;height:29px;font-size:15px;margin:0}
+@media(max-width:1230px) and (min-width:1101px){
+ .headrow,.filterrow,.dexrow{grid-template-columns:36px minmax(132px,1.5fr) minmax(90px,1fr) 57px minmax(95px,1fr) minmax(112px,1.15fr) 28px;gap:7px}
+ .headrow>:nth-child(7),.filterrow>:nth-child(7),.dexrow>:nth-child(7){display:none}
+ .headrow>:nth-child(6),.dexrow>:nth-child(6){display:block}.filterrow>:nth-child(6){display:flex}
+}
+@media(max-width:1100px) and (min-width:911px){
+ .headrow,.filterrow,.dexrow{grid-template-columns:36px minmax(130px,1.5fr) minmax(80px,1fr) 55px minmax(93px,1fr) 28px;gap:6px}
+ .headrow>:nth-child(6),.headrow>:nth-child(7),.filterrow>:nth-child(6),.filterrow>:nth-child(7),.dexrow>:nth-child(6),.dexrow>:nth-child(7){display:none}
+}
+@media(max-width:910px){
+ .controls{grid-template-columns:minmax(0,1fr) minmax(150px,.5fr) auto}.controls>.field:first-child{grid-column:auto}
+ .headrow,.filterrow,.dexrow{grid-template-columns:34px minmax(140px,1.5fr) minmax(88px,1fr) 57px minmax(94px,1fr) minmax(106px,1.1fr) 28px;gap:7px}
+ .headrow{display:grid}
+ .headrow>:nth-child(7),.filterrow>:nth-child(7),.dexrow>:nth-child(7){display:none}
+ .headrow>:nth-child(6),.dexrow>:nth-child(6){display:block}.filterrow>:nth-child(6){display:flex}
+}
+@media(max-width:690px){
+ .controls{grid-template-columns:1fr 1fr}.controls>.field:first-child{grid-column:1/-1}.resetFilters{justify-self:stretch}
+ .headrow{display:none}
+ .filterrow{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;padding:12px}
+ .filterrow>.filterCell{display:flex}.filterCaption{display:block}
+ .dexrow{grid-template-columns:32px minmax(0,1fr) 45px 28px;gap:7px;padding:10px}
+ .dexrow>:nth-child(3),.dexrow>:nth-child(5),.dexrow>:nth-child(6),.dexrow>:nth-child(7){display:none}
+ .dexrow>:nth-child(4){display:flex}.gradeCell .investBadge{min-width:28px;height:27px;font-size:13px}
+ .filterCell input,.filterCell select{height:37px;font-size:12px}.resultMeta{width:100%;margin-left:0}
+}
+
 </style></head><body>
 <div class="shell">
 <header class="top"><div class="brand"><div class="logo">◈</div><div><div class="eyebrow">The collector's field guide</div><h1>Hisui Pokédex</h1><p class="muted">Find it. Evolve it. Keep the right Nature.</p></div></div><div class="topActions"><button class="softBtn" id="openTeamLab">✦ Team Lab</button><button class="softBtn" id="toggleTeam">☆ My team <span id="teamCount">0/6</span></button><button class="softBtn" id="uncaughtOnly">◯ Uncaught</button><button class="softBtn" id="export">↓ Export CSV</button></div></header>
 <section class="hero"><div><div class="eyebrow" style="margin-bottom:7px">Pokémon Legends: Arceus</div><strong>Every Hisui Pokémon, one decision-friendly guide.</strong><p class="muted" style="margin-top:7px">Search all 242 species by name or location. Compare recommended Italian Natures, evolution conditions, encounter rarity, and where to find each Pokémon.</p><div class="progress"><div id="progress" style="width:0%"></div></div></div><div class="heroNums"><div class="heroNum"><b id="totalCount">242</b><span>Hisui Pokémon</span></div><div class="heroNum"><b id="caughtCount">0</b><span>Caught</span></div><div class="heroNum"><b id="shownCount">242</b><span>Showing</span></div></div></section>
-<div id="dexView"><section class="controls" aria-label="Pokédex filters"><label class="field"><span class="glass">⌕</span><input id="search" type="search" placeholder="Search Pokémon, locations, evolutions…" autocomplete="off" aria-label="Search Pokémon"></label><label class="field"><select id="typeFilter" aria-label="Filter type"><option value="">All types</option></select></label><label class="field"><select id="rarityFilter" aria-label="Filter rarity"><option value="">All rarities</option><option>Common</option><option>Uncommon</option><option>Rare</option><option>Very rare</option><option>Unique</option></select></label><label class="field"><select id="natureFilter" aria-label="Filter recommended Nature"><option value="">All Natures</option></select></label><label class="field"><select id="sort" aria-label="Sort"><option value="dex">Pokédex order</option><option value="name">Name A–Z</option><option value="rarity">Rarest first</option><option value="attack">Highest Attack</option><option value="special">Highest Sp. Attack</option><option value="speed">Highest Speed</option><option value="investment">Best investment grade</option></select></label></section>
-<div class="filters"><button class="pill on" data-chip="all">All Pokémon</button><button class="pill" data-chip="starred">★ Starred</button><button class="pill" data-chip="team">◇ My six</button><button class="pill" data-chip="evolve">↗ Evolutions</button><button class="pill" data-chip="distortion">✦ Distortion finds</button><select class="pill gradeSelect" id="gradeFilter" aria-label="Filter main-team investment grade"><option value="">All team grades (S–F)</option><option value="S">S · Exceptional</option><option value="A">A · Strong</option><option value="B">B · Good</option><option value="C">C · Situational</option><option value="D">D · Temporary</option><option value="F">F · Low priority</option></select><span class="resultMeta" id="resultText">Loading encounter details…</span></div>
+<div id="dexView"><section class="controls" aria-label="Search and sort the Hisui Pokédex"><label class="field"><span class="glass">⌕</span><input id="search" type="search" placeholder="Search all Pokémon data…" autocomplete="off" aria-label="Search the Pokédex"></label><label class="field"><select id="sort" aria-label="Sort Pokémon"><option value="dex">Hisui number</option><option value="name">Pokémon name</option><option value="type">Type</option><option value="investment">Investment grade (S–F)</option><option value="rarity">Availability</option><option value="nature">Recommended Nature</option><option value="location">Where to obtain</option><option value="starred">Favorites first</option><option value="attack">Highest Attack</option><option value="special">Highest Sp. Attack</option><option value="speed">Highest Speed</option></select></label><button id="clearDexFilters" type="button" class="softBtn resetFilters">↺ Reset filters</button></section>
+<div class="filters"><button class="pill on" data-chip="all">All Pokémon</button><button class="pill" data-chip="starred">★ Starred</button><button class="pill" data-chip="team">◇ My six</button><button class="pill" data-chip="evolve">↗ Evolutions</button><button class="pill" data-chip="distortion">✦ Distortion finds</button><span class="resultMeta" id="resultText">Loading encounter details…</span></div>
 <div class="disclaimer">The Nature rankings are <b>recommended builds</b>, not official rankings; movesets and your team can change the best choice. Rarity is an <b>approximate practical classification</b>, not a measured spawn percentage. Special forms and trade evolutions follow <i>Legends: Arceus</i> rules.<div class="gradeLegend"><b>Main-team investment:</b> S exceptional · A strong · B good · C situational · D temporary · F low priority. Early-stage grades represent the <b>evolved form’s potential</b>, not its current strength. Postgame Pokémon are marked separately.</div></div>
 <div id="loading" class="loading" role="status">Connecting to the Hisui field guide for encounter and evolution data…</div>
-<section class="layout"><main class="tableCard"><div class="headrow"><span>#</span><span>Pokémon</span><span>Type</span><span>Availability</span><span>Best Natures · 1–3</span><span>Where to obtain</span><span>★</span></div><div id="list" aria-live="polite"></div></main><aside class="details" id="detail" aria-label="Pokémon details"></aside></section></div>
+<section class="layout"><main class="tableCard"><div class="headrow" role="group" aria-label="Click a column heading to sort"><button type="button" class="sortHead" data-sort="dex" aria-label="Sort by #" aria-pressed="true">#<span class="sortArrow" aria-hidden="true">↑</span></button><button type="button" class="sortHead" data-sort="name" aria-label="Sort by Pokémon" aria-pressed="false">Pokémon<span class="sortArrow" aria-hidden="true">↕</span></button><button type="button" class="sortHead" data-sort="type" aria-label="Sort by Type" aria-pressed="false">Type<span class="sortArrow" aria-hidden="true">↕</span></button><button type="button" class="sortHead" data-sort="investment" aria-label="Sort by Grade" aria-pressed="false">Grade<span class="sortArrow" aria-hidden="true">↕</span></button><button type="button" class="sortHead" data-sort="rarity" aria-label="Sort by Availability" aria-pressed="false">Availability<span class="sortArrow" aria-hidden="true">↕</span></button><button type="button" class="sortHead" data-sort="nature" aria-label="Sort by Best Natures" aria-pressed="false">Best Natures<span class="sortArrow" aria-hidden="true">↕</span></button><button type="button" class="sortHead" data-sort="location" aria-label="Sort by Where to obtain" aria-pressed="false">Where to obtain<span class="sortArrow" aria-hidden="true">↕</span></button><button type="button" class="sortHead" data-sort="starred" aria-label="Sort by ★" aria-pressed="false">★<span class="sortArrow" aria-hidden="true">↕</span></button></div><div class="filterrow" role="group" aria-label="Filter each column"><label class="filterCell"><span class="filterCaption">Dex #</span><input id="numberFilter" type="search" placeholder="1–40" aria-label="Filter Dex #"></label><label class="filterCell"><span class="filterCaption">Name</span><input id="nameFilter" type="search" placeholder="Name…" aria-label="Filter Name"></label><label class="filterCell"><span class="filterCaption">Type</span><select id="typeFilter" aria-label="Filter Type"><option value="">All types</option></select></label><label class="filterCell"><span class="filterCaption">Investment grade</span><select id="gradeFilter" aria-label="Filter Investment grade"><option value="">All grades</option><option>S</option><option>A</option><option>B</option><option>C</option><option>D</option><option>F</option></select></label><label class="filterCell"><span class="filterCaption">Rarity</span><select id="rarityFilter" aria-label="Filter Rarity"><option value="">All rarities</option><option>Common</option><option>Uncommon</option><option>Rare</option><option>Very rare</option><option>Unique</option></select></label><label class="filterCell"><span class="filterCaption">Nature</span><select id="natureFilter" aria-label="Filter Nature"><option value="">All Natures</option></select></label><label class="filterCell"><span class="filterCaption">Location / method</span><input id="locationFilter" type="search" placeholder="Search location…" aria-label="Filter Location / method"></label><label class="filterCell"><span class="filterCaption">Favorites</span><select id="starFilter" aria-label="Filter Favorites"><option value="">All ★</option><option value="yes">Starred only</option><option value="no">Not starred</option></select></label></div><div id="list" aria-live="polite"></div></main><aside class="details" id="detail" aria-label="Pokémon details"></aside></section></div>
 <section id="teamLab" class="teamLab" hidden aria-label="Intelligent team builder">
   <div class="labHero">
     <div><div class="eyebrow">✦ YOUR HISUI STRATEGY STUDIO</div><h2>Build a better six.</h2>
@@ -468,8 +508,64 @@ function sprite(p){return p.id?`https://raw.githubusercontent.com/PokeAPI/sprite
 function pic(p,detail=false){if(!p.id)return `<div class="spriteMissing">${escapeHtml(p.name[0]||'?')}</div>`;return `<img ${detail?'class="detailart"':'class="sprite"'} src="${sprite(p)}" alt="${escapeHtml(p.name)} sprite" loading="lazy" onerror="this.outerHTML='<div class=&quot;spriteMissing&quot;>◈</div>'">`}
 function typeHtml(p){return (p.type||'Unknown').split(' / ').map(x=>`<span class="type" style="--tcolor:${TYPE_COLORS[x]||'#9aa8af'}">${escapeHtml(x)}</span>`).join('')}
 function sortRarity(x){return {'Unique':5,'Very rare':4,'Rare':3,'Uncommon':2,'Common':1}[x]||0}
-function applyFilters(){const q=$('search').value.toLocaleLowerCase().trim(),type=$('typeFilter').value,rat=$('rarityFilter').value,nat=$('natureFilter').value,sort=$('sort').value,grade=$('gradeFilter').value;let a=pokes.filter(p=>{if(type&&!p.type.split(' / ').includes(type))return false;if(rat&&rarity(p)!==rat)return false;if(nat&&!natures(p).includes(nat))return false;if(grade&&investGrade(p).grade!==grade)return false;if(chip==='starred'&&!starred.has(p.dex))return false;if(chip==='team'&&!team.has(p.dex))return false;if(chip==='evolve'&&!/(→|Lvl|Level|evolve|stone|cord)/i.test(p.evolution+' '+evolution(p)))return false;if(chip==='distortion'&&!/distortion/i.test(p.locations+' '+obtain(p)))return false;if(isUncaught&&caught.has(p.dex))return false;return !q||[p.name,p.dex,String(p.dex).padStart(3,'0'),p.type,p.evolution,p.locations,obtain(p),evolution(p),...natures(p).map(n=>NATURES[n]?.[0]+' '+n)].join(' ').toLowerCase().includes(q)});if(sort==='name')a.sort((x,y)=>x.name.localeCompare(y.name));if(sort==='rarity')a.sort((x,y)=>sortRarity(rarity(y))-sortRarity(rarity(x))||x.dex-y.dex);if(sort==='investment')a.sort((x,y)=>INVEST_SCALE[investGrade(y).grade]-INVEST_SCALE[investGrade(x).grade]||x.dex-y.dex);const idx={attack:1,special:3,speed:5}[sort];if(idx!==undefined)a.sort((x,y)=>(y.stats[idx]||0)-(x.stats[idx]||0));return a}
-function renderList(){let rows=applyFilters();$('shownCount').textContent=rows.length;$('caughtCount').textContent=caught.size;$('teamCount').textContent=team.size+'/6';$('progress').style.width=(caught.size/242*100).toFixed(1)+'%';$('resultText').textContent=`${rows.length} of 242 Pokémon${hasFullData?' · fully loaded':' · basic list'}`;const container=$('list');if(!rows.length){container.innerHTML='<div class="empty">No matches. Try a different name, Nature or rarity filter.</div>';return}container.innerHTML=rows.map(p=>{const n=natures(p),b=NATURES[n[0]];return `<article class="dexrow ${selected===p.dex?'selected':''}" data-dex="${p.dex}" tabindex="0" role="button" aria-label="Open ${escapeHtml(p.name)} details"><div class="dexnum">${String(p.dex).padStart(3,'0')}</div><div class="pokemon">${pic(p)}<div style="min-width:0"><div class="pname">${escapeHtml(p.name)} ${gradeBadge(p)}${caught.has(p.dex)?' <span style="color:#6be3b7">✓</span>':''}${team.has(p.dex)?' <span style="color:#fad78e">◇</span>':''}</div><div class="ptext">${p.dex===202?'Hisuian & original forms':p.id?'National #'+p.id:'Hisui Pokémon'}</div></div></div><div>${typeHtml(p)}</div><div><span class="rarity ${rarity(p).replace(' ','')}">${rarity(p)}</span><div class="tiny" style="margin-top:4px">${isEvolutionOnly(p)?'Evolve or special':'Estimated rarity'}</div></div><div class="nature"><b>${b?b[0]:'—'}</b><small>${n.slice(1).map(x=>NATURES[x]?.[0]||x).join(' · ')}</small></div><div class="secondary ellipses">${escapeHtml(obtain(p))}</div><button class="iconBtn ${starred.has(p.dex)?'marked':''}" title="Star ${escapeHtml(p.name)}" aria-label="Star ${escapeHtml(p.name)}" data-star="${p.dex}">${starred.has(p.dex)?'★':'☆'}</button></article>`}).join('');container.querySelectorAll('.dexrow').forEach(el=>{el.addEventListener('click',ev=>{const key=ev.target.closest('[data-star]');if(key){flip(starred,'starred',+key.dataset.star);return;}openDetail(+el.dataset.dex)});el.addEventListener('keydown',ev=>{if(ev.key==='Enter'&&!ev.target.closest('button'))openDetail(+el.dataset.dex)})})}
+
+let columnSort='dex',columnDirection='asc';
+const DEFAULT_SORT_DIRECTION={dex:'asc',name:'asc',type:'asc',investment:'desc',rarity:'desc',nature:'asc',location:'asc',starred:'desc',attack:'desc',special:'desc',speed:'desc'};
+function dexMatches(input,dex){
+ const q=input.trim();if(!q)return true;
+ const range=/^(\d{1,3})\s*[-–]\s*(\d{1,3})$/.exec(q);
+ if(range)return dex>=Math.min(+range[1],+range[2])&&dex<=Math.max(+range[1],+range[2]);
+ const comparator=/^(<=|>=|<|>)\s*(\d{1,3})$/.exec(q);
+ if(comparator){const n=+comparator[2];return {'<':dex<n,'>':dex>n,'<=':dex<=n,'>=':dex>=n}[comparator[1]]}
+ return /^\d{1,3}$/.test(q)&&dex===Number(q);
+}
+function sortValue(p,key){
+ switch(key){
+ case 'dex':return p.dex;case 'name':return p.name;
+ case 'type':return p.type||'';case 'investment':return INVEST_SCALE[investGrade(p).grade];
+ case 'rarity':return sortRarity(rarity(p));case 'nature':return NATURES[natures(p)[0]]?.[0]||'';
+ case 'location':return obtain(p);case 'starred':return Number(starred.has(p.dex));
+ case 'attack':return p.stats?.[1]||0;case 'special':return p.stats?.[3]||0;case 'speed':return p.stats?.[5]||0;
+ }return p.dex;
+}
+function applyFilters(){
+ const q=$('search').value.toLowerCase().trim(),name=$('nameFilter').value.toLowerCase().trim(),loc=$('locationFilter').value.toLowerCase().trim();
+ const type=$('typeFilter').value,grade=$('gradeFilter').value,rar=$('rarityFilter').value,nature=$('natureFilter').value,star=$('starFilter').value,number=$('numberFilter').value;
+ const rows=pokes.filter(p=>{
+  if(!dexMatches(number,p.dex)||name&&!p.name.toLowerCase().includes(name))return false;
+  if(type&&!p.type.split(' / ').includes(type))return false;
+  if(grade&&investGrade(p).grade!==grade)return false;
+  if(rar&&rarity(p)!==rar)return false;
+  if(nature&&!natures(p).includes(nature))return false;
+  if(loc&&!obtain(p).toLowerCase().includes(loc))return false;
+  if(star==='yes'&&!starred.has(p.dex)||star==='no'&&starred.has(p.dex))return false;
+  if(chip==='starred'&&!starred.has(p.dex)||chip==='team'&&!team.has(p.dex))return false;
+  if(chip==='evolve'&&!/(→|Lvl|Level|evolve|stone|cord)/i.test(p.evolution+' '+evolution(p)))return false;
+  if(chip==='distortion'&&!/distortion/i.test(p.locations+' '+obtain(p)))return false;
+  if(isUncaught&&caught.has(p.dex))return false;
+  return !q||[p.name,p.dex,p.type,p.evolution,p.locations,obtain(p),evolution(p),investGrade(p).grade,...natures(p).map(n=>NATURES[n]?.[0]+' '+n)].join(' ').toLowerCase().includes(q);
+ });
+ const dir=columnDirection==='asc'?1:-1;
+ return rows.sort((a,b)=>{
+  const x=sortValue(a,columnSort),y=sortValue(b,columnSort);
+  const diff=typeof x==='number'&&typeof y==='number'?x-y:String(x).localeCompare(String(y),undefined,{sensitivity:'base',numeric:true});
+  return diff*dir||a.dex-b.dex;
+ });
+}
+function updateSortUI(){
+ if($('sort').value!==columnSort)$('sort').value=columnSort;
+ document.querySelectorAll('.sortHead').forEach(button=>{
+  const on=button.dataset.sort===columnSort;
+  button.classList.toggle('active',on);button.setAttribute('aria-pressed',String(on));
+  button.querySelector('.sortArrow').textContent=on?(columnDirection==='asc'?'↑':'↓'):'↕';
+ });
+}
+function selectSort(key,clicked=false){
+ if(!(key in DEFAULT_SORT_DIRECTION))return;
+ columnDirection=clicked&&key===columnSort?(columnDirection==='asc'?'desc':'asc'):DEFAULT_SORT_DIRECTION[key];
+ columnSort=key;renderList();
+}
+function renderList(){let rows=applyFilters();$('shownCount').textContent=rows.length;$('caughtCount').textContent=caught.size;$('teamCount').textContent=team.size+'/6';$('progress').style.width=(caught.size/242*100).toFixed(1)+'%';$('resultText').textContent=`${rows.length} of 242 Pokémon${hasFullData?' · fully loaded':' · basic list'}`;updateSortUI();const container=$('list');if(!rows.length){container.innerHTML='<div class="empty">No matches. Adjust a column filter or reset your search.</div>';return}container.innerHTML=rows.map(p=>{const n=natures(p),b=NATURES[n[0]];return `<article class="dexrow ${selected===p.dex?'selected':''}" data-dex="${p.dex}" tabindex="0" role="button" aria-label="Open ${escapeHtml(p.name)} details"><div class="dexnum">${String(p.dex).padStart(3,'0')}</div><div class="pokemon">${pic(p)}<div style="min-width:0"><div class="pname">${escapeHtml(p.name)}${caught.has(p.dex)?' <span style="color:#6be3b7">✓</span>':''}${team.has(p.dex)?' <span style="color:#fad78e">◇</span>':''}</div><div class="ptext">${p.dex===202?'Hisuian & original forms':p.id?'National #'+p.id:'Hisui Pokémon'}</div></div></div><div>${typeHtml(p)}</div><div class="gradeCell">${gradeBadge(p)}</div><div><span class="rarity ${rarity(p).replace(' ','')}">${rarity(p)}</span><div class="tiny" style="margin-top:4px">${isEvolutionOnly(p)?'Evolve or special':'Estimated rarity'}</div></div><div class="nature"><b>${b?b[0]:'—'}</b><small>${n.slice(1).map(x=>NATURES[x]?.[0]||x).join(' · ')}</small></div><div class="secondary ellipses">${escapeHtml(obtain(p))}</div><button class="iconBtn ${starred.has(p.dex)?'marked':''}" title="Star ${escapeHtml(p.name)}" aria-label="Star ${escapeHtml(p.name)}" data-star="${p.dex}">${starred.has(p.dex)?'★':'☆'}</button></article>`}).join('');container.querySelectorAll('.dexrow').forEach(el=>{el.addEventListener('click',ev=>{const key=ev.target.closest('[data-star]');if(key){flip(starred,'starred',+key.dataset.star);return;}openDetail(+el.dataset.dex)});el.addEventListener('keydown',ev=>{if(ev.key==='Enter'&&!ev.target.closest('button'))openDetail(+el.dataset.dex)})})}
 function flip(set,name,id){if(set.has(id))set.delete(id);else{if(name==='team'&&set.size>=6){alert('Your team can contain at most six Pokémon. Remove one before adding another.');return}set.add(id)}persist(name,set);renderList();renderDetail();renderTeamLab()}
 
 let evolutionGraphCache=null,evolutionGraphSource=null;
@@ -508,7 +604,18 @@ function renderDetail(){const p=pokes[selected-1];if(!p)return;const ns=natures(
 function openDetail(dex){if(!Number.isInteger(dex)||dex<1||dex>pokes.length)return;selected=dex;renderDetail();$('detail').scrollTop=0;if(location.hash!=='#pokemon-'+dex)history.replaceState(null,'','#pokemon-'+dex);$('list').querySelectorAll('.dexrow').forEach(x=>x.classList.toggle('selected',+x.dataset.dex===dex));$('detail').classList.add('open');$('overlay').classList.add('on')}
 function closeDetail(){$('detail').classList.remove('open');$('overlay').classList.remove('on')}
 $('overlay').onclick=closeDetail;document.addEventListener('keydown',e=>{if(e.key==='Escape')closeDetail()});
-for(const input of ['search','typeFilter','rarityFilter','natureFilter','sort','gradeFilter'])$(input).addEventListener(input==='search'?'input':'change',renderList);
+
+for(const id of ['search','numberFilter','nameFilter','typeFilter','gradeFilter','rarityFilter','natureFilter','locationFilter','starFilter'])
+ $(id).addEventListener(['search','numberFilter','nameFilter','locationFilter'].includes(id)?'input':'change',renderList);
+$('sort').addEventListener('change',()=>selectSort($('sort').value));
+document.querySelectorAll('.sortHead').forEach(button=>button.addEventListener('click',()=>selectSort(button.dataset.sort,true)));
+$('clearDexFilters').onclick=()=>{
+ for(const id of ['search','numberFilter','nameFilter','typeFilter','gradeFilter','rarityFilter','natureFilter','locationFilter','starFilter'])$(id).value='';
+ chip='all';isUncaught=false;
+ document.querySelectorAll('[data-chip]').forEach(btn=>btn.classList.toggle('on',btn.dataset.chip==='all'));
+ $('uncaughtOnly').classList.remove('active');selectSort('dex');
+};
+
 document.querySelectorAll('[data-chip]').forEach(x=>x.addEventListener('click',()=>{chip=x.dataset.chip;document.querySelectorAll('[data-chip]').forEach(b=>b.classList.toggle('on',b.dataset.chip===chip));renderList()}));
 $('toggleTeam').onclick=()=>{chip=chip==='team'?'all':'team';document.querySelectorAll('[data-chip]').forEach(b=>b.classList.toggle('on',b.dataset.chip===chip));renderList()};
 $('uncaughtOnly').onclick=()=>{isUncaught=!isUncaught;$('uncaughtOnly').classList.toggle('active',isUncaught);renderList()};
