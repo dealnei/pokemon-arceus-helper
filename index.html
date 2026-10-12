@@ -261,7 +261,7 @@ function evolutionFamily(p){
  if(!hasFullData)return [p];
  if(evolutionGraphSource!==pokes){
   const graph=new Map(pokes.map(x=>[x.dex,new Set([x.dex])]));
-  const patterns=pokes.map(x=>[x.dex,new RegExp('(^|[^A-Za-z0-9])'+x.name.replace(/[.*+?^$()|[\]{}\\]/g,'\\function renderDetail(){')+'(?=$|[^A-Za-z0-9])','i')]);
+  const patterns=pokes.map(x=>[x.dex,new RegExp('(^|[^A-Za-z0-9])'+x.name.replace(/[.*+?^$()|[\]{}\\]/g,'\\$&')+'(?=$|[^A-Za-z0-9])','i')]);
   for(const entry of pokes){
    const chain=entry.evolution||'';
    if(!chain||chain==='-'||chain==='Information loads when connected')continue;
