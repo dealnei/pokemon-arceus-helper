@@ -14,7 +14,7 @@ Browse the **242 entries in the Hisui Pokédex**, compare recommended Natures, f
 | Search Pokémon by name, evolution or location | Start with one or more Pokémon and build a team of up to six |
 | Filter by type, rarity and recommended Nature | Get ranked partner suggestions with explanations |
 | See the top three recommended Natures (Italian and English) | Compare **Balanced**, **High Damage**, **Quick Turns**, **Survivability** and **Capture Team** strategies |
-| Check evolutions, locations, types and base stats | Review shared weaknesses, coverage and team roles |
+| Check clickable evolution families, evolution methods, locations, types and base stats | Review shared weaknesses, coverage, roles and suggested replacements |
 | Track caught Pokémon and favorites | Auto-complete the remaining team slots |
 | Export the Pokédex and your selections to CSV | Optionally limit suggestions to caught Pokémon or include postgame legendaries |
 
@@ -58,9 +58,14 @@ You can also open `index.html` directly, but a local server is recommended for c
 3. Select a strategy: **Balanced**, **High Damage**, **Quick Turns**, **Survivability**, or **Capture Team**.
 4. Review suggested partners and read the explanation of each recommendation.
 5. Add suggestions individually, or select **Complete my team** to fill empty slots.
-6. Change the strategy or team members to compare alternative builds.
+6. Use **Should anyone be replaced?** (available with three or more team members) to review optional swaps. Each suggestion names the Pokémon to replace, its proposed replacement, the strategic benefit, and any detected trade-off. Select **Swap** to make the change without losing the other team slots.
+7. Change the strategy or team members to compare alternative builds. Replacement suggestions also appear when all six slots are filled.
+
+**Evolution navigation:** Selecting a Pokémon shows its evolution family as clickable Pokédex links, including branching evolutions. The detailed evolution requirements are displayed below the links.
 
 **How recommendations are calculated:** a rule-based scoring system considers type matchups, offensive coverage, shared weaknesses, base stats, physical/special balance, Speed, bulk and (for capture teams) catching utility. It explains why a Pokémon is recommended. Auto-completion adds candidates iteratively based on the current team.
+
+Replacement suggestions are **optional heuristics**, not instructions to discard favorite Pokémon. A minimum improvement threshold avoids recommending very small changes. Candidate Pokémon respect the current caught-only and legendary filters.
 
 **Important:** the engine does **not** simulate battles, calculate damage for specific movesets, or guarantee an optimal team. Nature recommendations are general guidance and can change with your chosen moves.
 
