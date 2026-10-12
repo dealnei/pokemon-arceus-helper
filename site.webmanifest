@@ -1,0 +1,18 @@
+{
+  "name": "Hisui Field Guide — Legends: Arceus Pokédex",
+  "short_name": "Hisui Pokédex",
+  "description": "Find Pokémon, choose Natures, and build your team.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#243340",
+  "theme_color": "#273846",
+  "icons": [
+    {
+      "src": "./favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ],
+  "scope": "./"
+}
