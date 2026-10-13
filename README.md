@@ -32,7 +32,9 @@ You can use the Pokédex without installing anything. An internet connection is 
 
 ### Run locally
 
-This is a **static HTML/CSS/JavaScript project**. It has no build step, package manager or backend.
+This is a **static HTML/CSS/JavaScript project** using vanilla CSS and JavaScript—**no Bootstrap or other CSS framework**. It has no build step, package manager or backend.
+
+The Pokémon detail sidebar has its own scrollable content area with a stationary header. At narrow screen widths it becomes a bottom sheet, using dynamic viewport sizing, safe-area padding and independent touch scrolling. Closing the sheet restores page scrolling.
 
 Clone the repository:
 
