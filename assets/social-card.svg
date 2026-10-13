@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+<defs>
+  <linearGradient id="sky" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#253846"/><stop offset="1" stop-color="#182c39"/></linearGradient>
+  <linearGradient id="plate" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#9fbcb0"/><stop offset="1" stop-color="#557d71"/></linearGradient>
+  <pattern id="fine" width="45" height="45" patternUnits="userSpaceOnUse"><path d="M45 0H0V45" stroke="#b2ccb8" stroke-opacity=".045" stroke-width="1" fill="none"/></pattern>
+</defs>
+<rect width="1200" height="630" fill="url(#sky)"/>
+<rect width="1200" height="630" fill="url(#fine)"/>
+<path d="M0 460Q300 360 600 490T1200 440V630H0Z" fill="#527365" opacity=".15"/>
+<rect x="54" y="53" width="1092" height="524" rx="28" fill="none" stroke="#d1ba88" stroke-opacity=".63" stroke-width="3"/>
+<rect x="84" y="86" width="112" height="112" rx="25" fill="url(#plate)" stroke="#d8c49e" stroke-width="3"/>
+<text x="140" y="163" font-family="Georgia,serif" font-size="80" fill="#f6e7c8" text-anchor="middle">◈</text>
+<text x="226" y="120" font-size="25" font-family="Arial,sans-serif" font-weight="bold" fill="#c9b687" letter-spacing="7">THE COLLECTOR'S FIELD GUIDE</text>
+<text x="226" y="179" font-size="57" font-family="Georgia,serif" font-weight="bold" fill="#fff2df">HISUI FIELD GUIDE</text>
+<line x1="91" y1="235" x2="1107" y2="235" stroke="#baa16e" stroke-opacity=".65" stroke-width="2"/>
+<text x="95" y="318" font-size="46" font-family="Georgia,serif" font-weight="bold" fill="#f5e6ce">Pokémon Legends: Arceus</text>
+<text x="95" y="382" font-size="54" font-family="Georgia,serif" font-weight="bold" fill="#e7c987">Pokédex &amp; Team Builder</text>
+<text x="97" y="457" font-size="27" font-family="Arial,sans-serif" fill="#d8e4d9">242 Pokémon  •  Best Natures  •  Evolutions</text>
+<text x="97" y="500" font-size="27" font-family="Arial,sans-serif" fill="#d8e4d9">Locations  •  Investment grades  •  Team Lab</text>
+<text x="1093" y="549" text-anchor="end" font-size="22" font-family="Arial,sans-serif" fill="#adbfb8">Unofficial fan guide</text>
+</svg>

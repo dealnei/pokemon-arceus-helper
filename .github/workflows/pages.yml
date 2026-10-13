@@ -1,0 +1,59 @@
+name: Build and deploy Hisui React
+on:
+  push:
+    branches: [refactor/react-typescript-vite]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hisui-react-pages-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout React app
+        uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Build production website
+        run: npm run build
+      - name: Verify compiled Pages files
+        run: |
+          test -s dist/index.html
+          compgen -G 'dist/assets/*.js' > /dev/null
+          ! grep -q 'src/main.tsx' dist/index.html
+      - name: Run unit tests
+        run: npm test
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Verify actual rendered site and navigation
+        run: npm run test:e2e
+      - name: Upload GitHub Pages site
+        if: github.ref == 'refs/heads/refactor/react-typescript-vite' && github.event_name != 'pull_request'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/refactor/react-typescript-vite' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+      - name: Publish React site at the existing GitHub Pages URL
+        id: deployment
+        uses: actions/deploy-pages@v4
