@@ -1,7 +1,7 @@
 import {useMemo,useState} from 'react';
 import {Button,Checkbox,Select} from '@mantine/core';
 import type {Pokemon,Strategy} from '../types';
-import {investGrade,obtain,natures,NATURES} from '../data/legacy';
+import {obtain,natures,NATURES} from '../data/legacy';
 import {PLAYSTYLES,recommend,replacementIdeas,teamSnapshot,roleOf} from '../teamEngine';
 import {GradeBadge,PokemonAvatar,TypeBadges} from './PokemonParts';
 type Props={pokes:Pokemon[];team:Set<number>;caught:Set<number>;loaded:boolean;onTeamChange:(next:Set<number>)=>void;onInspect:(dex:number)=>void};
