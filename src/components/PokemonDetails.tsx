@@ -2,7 +2,8 @@ import {useEffect,useRef} from 'react';
 import {Button,Drawer,ScrollArea} from '@mantine/core';
 import {useMediaQuery} from '@mantine/hooks';
 import type {Pokemon} from '../types';
-import {natures,NATURES,investGrade,rarity,obtain} from '../data/legacy';
+import {natures,NATURES,investGrade} from '../data/legacy';
+import PokemonLocations from './PokemonLocations';
 import {PokemonAvatar,GradeBadge,TypeBadges} from './PokemonParts';
 import EvolutionChain from './EvolutionChain';
 type Props={pokemon:Pokemon|null;all:Pokemon[];caught:Set<number>;starred:Set<number>;team:Set<number>;onClose:()=>void;onSelect:(id:number)=>void;onCaught:(id:number)=>void;onStar:(id:number)=>void;onTeam:(id:number)=>void};
@@ -32,7 +33,7 @@ function DetailBody({pokemon,all,caught,starred,team,onSelect,onCaught,onStar,on
   <section className="details-section"><h3>Recommended Natures</h3><div className="nature-list">{nat.map((key,i)=>{const data=NATURES[key];return <div className="nature-row" key={key}><span>{i+1}</span><b>{data?.[0]||key}</b><small>{key} · +{data?.[1]||'?'} / −{data?.[2]||'?'}</small></div>})}</div></section>
   {pokemon.stats?.length===6&&<section className="details-section"><h3>Base stats</h3><div className="stats-grid">{['HP','Attack','Defense','Sp. Atk','Sp. Def','Speed'].map((name,i)=><div key={name}><small>{name}</small><b>{pokemon.stats[i]}</b></div>)}</div></section>}
   <EvolutionChain pokemon={pokemon} all={all} onSelect={onSelect}/>
-  <section className="details-section"><h3>Where to obtain</h3><p className="note-box">{obtain(pokemon)}</p><small className="hint">Estimated encounter rarity: {rarity(pokemon)}. Availability may depend on story progress.</small></section>
+  <PokemonLocations pokemon={pokemon}/>
   <p className="details-disclaimer">Investment grades are practical story-team estimates, not official Pokémon rankings.</p>
  </div>;
 }

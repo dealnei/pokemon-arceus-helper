@@ -78,3 +78,17 @@ test('Single-page SEO metadata, sitemap and social image are present in the comp
  await expect(page.getByRole('heading',{level:1,name:'Pokémon Legends: Arceus Pokédex'})).toBeVisible();
  expect(await page.locator('h1').count()).toBe(1);
 });
+
+test('Pokémon acquisition places render as clickable external map list on mobile and desktop',async({page})=>{
+ await page.goto('/');
+ await page.locator('.pokedex-table tbody tr').first().click();
+ const section=page.getByRole('region',{name:'Where to obtain'});
+ await expect(section).toBeVisible();
+ await expect(section.locator('.location-list li').first()).toBeVisible();
+ const links=section.locator('a.location-link');
+ await expect(links.first()).toHaveAttribute('href',/gamerguides\.com\/pokemon-legends-arceus\/maps\//);
+ await expect(links.first()).toHaveAttribute('target','_blank');
+ await expect(section).toContainText('regional maps');
+ await page.setViewportSize({width:390,height:844});
+ await expect(page.getByRole('dialog').getByRole('region',{name:'Where to obtain'})).toBeVisible();
+});

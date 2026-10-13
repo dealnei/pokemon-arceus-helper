@@ -41,3 +41,27 @@ describe('Team engine',()=>{
   expect(Array.isArray(replacementIdeas(mons.slice(0,4),mons,opts,'balanced'))).toBe(true);
  });
 });
+
+describe('Hisui regional-map location list',()=>{
+ const fixture=(locations:string):import('./types').Pokemon=>({dex:10,id:399,name:'Bidoof',type:'Normal',evolution:'-',locations,stats:[]});
+ it('links known subareas to their correct regional maps',async()=>{
+  const {getEncounterPlaces,REGION_MAPS}=await import('./data/hisuiMaps');
+  const list=getEncounterPlaces(fixture('Horseshoe Plains, Bolderoll Slope, Crossing Slope, Lake Acuity'));
+  expect(list.map(x=>x.region)).toEqual(['Obsidian Fieldlands','Crimson Mirelands','Cobalt Coastlands','Alabaster Icelands']);
+  expect(list.map(x=>x.mapUrl)).toEqual([REGION_MAPS['Obsidian Fieldlands'],REGION_MAPS['Crimson Mirelands'],REGION_MAPS['Cobalt Coastlands'],REGION_MAPS['Alabaster Icelands']]);
+ });
+ it('does not claim an evolution method has a physical map marker',async()=>{
+  const {getEncounterPlaces}=await import('./data/hisuiMaps');
+  expect(getEncounterPlaces(fixture('Evolve Scyther'))).toEqual([{label:'Evolve Scyther',region:null,mapUrl:null,kind:'method'}]);
+ });
+ it('uses a known note region when distortion placement is generic',async()=>{
+  const {getEncounterPlaces,REGION_MAPS}=await import('./data/hisuiMaps');
+  const [entry]=getEncounterPlaces(fixture('Space-Time Distortion'),'Encounter in Coronet Highlands space-time distortions');
+  expect(entry.mapUrl).toBe(REGION_MAPS['Coronet Highlands']);
+  expect(entry.label).toMatch(/Coronet Highlands/i);
+ });
+ it('uses the safe map index for unknown source locations',async()=>{
+  const {getEncounterPlaces,MAP_DIRECTORY}=await import('./data/hisuiMaps');
+  expect(getEncounterPlaces(fixture('Unmapped Fictional Canyon'))[0].mapUrl).toBe(MAP_DIRECTORY);
+ });
+});

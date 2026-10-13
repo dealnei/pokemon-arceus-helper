@@ -95,3 +95,20 @@ h1,h2,h3,p{margin-top:0}h3{font-size:19px}.eyebrow{font-size:10px;font-weight:80
 .skip-link{position:absolute;left:12px;top:-80px;z-index:500;background:#f9edd5;color:#253c41;padding:9px 14px;border-radius:8px;font-weight:700}
 .skip-link:focus{top:10px}
 .lab-loading{margin-block:12px;background:#f1e8d8;color:#354940;border-radius:12px;padding:22px;text-align:center}
+
+/* Named encounter places and clear external region-map links. */
+.location-acquisition-note{background:#f9eedc;border:1px solid #cbb89a;border-radius:11px;padding:11px 12px;color:#5c594f;font-size:12px;line-height:1.5;overflow-wrap:anywhere}
+.location-list{list-style:none;margin:9px 0 8px;padding:0;display:grid;gap:7px}
+.location-list li{min-width:0}
+.location-link,.location-method{display:flex;align-items:center;gap:9px;padding:9px 10px;border:1px solid #c9b79a;background:#fbf2e2;border-radius:10px;min-width:0;text-decoration:none;color:#31473e;text-align:left}
+.location-link:hover,.location-link:focus-visible{background:#e3ecde;border-color:#789883}
+.location-link:focus-visible{outline:2px solid #537c6c;outline-offset:2px}
+.location-pin{flex:0 0 auto;display:grid;place-items:center;background:#dbe9da;border-radius:8px;width:29px;height:29px;font-weight:700;color:#3b685b;font-size:20px}
+.location-copy{flex:1;min-width:0;display:grid;gap:2px;overflow-wrap:anywhere}
+.location-copy strong{font-size:12px;line-height:1.3}
+.location-copy small{font-size:10px;line-height:1.4;color:#777c6d}
+.location-map-action{font-size:11px;font-weight:750;color:#527b67;white-space:nowrap}
+.location-method{background:#f0e5d4;color:#646557}
+.location-method .location-pin{background:#e6d9c4;color:#9a7849}
+.location-map-footnote{color:#777569;font-size:10px;line-height:1.5;margin:10px 0}
+@media(max-width:650px){.location-link,.location-method{padding:11px 10px;min-height:54px}}
