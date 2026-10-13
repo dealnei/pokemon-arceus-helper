@@ -30,6 +30,7 @@ export default function App(){
  const changeTeam=useCallback((ids:Set<number>)=>{if(ids.size>6){setError('A team can contain at most six Pokémon.');return}setTeam(ids)},[setTeam]);
  const select=(dex:number)=>{setSelectedDex(dex);history.replaceState(null,'','#pokemon-'+dex)};
  const close=()=>{setSelectedDex(null);if(location.hash.startsWith('#pokemon-'))history.replaceState(null,'',location.pathname+location.search)};
+ const goToPokedex=()=>{close();setView('dex');window.scrollTo({top:0,behavior:'smooth'})};
  const toggle=(dex:number,items:Set<number>,update:(next:Set<number>)=>void)=>{const next=new Set(items);next.has(dex)?next.delete(dex):next.add(dex);update(next)};
  const toggleTeam=(dex:number)=>{const next=new Set(team);if(next.has(dex))next.delete(dex);else if(next.size>=6){setError('Your team already has six Pokémon.');return}else next.add(dex);changeTeam(next)};
  useEffect(()=>{
@@ -47,9 +48,9 @@ export default function App(){
  },[]);
  useEffect(()=>{const callback=()=>{const match=/^#pokemon-(\d{1,3})$/.exec(location.hash);setSelectedDex(match?Number(match[1]):null)};window.addEventListener('hashchange',callback);return ()=>window.removeEventListener('hashchange',callback)},[]);
  return <div className="app-shell">
-  <header className="site-header"><div className="brand"><div className="brand-mark">◈</div><div><span className="eyebrow">THE COLLECTOR'S FIELD GUIDE</span><h1>Hisui Pokédex</h1><p>Find it. Evolve it. Keep the right Nature.</p></div></div>
+  <header className="site-header"><button type="button" className="brand brand-home" onClick={goToPokedex} aria-label="Return to Hisui Pokédex"><span className="brand-mark" aria-hidden="true">◈</span><span className="brand-copy"><span className="eyebrow">THE COLLECTOR'S FIELD GUIDE</span><span className="brand-title">Hisui Pokédex</span><span className="brand-tagline">Find it. Evolve it. Keep the right Nature.</span></span></button>
   <nav className="top-nav" aria-label="Main navigation">
-   <Button variant={view==='dex'?'filled':'light'} onClick={()=>{close();setView('dex')}}>✦ Pokédex</Button>
+   <Button variant={view==='dex'?'filled':'light'} onClick={goToPokedex} aria-label="Back to Pokédex">← Back to Pokédex</Button>
    <Button variant={view==='team'?'filled':'light'} onClick={()=>{close();setView('team')}}>◇ Team Lab {team.size}/6</Button>
    <Button variant="light" onClick={()=>downloadCSV(pokes,caught,starred,team)}>↓ Export CSV</Button>
   </nav></header>
