@@ -29,7 +29,7 @@ function numberMatches(input:string,n:number){
 function sortValue(p:Pokemon,key:Col,starred:Set<number>):string|number{
  switch(key){
  case 'dex':return p.dex;case 'name':return p.name;case 'type':return p.type;
- case 'investment':return INVEST_SCALE[investGrade(p).grade];case 'rarity':return sortRarity(rarity(p));
+ case 'investment':return (INVEST_SCALE as Record<string,number>)[investGrade(p).grade]??0;case 'rarity':return sortRarity(rarity(p));
  case 'nature':return NATURES[natures(p)[0]]?.[0]||'';case 'location':return obtain(p);
  case 'starred':return Number(starred.has(p.dex));
  }
