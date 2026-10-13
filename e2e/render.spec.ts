@@ -7,6 +7,19 @@ test('Pokédex renders and Team Lab can navigate back',async({page})=>{
  await expect(page.locator('.app-shell')).toBeVisible();
  await expect(page.locator('.pokedex-table tbody tr')).toHaveCount(242);
  await expect(page.getByRole('button',{name:'Back to Pokédex'})).toBeVisible();
+ await expect(page.getByRole('navigation',{name:'Main navigation'}).getByText('Export CSV')).toHaveCount(0);
+ const brand=page.getByRole('button',{name:'Return to Hisui Pokédex'});
+ const header=page.locator('.site-header');
+ const brandBox=await brand.boundingBox();
+ const headerBox=await header.boundingBox();
+ expect(brandBox).toBeTruthy();
+ expect(headerBox).toBeTruthy();
+ expect(Math.abs((brandBox!.x+brandBox!.width/2)-(headerBox!.x+headerBox!.width/2))).toBeLessThan(2);
+ const downloadPromise=page.waitForEvent('download');
+ await page.getByRole('button',{name:'Download full Pokédex (.csv)'}).click();
+ const download=await downloadPromise;
+ expect(download.suggestedFilename()).toBe('Hisui_Pokedex_242.csv');
+
  await page.getByRole('button',{name:/Team Lab/}).click();
  await expect(page.getByRole('heading',{name:'Build a better six.'})).toBeVisible();
  await page.getByRole('button',{name:'Back to Pokédex'}).click();
@@ -29,5 +42,17 @@ test('Mobile Pokémon details open and scroll',async({browser})=>{
  await page.keyboard.press('Escape');
  await expect(page.getByRole('dialog')).toBeHidden();
  expect(errors).toEqual([]);
+ await page.close();
+});
+
+test('Header branding stays centered on mobile',async({browser})=>{
+ const page=await browser.newPage({viewport:{width:390,height:844},isMobile:true,hasTouch:true});
+ await page.goto('/');
+ const brand=await page.getByRole('button',{name:'Return to Hisui Pokédex'}).boundingBox();
+ const header=await page.locator('.site-header').boundingBox();
+ expect(brand).toBeTruthy();
+ expect(header).toBeTruthy();
+ expect(Math.abs((brand!.x+brand!.width/2)-(header!.x+header!.width/2))).toBeLessThan(2);
+ await expect(page.getByRole('button',{name:'Download full Pokédex (.csv)'})).toBeVisible();
  await page.close();
 });

@@ -3,7 +3,7 @@ import {Button,TextInput,Select,ActionIcon} from '@mantine/core';
 import type {Pokemon} from '../types';
 import {NATURES,TYPE_COLORS,INVEST_SCALE,investGrade,natures,rarity,obtain,sortRarity,isEvolutionOnly} from '../data/legacy';
 import {PokemonAvatar,TypeBadges,GradeBadge} from './PokemonParts';
-type Props={pokes:Pokemon[];caught:Set<number>;starred:Set<number>;team:Set<number>;loaded:boolean;onSelect:(dex:number)=>void;onStar:(dex:number)=>void};
+type Props={pokes:Pokemon[];caught:Set<number>;starred:Set<number>;team:Set<number>;loaded:boolean;onSelect:(dex:number)=>void;onStar:(dex:number)=>void;onExport:()=>void};
 type Col='dex'|'name'|'type'|'investment'|'rarity'|'nature'|'location'|'starred';
 const columns:{key:Col;title:string;placeholder:string}[]=[
  {key:'dex',title:'#',placeholder:'1–40 or >=100'},{key:'name',title:'Pokémon',placeholder:'Name…'},{key:'type',title:'Type',placeholder:'All types'},
@@ -34,7 +34,7 @@ function sortValue(p:Pokemon,key:Col,starred:Set<number>):string|number{
  case 'starred':return Number(starred.has(p.dex));
  }
 }
-export default function PokemonTable({pokes,caught,starred,team,loaded,onSelect,onStar}:Props){
+export default function PokemonTable({pokes,caught,starred,team,loaded,onSelect,onStar,onExport}:Props){
  const [filters,setFilters]=useState(empty),[search,setSearch]=useState(''),[sort,setSort]=useState<Col>('dex'),[direction,setDirection]=useState<1|-1>(1);
  const [chip,setChip]=useState<'all'|'favorite'|'team'|'uncaught'>('all');
  const change=(key:Col,value:string)=>setFilters(prev=>({...prev,[key]:value}));
@@ -66,6 +66,13 @@ export default function PokemonTable({pokes,caught,starred,team,loaded,onSelect,
    <Button variant="subtle" onClick={()=>{setFilters({...empty});setSearch('');setChip('all');setSort('dex');setDirection(1)}}>Reset</Button>
  </div><div className="chips">{(['all','favorite','team','uncaught'] as const).map(key=><Button key={key} size="xs" variant={chip===key?'filled':'light'} onClick={()=>setChip(key)}>{({all:'All Pokémon',favorite:'★ Favorites',team:'◇ My team',uncaught:'◯ Uncaught'})[key]}</Button>)}
  <span className="results">{list.length} / 242 Pokémon {loaded?'':'· loading details'}</span></div>
+ <div className="dex-export">
+   <div className="dex-export-description">
+    <strong>Export your Pokédex</strong>
+    <small>All 242 Pokémon with Natures, grades, locations, and your caught, favorites and team status. Filters don't affect the download.</small>
+   </div>
+   <Button size="xs" variant="light" leftSection={<span aria-hidden="true">↓</span>} onClick={onExport}>Download full Pokédex (.csv)</Button>
+ </div>
  <div className="pokedex-scroll" role="region" aria-label="Sortable and filterable Pokédex" tabIndex={0}><table className="pokedex-table"><thead><tr>{columns.map(col=><th key={col.key} aria-sort={col.key===sort?(direction===1?'ascending':'descending'):'none'}><button className={'table-sort'+(col.key===sort?' active':'')} onClick={()=>setSorting(col.key)}>{col.title} <span aria-hidden="true">{col.key===sort?(direction===1?'↑':'↓'):'↕'}</span></button></th>)}</tr>
  <tr className="column-filters">{columns.map(col=><th key={col.key}>{fieldOptions[col.key]?<select aria-label={'Filter by '+col.title} value={filters[col.key]} onChange={e=>change(col.key,e.currentTarget.value)}><option value="">{col.placeholder}</option>{fieldOptions[col.key]!.map(o=><option key={o.value} value={o.value}>{o.label}</option>)}</select>:
  <input aria-label={'Filter by '+col.title} type="search" placeholder={col.placeholder} value={filters[col.key]} onChange={e=>change(col.key,e.currentTarget.value)}/>}</th>)}</tr></thead>

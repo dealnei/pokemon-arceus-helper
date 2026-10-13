@@ -69,3 +69,24 @@ h1,h2,h3,p{margin-top:0}h3{font-size:19px}.eyebrow{font-size:10px;font-weight:80
 .brand-title{font:700 clamp(26px,3vw,39px)/1.18 Cinzel,Georgia,serif;letter-spacing:-.03em;color:#f5eedf;transition:color .15s}
 .brand-tagline{font-size:12px;color:#c8d5cf}
 @media(max-width:650px){.brand-title{font-size:28px}}
+
+/* Center the entire website identity independently of the navigation.
+   Keep the glyph optically centered inside its emblem at every breakpoint. */
+.site-header{flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:14px}
+.site-header .brand-home{display:flex;flex-direction:column;justify-content:center;align-items:center;gap:9px;text-align:center;width:fit-content;max-width:100%;margin-inline:auto}
+.site-header .brand-copy{display:flex;flex-direction:column;align-items:center;text-align:center;gap:3px}
+.site-header .brand-mark{display:grid;place-items:center;flex:none;line-height:1;width:54px;height:54px}
+.site-header .brand-glyph{display:block;font-family:Georgia,serif;font-size:32px;line-height:1;transform:translateY(-1px)}
+.site-header .top-nav{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;width:100%}
+.dex-export{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 13px 12px;padding:10px 12px;border:1px solid #c6b698;border-radius:11px;background:#eee5d4}
+.dex-export-description{min-width:0;display:grid;gap:2px;text-align:left}
+.dex-export-description strong{font-size:11px;color:#405c50}
+.dex-export-description small{font-size:10px;line-height:1.45;color:#6b766c}
+.dex-export .mantine-Button-root{flex-shrink:0}
+@media(max-width:650px){
+ .site-header{align-items:center;gap:12px}
+ .site-header .brand-mark{width:50px;height:50px}
+ .site-header .top-nav{justify-content:center}
+ .dex-export{flex-direction:column;align-items:stretch}
+ .dex-export .mantine-Button-root{align-self:flex-start}
+}
