@@ -1,137 +1,69 @@
-# Hisui Field Guide
+# Hisui Field Guide — React migration
 
-**An unofficial Pokédex and strategy-based team builder for Pokémon Legends: Arceus.**
+**Migration branch:** \`refactor/react-typescript-vite\`
 
-Browse the **242 entries in the Hisui Pokédex**, compare recommended Natures, find evolution requirements, and plan teams using a design inspired by the game's expedition journal.
+An unofficial, fan-made Pokémon Legends: Arceus Pokédex and strategic team builder. This branch ports the original single-file site to a maintainable component architecture while keeping the custom Hisui-inspired visual style.
 
-> **Project:** [pokemon-arceus-helper](https://github.com/dealnei/pokemon-arceus-helper)  
-> **Website:** [dealnei.github.io/pokemon-arceus-helper](https://dealnei.github.io/pokemon-arceus-helper/) *(available after GitHub Pages is enabled and deployed)*
+## Stack
 
-## Features
+- **React 19 + TypeScript** — UI components and typed application state
+- **Mantine 8** — accessible drawers, scroll areas, inputs, buttons and other primitives
+- **Vite 7** — fast development and static builds
+- **GitHub Pages** — hosting compiled HTML, CSS and JavaScript; **no backend required**
 
-| Pokédex | Team Lab |
-| --- | --- |
-| Search Pokémon by name, evolution or location | Start with one or more Pokémon and build a team of up to six |
-| Filter by type, rarity and recommended Nature | Get ranked partner suggestions with explanations |
-| See the top three recommended Natures (Italian and English) and **S–F long-term investment grades** | Compare **Balanced**, **High Damage**, **Quick Turns**, **Survivability** and **Capture Team** strategies |
-| Check clickable evolution families, evolution methods, locations, types and base stats | Review shared weaknesses, coverage, roles and suggested replacements |
-| Track caught Pokémon and favorites | Auto-complete the remaining team slots |
-| Export the Pokédex and your selections to CSV | Optionally limit suggestions to caught Pokémon or include postgame legendaries |
+## Develop locally
 
-The interface works on desktop and mobile and is styled with parchment-like panels and Hisui-inspired colors.
+\`\`\`bash
+npm install
+npm run dev
+\`\`\`
 
-## Getting started
+Open the local address printed by Vite.
 
-### Use the website
+\`\`\`bash
+npm run build
+npm run preview
+npm test
+\`\`\`
 
-Once GitHub Pages is configured, open:
+## Project layout
 
-**https://dealnei.github.io/pokemon-arceus-helper/**
+\`\`\`text
+src/
+  App.tsx                     Application state and navigation
+  types.ts                   Shared types
+  main.tsx                   Mantine theme and React entry
+  styles.css                 Hisui-themed design tokens and responsive layouts
+  components/
+    PokemonTable.tsx         Sortable/filterable 242-entry Pokédex
+    PokemonDetails.tsx       Desktop sidebar / mobile Mantine drawer
+    EvolutionChain.tsx       Linked evolution family
+    PokemonParts.tsx         Sprites, grades, types
+    TeamLab.tsx              Team recommendations and one-click swaps
+  data/
+    legacy.ts                Preserved PLA game data, Natures, grades and data loader
+  teamEngine.ts              Pure scoring, matchup and replacement logic
+\`\`\`
 
-You can use the Pokédex without installing anything. An internet connection is needed to load external Pokémon datasets on the first visit.
+## Existing features kept
 
-### Run locally
+- All 242 Pokémon, rarity and encounter information, evolution requirements
+- S–F long-term team-investment grades and Italian recommended Natures
+- Per-column sorting and filtering (including grade) and CSV export
+- Caught/favorite/team tracking, stored locally
+- Six-member Team Lab, selectable strategies, coverage analysis and replacements
+- Mobile Pokémon-details drawer with independent scrolling
 
-This is a **static HTML/CSS/JavaScript project** using vanilla CSS and JavaScript—**no Bootstrap or other CSS framework**. It has no build step, package manager or backend.
+**Progress migration:** Uses the original \`localStorage\` keys \`hisui-v3-caught\`, \`hisui-v3-starred\` and \`hisui-v3-team\` to preserve selections.
 
-The Pokémon detail sidebar has its own scrollable content area with a stationary header. At narrow screen widths it becomes a bottom sheet, using dynamic viewport sizing, safe-area padding and independent touch scrolling. Closing the sheet restores page scrolling.
+Game data loads from [Insektaure/pkDex](https://github.com/Insektaure/pkDex) and [lgreski/pokemonData](https://github.com/lgreski/pokemonData), with browser caching of downloaded text. Initial online access is required.
 
-Clone the repository:
+## GitHub Pages deployment
 
-```bash
-git clone https://github.com/dealnei/pokemon-arceus-helper.git
-cd pokemon-arceus-helper
-```
+This is now a **built** frontend application. The \`vite.config.ts\` base is \`/pokemon-arceus-helper/\`. GitHub Pages must use **GitHub Actions** as its deployment source after merging to \`main\`; serving the repository root directly will not work for Vite source files.
 
-Start a local web server:
+The workflow in \`.github/workflows/pages.yml\` builds the site on pushes to the migration branch for validation, and deploys only from \`main\`. The current main website is untouched until you explicitly merge.
 
-```bash
-python3 -m http.server 8000
-```
+## Credits
 
-Open **http://localhost:8000** in your browser.
-
-You can also open `index.html` directly, but a local server is recommended for consistent browser behavior and service-worker support.
-
-## Main-team investment grades (S–F)
-
-Every one of the **242 Pokémon** receives a practical **long-term investment grade**, designed to answer: *“Is this worth keeping and spending effort on for the main team?”* These are editorial, game-specific recommendations rather than official rankings.
-
-| Grade | Meaning | General advice |
-| --- | --- | --- |
-| **S** | Exceptional | Top-tier long-term potential |
-| **A** | Strong | Very worthwhile main-team choice |
-| **B** | Good | Useful when it fits your team or playstyle |
-| **C** | Situational | Viable, but worth comparing with alternatives |
-| **D** | Temporary | Fine for early progress; avoid heavy resource investment |
-| **F** | Low priority | Primarily a Pokédex or personal-preference pick |
-
-**Pre-evolution grades reflect a recommended final evolution's potential, not the Pokémon's current battle power.** For example, Magikarp receives Gyarados's long-term S potential, and its detail panel explicitly tells you to evolve it. Lower-tier evolving species are not labeled as good investments merely because they can evolve.
-
-The Pokédex displays the S–F grade in its own **Investment Grade** column. All eight columns are individually **sortable and filterable**: Hisui number, Pokémon name, type, investment grade, availability, recommended Nature, location/obtain method, and starred status. Click a column heading to sort and click it again to reverse the order; filters directly beneath the headings can be combined. On narrow screens, all eight filters remain accessible in a compact mobile filter grid, and the sorting dropdown offers every column with a separate **Ascending/Descending** toggle. Use **Reset filters** to start over.
-
-For the number filter, enter an exact number (e.g. `25`), a range (`1-40`), or a comparison (`>=100`). Location filters search obtain-method text. Each detail panel explains why a Pokémon received its grade and whether you should keep it, evolve it, or look for a replacement. Investment grades and suggested evolution targets are also included in CSV export.
-
-Special caveats (such as female-only Combee evolution, Wurmple branching evolutions, and different Sneasel forms) are called out where relevant. Powerful late-story and postgame Pokémon have a separate availability note; a high grade does not mean you can obtain them early.
-
-The Team Lab gives grade a **small** influence in ranking and replacement suggestions. Type compatibility, battle stats, coverage, and your selected strategy still matter more. Ratings are not based on competitive PvP, held items, or Abilities that are absent from the game's normal battle mechanics.
-
-## Using Team Lab
-
-1. Select **Team Lab** in the website header.
-2. Search for and add one or more Pokémon you want to keep.
-3. Select a strategy: **Balanced**, **High Damage**, **Quick Turns**, **Survivability**, or **Capture Team**.
-4. Review suggested partners and read the explanation of each recommendation.
-5. Add suggestions individually, or select **Complete my team** to fill empty slots.
-6. Use **Should anyone be replaced?** (available with three or more team members) to review optional swaps. Each suggestion names the Pokémon to replace, its proposed replacement, the strategic benefit, and any detected trade-off. Select **Swap** to make the change without losing the other team slots.
-7. Change the strategy or team members to compare alternative builds. Replacement suggestions also appear when all six slots are filled.
-
-**Evolution navigation:** Selecting a Pokémon shows its evolution family as clickable Pokédex links, including branching evolutions. The detailed evolution requirements are displayed below the links.
-
-**How recommendations are calculated:** a rule-based scoring system considers type matchups, offensive coverage, shared weaknesses, base stats, physical/special balance, Speed, bulk and (for capture teams) catching utility. It explains why a Pokémon is recommended. Auto-completion adds candidates iteratively based on the current team.
-
-Replacement suggestions are **optional heuristics**, not instructions to discard favorite Pokémon. A minimum improvement threshold avoids recommending very small changes. Candidate Pokémon respect the current caught-only and legendary filters.
-
-**Important:** the engine does **not** simulate battles, calculate damage for specific movesets, or guarantee an optimal team. Nature recommendations are general guidance and can change with your chosen moves.
-
-## Deploy to GitHub Pages
-
-1. Open this repository's [Pages settings](https://github.com/dealnei/pokemon-arceus-helper/settings/pages).
-2. Under **Build and deployment**, set **Source** to **Deploy from a branch**.
-3. Choose **main** and **/ (root)**, then select **Save**.
-4. Wait for the Pages deployment to finish, then visit [the website](https://dealnei.github.io/pokemon-arceus-helper/).
-
-The entry point is `index.html` in the repository root. The app uses relative links for its local assets, so it supports GitHub Pages project URLs.
-
-## Project structure
-
-```text
-pokemon-arceus-helper/
-├── index.html         # Pokédex, UI styles, and Team Lab logic
-├── favicon.svg        # Website icon
-├── site.webmanifest   # Home-screen installation metadata
-├── sw.js              # Service worker for caching local app files
-├── robots.txt         # Search-engine crawler rules
-├── .nojekyll          # Serve the site directly with GitHub Pages
-└── README.md          # Project documentation
-```
-
-## Data sources and limitations
-
-- **Hisui Pokédex entries, locations and evolution data:** [Insektaure/pkDex](https://github.com/Insektaure/pkDex).
-- **Base stats:** [lgreski/pokemonData](https://github.com/lgreski/pokemonData).
-- **Pokémon artwork/sprites:** loaded from external public Pokémon image endpoints.
-- **Nature rankings, rarity labels and team recommendations:** application-level estimates or heuristics; **not official encounter rates, rankings or competitive calculations**.
-- **Availability:** some species, items and encounters require story progress, distortions, postgame access or particular conditions. Check special evolution/form requirements in-game.
-
-Pokémon datasets and sprites are fetched from third-party services. Initial loading requires internet access; after the app has loaded, some data and website files can be served from browser caches. Images and external sources may still require a connection.
-
-Your **caught, favorite and team selections are saved locally in your browser**. There is no login or cloud synchronization; clearing browser storage may erase those selections.
-
-## Contributing
-
-Suggestions and corrections are welcome. Open a [GitHub issue](https://github.com/dealnei/pokemon-arceus-helper/issues) with the Pokémon name, the incorrect behavior or information, and a reliable game-specific source when applicable.
-
-## Disclaimer
-
-This is a non-commercial, **unofficial fan project** and is not affiliated with or endorsed by Nintendo, Game Freak or The Pokémon Company. Pokémon and Pokémon Legends: Arceus are trademarks and intellectual property of their respective owners.
+Unofficial fan project; not associated with Nintendo, Game Freak or The Pokémon Company. Pokémon character artwork and game names remain the property of their respective owners. Grades and team recommendations are heuristic suggestions rather than official rankings.
