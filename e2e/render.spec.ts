@@ -103,6 +103,6 @@ test('Evolution steps render as a list with local targets and external guide lin
  await expect(evolution.locator('ol.evo-steps li').last()).toContainText('Level 36');
  await expect(evolution.locator('a.evo-guide-link').first()).toHaveAttribute('href',/serebii\.net\/pokedex-swsh\//);
  await expect(evolution.locator('a.evo-guide-link').first()).toHaveAttribute('target','_blank');
- await evolution.getByRole('button',{name:'Dartrix'}).click();
+ await evolution.getByRole('button',{name:'Dartrix',exact:true}).click();
  await expect(page.locator('.details-art h2')).toHaveText('Dartrix');
 });
