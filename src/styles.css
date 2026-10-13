@@ -112,3 +112,18 @@ h1,h2,h3,p{margin-top:0}h3{font-size:19px}.eyebrow{font-size:10px;font-weight:80
 .location-method .location-pin{background:#e6d9c4;color:#9a7849}
 .location-map-footnote{color:#777569;font-size:10px;line-height:1.5;margin:10px 0}
 @media(max-width:650px){.location-link,.location-method{padding:11px 10px;min-height:54px}}
+
+/* Evolution steps and external detailed guides, matched to the encounter-list design. */
+.evo-steps{list-style:none;padding:0;margin:8px 0 12px;display:grid;gap:8px}
+.evo-method-row{display:flex;align-items:center;gap:9px;padding:10px;border-radius:10px;border:1px solid #c9b79a;background:#fbf2e2;min-width:0}
+.evo-step-icon{display:grid;place-items:center;flex:0 0 29px;width:29px;height:29px;background:#dbe9da;border-radius:8px;color:#3b685b;font-weight:700;font-size:19px}
+.evo-step-content{flex:1;min-width:0;display:grid;gap:5px}
+.evo-step-names{display:flex;align-items:center;gap:5px;flex-wrap:wrap;font-size:12px;font-weight:650;color:#30483b}
+.evo-target{border:0;background:none;padding:0;font:inherit;color:#326c5f;text-decoration:underline;text-underline-offset:2px;cursor:pointer}
+.evo-target:hover,.evo-target:focus-visible{color:#184a40}
+.evo-step-requirement{font-size:11px;line-height:1.45;color:#686b5d;overflow-wrap:anywhere}
+.evo-guide-link{flex:0 0 auto;font-size:11px;font-weight:750;color:#527b67;text-decoration:none;white-space:nowrap;padding:8px 2px}
+.evo-guide-link:hover,.evo-guide-link:focus-visible{text-decoration:underline}
+.evo-extra-note{margin:9px 0;padding:10px 11px;border:1px solid #ccb99d;border-radius:10px;background:#f4e8d4;font-size:11px;line-height:1.55;color:#5b5b51}
+.evo-footnote{font-size:10px;line-height:1.5;color:#777569;margin:9px 0}
+@media(max-width:650px){.evo-method-row{padding:11px 9px;align-items:flex-start}.evo-guide-link{padding-top:4px}}

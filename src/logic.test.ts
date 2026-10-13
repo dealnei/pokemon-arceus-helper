@@ -65,3 +65,34 @@ describe('Hisui regional-map location list',()=>{
   expect(getEncounterPlaces(fixture('Unmapped Fictional Canyon'))[0].mapUrl).toBe(MAP_DIRECTORY);
  });
 });
+
+describe('structured PLA evolution methods',()=>{
+ const p=(dex:number,evolution:string)=>({dex,evolution});
+ it('lists each level-up stage separately',async()=>{
+  const {getEvolutionSteps}=await import('./data/evolutionSteps');
+  expect(getEvolutionSteps(p(1,'Rowlet – Lvl 17 → Dartrix – Lvl 36 → Decidueye')).map(s=>[s.from,s.to,s.requirement])).toEqual([
+   ['Rowlet','Dartrix','Level 17'],['Dartrix','Decidueye','Level 36']
+  ]);
+ });
+ it('preserves all eight Eevee branches and the corresponding conditions',async()=>{
+  const {getEvolutionSteps}=await import('./data/evolutionSteps');
+  const steps=getEvolutionSteps(p(25,'Eevee → Vaporeon | Jolteon'));
+  expect(steps).toHaveLength(8);
+  expect(steps.find(s=>s.to==='Umbreon')?.requirement).toMatch(/night/);
+  expect(steps.find(s=>s.to==='Sylveon')?.requirement).toMatch(/Fairy-type/);
+ });
+ it('handles branching Wurmple and male Kirlia evolution properly',async()=>{
+  const {getEvolutionSteps}=await import('./data/evolutionSteps');
+  const wurmple=getEvolutionSteps(p(18,'Wurmple – Lvl 7 → Silcoon – Lvl 10 → Beautifly | – Lvl 7 → Cascoon – Lvl 10 → Dustox'));
+  expect(wurmple.find(s=>s.to==='Cascoon')).toMatchObject({from:'Wurmple',requirement:'Level 7'});
+  const ralts=getEvolutionSteps(p(102,'Ralts – Lvl 20 → Kirlia – Lvl 30 → Gardevoir | – Dawn Stone, Male → Gallade'));
+  expect(ralts.find(s=>s.to==='Gallade')).toMatchObject({from:'Kirlia',requirement:'Dawn Stone, Male'});
+ });
+ it('handles trade items in Legends and no-evolution species',async()=>{
+  const {getEvolutionSteps}=await import('./data/evolutionSteps');
+  const scyther=getEvolutionSteps(p(72,'Scyther – Trade holding Metal Coat → Scizor | – Black Augurite → Kleavor'));
+  expect(scyther.find(s=>s.to==='Scizor')?.requirement).toBe('Use Metal Coat');
+  expect(scyther.find(s=>s.to==='Kleavor')).toMatchObject({from:'Scyther',requirement:'Black Augurite'});
+  expect(getEvolutionSteps(p(238,'-'))).toEqual([]);
+ });
+});
