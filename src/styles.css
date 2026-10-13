@@ -60,3 +60,12 @@ h1,h2,h3,p{margin-top:0}h3{font-size:19px}.eyebrow{font-size:10px;font-weight:80
 @media(max-width:1190px){.dex-layout{grid-template-columns:minmax(0,1fr) 300px}.lab-primary{grid-template-columns:minmax(0,1fr) minmax(265px,.6fr)}.app-shell{padding:20px 16px}}
 @media(max-width:900px){.dex-layout{display:block}.site-header{flex-direction:column}.top-nav{justify-content:flex-start}.hero-banner{padding:19px;flex-direction:column;align-items:stretch}.hero-numbers{justify-content:space-around}.lab-primary{grid-template-columns:1fr}.pokedex-scroll{max-height:none}.pokedex-table{min-width:900px}}
 @media(max-width:650px){.app-shell{padding:14px 10px 30px}.site-header{margin-bottom:15px}.brand h1{font-size:28px}.brand-mark{width:43px;height:43px}.hero-numbers b{font-size:23px}.hero-banner h2{font-size:16px}.dex-toolbar{grid-template-columns:1fr 1fr}.dex-toolbar>*:first-child{grid-column:1/-1}.chips .results{width:100%;margin-left:0}.team-slots{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.team-slot{padding:8px 2px}.team-slot b{font-size:10px}.metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.swap-grid,.recommendation-grid,.threat-grid{grid-template-columns:1fr}.lab-heading{align-items:stretch;flex-direction:column}.suggestion-title h3{font-size:20px}}
+
+/* Accessible clickable website brand and Pokédex return navigation. */
+.brand-home{appearance:none;border:0;background:transparent;color:inherit;padding:0;text-align:left;cursor:pointer;border-radius:12px;min-width:0}
+.brand-home:hover .brand-title,.brand-home:focus-visible .brand-title{color:#f7d293}
+.brand-home:focus-visible{outline:2px solid #f7d293;outline-offset:5px}
+.brand-copy{display:flex;flex-direction:column;gap:2px;min-width:0}
+.brand-title{font:700 clamp(26px,3vw,39px)/1.18 Cinzel,Georgia,serif;letter-spacing:-.03em;color:#f5eedf;transition:color .15s}
+.brand-tagline{font-size:12px;color:#c8d5cf}
+@media(max-width:650px){.brand-title{font-size:28px}}
