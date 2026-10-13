@@ -26,7 +26,7 @@ test('Mobile Pokémon details open and scroll',async({browser})=>{
  await page.locator('.pokedex-table tbody tr').first().click();
  await expect(page.getByRole('dialog')).toBeVisible();
  await expect(page.getByRole('dialog').locator('.details-art h2')).toHaveText('Rowlet');
- await page.getByRole('button',{name:/Close drawer/i}).click();
+ await page.keyboard.press('Escape');
  await expect(page.getByRole('dialog')).toBeHidden();
  expect(errors).toEqual([]);
  await page.close();
