@@ -324,6 +324,7 @@ function getStats(rows,p){const candidates=rows.filter(r=>+r[0]===+p.id),types=p
 
 // ─── Team Lab: explainable, offline-once-cached recommendations ───
 
+function sortRarity(value){return {Unique:5,'Very rare':4,Rare:3,Uncommon:2,Common:1}[value]||0}
 export {DEX_NAMES,NATURES,TYPE_COLORS,INVEST_LINES,INVEST_SCALE,INVEST_LABELS,EXTRA_METHODS,ACQUIRE,investGrade,natures,isEvolutionOnly,rarity,obtain,evolution,sprite,sortRarity,fetchText,parseCSV,getStats};
 export function evolutionFamily(p,all){
  const chains=INVEST_LINES.filter(line=>line.includes(p.name));
