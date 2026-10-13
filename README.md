@@ -10,7 +10,7 @@ An unofficial, fan-made Pokémon Legends: Arceus Pokédex and strategic team bui
 - **Mantine 8** — accessible drawers, scroll areas, inputs, buttons and other primitives
 - **Vite 7** — fast development and static builds
 - **Cloudflare Pages** — separate React preview with its own URL, **no backend required**
-- **GitHub Pages** — original `main` site, unchanged until an approved merge
+- **GitHub Pages** — one deployment combines original `main` at the root and compiled React under `/preview/`
 
 ## Develop locally
 
@@ -59,6 +59,23 @@ src/
 
 Game data loads from [Insektaure/pkDex](https://github.com/Insektaure/pkDex) and [lgreski/pokemonData](https://github.com/lgreski/pokemonData), with browser caching of downloaded text. Initial online access is required.
 
+## GitHub Pages: both sites from this one repository
+
+**Do not switch GitHub Pages to “Deploy from a branch” on the React branch.** That serves source `index.html`, which requests `/src/main.tsx` and fails with a 404 because GitHub Pages does not compile React or TypeScript.
+
+This branch contains `.github/workflows/pages.yml`. On each React-branch push it builds the React app with Vite, checks it in Chromium, copies the original static files from `main` to `site/`, copies the compiled `dist/` into `site/preview/`, and uploads and deploys both directories together.
+
+1. Open repository **Settings → Pages → Build and deployment**.
+2. Change **Source** from **Deploy from a branch** to **GitHub Actions**.
+3. From the [Actions page](https://github.com/dealnei/pokemon-arceus-helper/actions), rerun the latest **Verify and publish Hisui Field Guide with React preview** workflow on `refactor/react-typescript-vite`. If a manual run isn't offered because the workflow is only on the feature branch, push another commit to that branch instead.
+4. Check the **deploy** job succeeded. Once published, the exact locations are:
+   - Original `main` site: [`/pokemon-arceus-helper/`](https://dealnei.github.io/pokemon-arceus-helper/)
+   - Compiled React preview: [`/pokemon-arceus-helper/preview/`](https://dealnei.github.io/pokemon-arceus-helper/preview/)
+
+This changes the **publication method**, not the code of `main`. If there is a Pages environment branch restriction, allow `refactor/react-typescript-vite` to deploy before rerunning.
+
+Because both sites use the same origin, `localStorage` selections (caught, starred and team) can be shared between versions. The original service worker uses a network-first strategy and its scope may cover `/preview/`; a hard refresh may help if you see cached content. Merging is not required to use this preview.
+
 ## Independent Cloudflare Pages preview
 
 Use a *separate Cloudflare Pages project* to host this React branch, without changing the existing GitHub Pages site.
@@ -73,12 +90,6 @@ Use a *separate Cloudflare Pages project* to host this React branch, without cha
 **Important:** `main` continues to be published by GitHub Pages. The React preview's `localStorage` is isolated by domain: browser-saved favorites/caught/team on GitHub Pages **will not automatically appear** on the Cloudflare preview, despite using the same storage keys. This is expected browser-origin isolation, not data deletion.
 
 Cloudflare project deployment from the React branch is the *production deployment for the isolated preview project*, not a production deployment of your existing site. No merge is needed.
-
-## GitHub Pages deployment
-
-This is now a **built** frontend application. The `vite.config.ts` base is relative (`./`), supporting both root-hosted Cloudflare previews and the GitHub Pages project subpath. GitHub Pages must use **GitHub Actions** as its deployment source after merging to `main`; serving the repository root directly will not work for Vite source files.
-
-The workflow in `.github/workflows/pages.yml` builds the site on pushes to the migration branch for validation, and deploys only from `main`. The current main website is untouched until you explicitly merge.
 
 ## Credits
 
