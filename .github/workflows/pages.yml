@@ -1,4 +1,4 @@
-name: Verify and publish Hisui Field Guide with React preview
+name: Build and deploy Hisui React
 on:
   push:
     branches: [refactor/react-typescript-vite]
@@ -10,56 +10,42 @@ permissions:
   contents: read
 
 concurrency:
-  group: hisui-pages-preview
+  group: hisui-react-pages
   cancel-in-progress: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout React preview branch
+      - name: Checkout React app
         uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
       - name: Install dependencies
         run: npm install --no-audit --no-fund
-      - name: Compile React for static hosting
+      - name: Build production website
         run: npm run build
-      - name: Test Pokémon data and team logic
-        run: npm test
-
-      - name: Retrieve unchanged original website from main
-        uses: actions/checkout@v4
-        with:
-          ref: main
-          path: original-site
-
-      - name: Assemble single Pages artifact with two versions
+      - name: Verify compiled Pages files
         run: |
-          mkdir -p site/preview
-          cp original-site/index.html original-site/favicon.svg original-site/site.webmanifest original-site/sw.js original-site/robots.txt site/
-          cp -a dist/. site/preview/
-          touch site/.nojekyll
-          test -s site/index.html
-          test -s site/preview/index.html
-          test -f site/preview/assets/*.js
-          ! grep -q 'src/main.tsx' site/preview/index.html
-
-      - name: Install Chrome for browser smoke tests
+          test -s dist/index.html
+          compgen -G 'dist/assets/*.js' > /dev/null
+          ! grep -q 'src/main.tsx' dist/index.html
+      - name: Run unit tests
+        run: npm test
+      - name: Install Chromium
         run: npx playwright install --with-deps chromium
-      - name: Verify both sites and navigation in Chrome
+      - name: Verify actual rendered site and navigation
         run: npm run test:e2e
-
-      - name: Package GitHub Pages website
-        if: github.event_name == 'push' && github.ref == 'refs/heads/refactor/react-typescript-vite'
+      - name: Upload GitHub Pages site
+        if: github.ref == 'refs/heads/refactor/react-typescript-vite' && github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v3
         with:
-          path: site
+          path: dist
 
   deploy:
     needs: build
-    if: github.event_name == 'push' && github.ref == 'refs/heads/refactor/react-typescript-vite'
+    if: github.ref == 'refs/heads/refactor/react-typescript-vite' && github.event_name != 'pull_request'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
@@ -68,6 +54,6 @@ jobs:
       pages: write
       id-token: write
     steps:
-      - name: Publish original at / and React at /preview/
-        uses: actions/deploy-pages@v4
+      - name: Publish React site at the existing GitHub Pages URL
         id: deployment
+        uses: actions/deploy-pages@v4
