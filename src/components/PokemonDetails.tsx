@@ -7,7 +7,7 @@ import {PokemonAvatar,GradeBadge,TypeBadges} from './PokemonParts';
 import EvolutionChain from './EvolutionChain';
 type Props={pokemon:Pokemon|null;all:Pokemon[];caught:Set<number>;starred:Set<number>;team:Set<number>;onClose:()=>void;onSelect:(id:number)=>void;onCaught:(id:number)=>void;onStar:(id:number)=>void;onTeam:(id:number)=>void};
 export default function PokemonDetails(props:Props){
- const {pokemon,all,caught,starred,team,onClose,onSelect,onCaught,onStar,onTeam}=props;
+ const {pokemon,onClose}=props;
  const mobile=useMediaQuery('(max-width: 900px)');
  const viewport=useRef<HTMLDivElement>(null);
  useEffect(()=>{viewport.current?.scrollTo({top:0})},[pokemon?.dex]);
