@@ -12,7 +12,7 @@ h1,h2,h3,p{margin-top:0}h3{font-size:19px}.eyebrow{font-size:10px;font-weight:80
 .brand p{font-size:12px;color:#c8d5cf;margin:0}.site-header .eyebrow{color:#a9b5a8}.top-nav{display:flex;gap:9px;flex-wrap:wrap;justify-content:flex-end}
 .hero-banner,.panel,.pokedex-panel,.details-panel{background:linear-gradient(155deg,var(--light),var(--paper));border:2px solid var(--edge);border-radius:22px;box-shadow:0 18px 42px #0b192143;position:relative}
 .hero-banner{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:22px 26px;margin-bottom:16px}
-.hero-banner h2{font-size:18px;color:#404b38;margin:5px 0}.hero-banner p{margin:0;color:#657067}.hero-numbers{display:flex;gap:24px;flex-shrink:0;text-align:center}
+.hero-banner h1{font-size:18px;color:#404b38;margin:5px 0}.hero-banner p{margin:0;color:#657067}.hero-numbers{display:flex;gap:24px;flex-shrink:0;text-align:center}
 .hero-numbers b{font-size:28px;color:#805734;display:block;font-family:Cinzel,Georgia,serif}.hero-numbers small{font-size:11px;color:#6d756b}
 .dex-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(310px,350px);gap:15px;align-items:start}
 .pokedex-panel{min-width:0;overflow:hidden}.dex-toolbar{display:grid;grid-template-columns:minmax(210px,1fr) minmax(150px,220px) auto auto;gap:8px;padding:13px}
@@ -59,7 +59,7 @@ h1,h2,h3,p{margin-top:0}h3{font-size:19px}.eyebrow{font-size:10px;font-weight:80
 .site-footer{border-top:1px solid #e2dcc22c;color:#c8d4cd;padding-top:20px;margin-top:25px;font-size:11px;line-height:1.7}.site-footer a{color:#f1dcb6}
 @media(max-width:1190px){.dex-layout{grid-template-columns:minmax(0,1fr) 300px}.lab-primary{grid-template-columns:minmax(0,1fr) minmax(265px,.6fr)}.app-shell{padding:20px 16px}}
 @media(max-width:900px){.dex-layout{display:block}.site-header{flex-direction:column}.top-nav{justify-content:flex-start}.hero-banner{padding:19px;flex-direction:column;align-items:stretch}.hero-numbers{justify-content:space-around}.lab-primary{grid-template-columns:1fr}.pokedex-scroll{max-height:none}.pokedex-table{min-width:900px}}
-@media(max-width:650px){.app-shell{padding:14px 10px 30px}.site-header{margin-bottom:15px}.brand h1{font-size:28px}.brand-mark{width:43px;height:43px}.hero-numbers b{font-size:23px}.hero-banner h2{font-size:16px}.dex-toolbar{grid-template-columns:1fr 1fr}.dex-toolbar>*:first-child{grid-column:1/-1}.chips .results{width:100%;margin-left:0}.team-slots{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.team-slot{padding:8px 2px}.team-slot b{font-size:10px}.metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.swap-grid,.recommendation-grid,.threat-grid{grid-template-columns:1fr}.lab-heading{align-items:stretch;flex-direction:column}.suggestion-title h3{font-size:20px}}
+@media(max-width:650px){.app-shell{padding:14px 10px 30px}.site-header{margin-bottom:15px}.brand h1{font-size:28px}.brand-mark{width:43px;height:43px}.hero-numbers b{font-size:23px}.hero-banner h1{font-size:16px}.dex-toolbar{grid-template-columns:1fr 1fr}.dex-toolbar>*:first-child{grid-column:1/-1}.chips .results{width:100%;margin-left:0}.team-slots{grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.team-slot{padding:8px 2px}.team-slot b{font-size:10px}.metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.swap-grid,.recommendation-grid,.threat-grid{grid-template-columns:1fr}.lab-heading{align-items:stretch;flex-direction:column}.suggestion-title h3{font-size:20px}}
 
 /* Accessible clickable website brand and Pokédex return navigation. */
 .brand-home{appearance:none;border:0;background:transparent;color:inherit;padding:0;text-align:left;cursor:pointer;border-radius:12px;min-width:0}
@@ -90,3 +90,8 @@ h1,h2,h3,p{margin-top:0}h3{font-size:19px}.eyebrow{font-size:10px;font-weight:80
  .dex-export{flex-direction:column;align-items:stretch}
  .dex-export .mantine-Button-root{align-self:flex-start}
 }
+
+/* Meaningful heading, keyboard access and a non-blocking Team Lab chunk. */
+.skip-link{position:absolute;left:12px;top:-80px;z-index:500;background:#f9edd5;color:#253c41;padding:9px 14px;border-radius:8px;font-weight:700}
+.skip-link:focus{top:10px}
+.lab-loading{margin-block:12px;background:#f1e8d8;color:#354940;border-radius:12px;padding:22px;text-align:center}

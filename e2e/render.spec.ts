@@ -56,3 +56,25 @@ test('Header branding stays centered on mobile',async({browser})=>{
  await expect(page.getByRole('button',{name:'Download full Pokédex (.csv)'})).toBeVisible();
  await page.close();
 });
+
+test('Single-page SEO metadata, sitemap and social image are present in the compiled site',async({request,page})=>{
+ const response=await request.get('/');
+ expect(response.ok()).toBe(true);
+ const html=await response.text();
+ expect(html).toContain('<link rel="canonical" href="https://dealnei.github.io/pokemon-arceus-helper/"/>');
+ expect(html).toContain('application/ld+json');
+ expect(html).toContain('242 Pokémon');
+ expect(html).toContain('property="og:image"');
+ expect(html).toContain('name="twitter:card"');
+ expect(html).toContain('Pokémon Legends: Arceus Pokédex and Team Builder');
+ const sitemap=await request.get('/sitemap.xml');
+ expect(sitemap.ok()).toBe(true);
+ expect(await sitemap.text()).toContain('<loc>https://dealnei.github.io/pokemon-arceus-helper/</loc>');
+ const image=await request.get('/social-card.png');
+ expect(image.ok()).toBe(true);
+ expect(image.headers()['content-type']).toContain('image/png');
+ expect((await image.body()).byteLength).toBeGreaterThan(2000);
+ await page.goto('/');
+ await expect(page.getByRole('heading',{level:1,name:'Pokémon Legends: Arceus Pokédex'})).toBeVisible();
+ expect(await page.locator('h1').count()).toBe(1);
+});

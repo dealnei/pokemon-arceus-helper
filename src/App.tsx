@@ -1,10 +1,10 @@
-import {useCallback,useEffect,useMemo,useState} from 'react';
+import {lazy,Suspense,useCallback,useEffect,useMemo,useState} from 'react';
 import {Alert,Button} from '@mantine/core';
 import type {Pokemon} from './types';
 import {DEX_NAMES,DATA_SOURCES,fetchText,parseCSV,getStats,setInvestCatalog,investGrade,natures,NATURES,rarity,evolution,obtain} from './data/legacy';
 import PokemonTable from './components/PokemonTable';
 import PokemonDetails from './components/PokemonDetails';
-import TeamLab from './components/TeamLab';
+const TeamLab=lazy(()=>import('./components/TeamLab'));
 function initialSet(key:string){
  try{return new Set<number>((JSON.parse(localStorage.getItem('hisui-v3-'+key)||'[]') as number[]).filter(x=>Number.isInteger(x)))}catch{return new Set<number>()}
 }
@@ -48,16 +48,18 @@ export default function App(){
  },[]);
  useEffect(()=>{const callback=()=>{const match=/^#pokemon-(\d{1,3})$/.exec(location.hash);setSelectedDex(match?Number(match[1]):null)};window.addEventListener('hashchange',callback);return ()=>window.removeEventListener('hashchange',callback)},[]);
  return <div className="app-shell">
+  <a className="skip-link" href="#main-content">Skip to content</a>
   <header className="site-header"><button type="button" className="brand brand-home" onClick={goToPokedex} aria-label="Return to Hisui Pokédex"><span className="brand-mark" aria-hidden="true"><span className="brand-glyph">◈</span></span><span className="brand-copy"><span className="eyebrow">THE COLLECTOR'S FIELD GUIDE</span><span className="brand-title">Hisui Pokédex</span><span className="brand-tagline">Find it. Evolve it. Keep the right Nature.</span></span></button>
   <nav className="top-nav" aria-label="Main navigation">
    <Button variant={view==='dex'?'filled':'light'} onClick={goToPokedex} aria-label="Back to Pokédex">← Back to Pokédex</Button>
    <Button variant={view==='team'?'filled':'light'} onClick={()=>{close();setView('team')}}>◇ Team Lab {team.size}/6</Button>
   </nav></header>
-  <section className="hero-banner"><div><span className="eyebrow">POKÉMON LEGENDS: ARCEUS</span><h2>Every Hisui Pokémon, one decision-friendly guide.</h2><p>Explore Natures, investment grades, evolutions, locations and explainable team recommendations.</p></div><div className="hero-numbers"><div><b>{pokes.length}</b><small>Hisui Pokémon</small></div><div><b>{caught.size}</b><small>Caught</small></div><div><b>{team.size}/6</b><small>Your team</small></div></div></section>
+  <main id="main-content"><section className="hero-banner"><div><span className="eyebrow">THE COMPLETE HISUI FIELD GUIDE</span><h1>Pokémon Legends: Arceus Pokédex</h1><p>Explore all 242 Pokémon with locations, evolutions, best Natures and investment grades. Plan your six with Team Lab.</p></div><div className="hero-numbers"><div><b>{pokes.length}</b><small>Hisui Pokémon</small></div><div><b>{caught.size}</b><small>Caught</small></div><div><b>{team.size}/6</b><small>Your team</small></div></div></section>
   {error&&<Alert color="orange" withCloseButton onClose={()=>setError('')} mb="md">{error}</Alert>}
   {view==='dex'?<div className="dex-layout"><PokemonTable pokes={pokes} loaded={loaded} caught={caught} starred={starred} team={team} onSelect={select} onStar={id=>toggle(id,starred,setStarred)} onExport={()=>downloadCSV(pokes,caught,starred,team)}/>
    <PokemonDetails pokemon={selected} all={pokes} caught={caught} starred={starred} team={team} onClose={close} onSelect={select} onCaught={id=>toggle(id,caught,setCaught)} onStar={id=>toggle(id,starred,setStarred)} onTeam={toggleTeam}/></div>:
-   <TeamLab pokes={pokes} loaded={loaded} team={team} caught={caught} onTeamChange={changeTeam} onInspect={dex=>{setView('dex');select(dex)}}/>}
+   <Suspense fallback={<div role="status" className="lab-loading">Loading Team Lab…</div>}><TeamLab pokes={pokes} loaded={loaded} team={team} caught={caught} onTeamChange={changeTeam} onInspect={dex=>{setView('dex');select(dex)}}/></Suspense>}
+  </main>
   <footer className="site-footer">Unofficial fan-made field guide. Pokémon is the property of its respective rights holders. Team recommendations, rarity and investment grades are approximate. Game data from <a href="https://github.com/Insektaure/pkDex" target="_blank" rel="noreferrer">pkDex</a> and <a href="https://github.com/lgreski/pokemonData" target="_blank" rel="noreferrer">PokémonData</a>. Browser progress is stored locally.</footer>
  </div>;
 }
