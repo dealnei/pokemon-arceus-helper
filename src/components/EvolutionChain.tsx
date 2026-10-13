@@ -1,5 +1,5 @@
 import type {Pokemon} from '../types';
-import {evolution,evolutionFamily,EXTRA_METHODS} from '../data/legacy';
+import {evolutionFamily,EXTRA_METHODS} from '../data/legacy';
 import {getEvolutionSteps} from '../data/evolutionSteps';
 import {PokemonAvatar} from './PokemonParts';
 
