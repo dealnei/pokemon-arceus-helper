@@ -5,13 +5,14 @@ import {NATURES,TYPE_COLORS,INVEST_SCALE,investGrade,natures,rarity,obtain,sortR
 import {PokemonAvatar,TypeBadges,GradeBadge} from './PokemonParts';
 type Props={pokes:Pokemon[];caught:Set<number>;starred:Set<number>;team:Set<number>;loaded:boolean;onSelect:(dex:number)=>void;onStar:(dex:number)=>void;onExport:()=>void};
 type Col='dex'|'name'|'type'|'investment'|'rarity'|'nature'|'location'|'starred';
+type FilterCol=Exclude<Col,'name'>;
 const columns:{key:Col;title:string;placeholder:string}[]=[
- {key:'dex',title:'#',placeholder:'1–40 or >=100'},{key:'name',title:'Pokémon',placeholder:'Name…'},{key:'type',title:'Type',placeholder:'All types'},
+ {key:'dex',title:'#',placeholder:'1–40 or >=100'},{key:'name',title:'Pokémon',placeholder:''},{key:'type',title:'Type',placeholder:'All types'},
  {key:'investment',title:'Grade',placeholder:'S–F'},{key:'rarity',title:'Availability',placeholder:'Rarity'},
  {key:'nature',title:'Best Natures',placeholder:'Nature'},{key:'location',title:'Where to obtain',placeholder:'Location…'},{key:'starred',title:'★',placeholder:'Favorites'}
 ];
-const empty:Record<Col,string>={dex:'',name:'',type:'',investment:'',rarity:'',nature:'',location:'',starred:''};
-const fieldOptions:Partial<Record<Col,{value:string;label:string}[]>>={
+const empty:Record<FilterCol,string>={dex:'',type:'',investment:'',rarity:'',nature:'',location:'',starred:''};
+const fieldOptions:Partial<Record<FilterCol,{value:string;label:string}[]>>={
  type:Object.keys(TYPE_COLORS).map(value=>({value,label:value})),
  investment:['S','A','B','C','D','F'].map(value=>({value,label:value})),
  rarity:['Common','Uncommon','Rare','Very rare','Unique'].map(value=>({value,label:value})),
@@ -37,12 +38,11 @@ function sortValue(p:Pokemon,key:Col,starred:Set<number>):string|number{
 export default function PokemonTable({pokes,caught,starred,team,loaded,onSelect,onStar,onExport}:Props){
  const [filters,setFilters]=useState(empty),[search,setSearch]=useState(''),[sort,setSort]=useState<Col>('dex'),[direction,setDirection]=useState<1|-1>(1);
  const [chip,setChip]=useState<'all'|'favorite'|'team'|'uncaught'>('all');
- const change=(key:Col,value:string)=>setFilters(prev=>({...prev,[key]:value}));
+ const change=(key:FilterCol,value:string)=>setFilters(prev=>({...prev,[key]:value}));
  const list=useMemo(()=>{
   const q=search.trim().toLowerCase();
   return pokes.filter(p=>{
    if(filters.dex&&!numberMatches(filters.dex,p.dex))return false;
-   if(filters.name&&!p.name.toLowerCase().includes(filters.name.toLowerCase()))return false;
    if(filters.type&&!p.type.split(' / ').includes(filters.type))return false;
    if(filters.investment&&investGrade(p).grade!==filters.investment)return false;
    if(filters.rarity&&rarity(p)!==filters.rarity)return false;
@@ -74,8 +74,8 @@ export default function PokemonTable({pokes,caught,starred,team,loaded,onSelect,
    <Button size="xs" variant="light" leftSection={<span aria-hidden="true">↓</span>} onClick={onExport}>Download full Pokédex (.csv)</Button>
  </div>
  <div className="pokedex-scroll" role="region" aria-label="Sortable and filterable Pokédex" tabIndex={0}><table className="pokedex-table"><thead><tr>{columns.map(col=><th key={col.key} aria-sort={col.key===sort?(direction===1?'ascending':'descending'):'none'}><button className={'table-sort'+(col.key===sort?' active':'')} onClick={()=>setSorting(col.key)}>{col.title} <span aria-hidden="true">{col.key===sort?(direction===1?'↑':'↓'):'↕'}</span></button></th>)}</tr>
- <tr className="column-filters">{columns.map(col=><th key={col.key}>{fieldOptions[col.key]?<select aria-label={'Filter by '+col.title} value={filters[col.key]} onChange={e=>change(col.key,e.currentTarget.value)}><option value="">{col.placeholder}</option>{fieldOptions[col.key]!.map(o=><option key={o.value} value={o.value}>{o.label}</option>)}</select>:
- <input aria-label={'Filter by '+col.title} type="search" placeholder={col.placeholder} value={filters[col.key]} onChange={e=>change(col.key,e.currentTarget.value)}/>}</th>)}</tr></thead>
+ <tr className="column-filters">{columns.map(col=><th key={col.key}>{col.key==='name'?null:fieldOptions[col.key]?<select aria-label={'Filter by '+col.title} value={filters[col.key]} onChange={e=>change(col.key as FilterCol,e.currentTarget.value)}><option value="">{col.placeholder}</option>{fieldOptions[col.key]!.map(o=><option key={o.value} value={o.value}>{o.label}</option>)}</select>:
+ <input aria-label={'Filter by '+col.title} type="search" placeholder={col.placeholder} value={filters[col.key]} onChange={e=>change(col.key as FilterCol,e.currentTarget.value)}/>}</th>)}</tr></thead>
  <tbody>{list.map(p=><tr key={p.dex} tabIndex={0} onClick={()=>onSelect(p.dex)} onKeyDown={e=>{if(e.key==='Enter')onSelect(p.dex)}} aria-label={'Open details for '+p.name}>
   <td className="dex-index">{String(p.dex).padStart(3,'0')}</td><td><div className="table-pokemon"><PokemonAvatar pokemon={p}/><span><b>{p.name}{caught.has(p.dex)&&' ✓'}{team.has(p.dex)&&' ◇'}</b><small>{p.id?'National #'+p.id:'Hisui'}</small></span></div></td>
   <td><TypeBadges pokemon={p}/></td><td><GradeBadge pokemon={p}/></td><td><span className="rarity-pill">{rarity(p)}</span><small className="row-mini">{isEvolutionOnly(p)?'Evolution only':'Approximate'}</small></td>
